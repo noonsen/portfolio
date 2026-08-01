@@ -46,7 +46,7 @@ import {
 
 export type SettingSource = 'new' | 'legacy' | 'default';
 
-export type SidebarNavId = 'essay' | 'bits' | 'memo' | 'archive' | 'about';
+export type SidebarNavId = 'essay' | 'bits' | 'memo' | 'archive' | 'about' | 'portfolio';
 export type PageId = 'essay' | 'archive' | 'bits' | 'memo' | 'about';
 export type HeroPresetId = 'default' | 'none';
 export type SidebarDividerVariant = 'default' | 'subtle' | 'none';
@@ -410,7 +410,8 @@ const LEGACY_NAV: SidebarNavItem[] = [
   { id: 'bits', label: 'Bits', ornament: ADMIN_NAV_ORNAMENT_DEFAULT, visible: true, order: 2 },
   { id: 'memo', label: 'Memo', ornament: ADMIN_NAV_ORNAMENT_DEFAULT, visible: true, order: 3 },
   { id: 'archive', label: 'Archive', ornament: ADMIN_NAV_ORNAMENT_DEFAULT, visible: true, order: 4 },
-  { id: 'about', label: 'About', ornament: ADMIN_NAV_ORNAMENT_DEFAULT, visible: true, order: 5 }
+  { id: 'about', label: 'About', ornament: ADMIN_NAV_ORNAMENT_DEFAULT, visible: true, order: 5 },
+  { id: 'portfolio', label: 'Portfolio', ornament: ADMIN_NAV_ORNAMENT_DEFAULT, visible: true, order: 6 }
 ];
 const LEGACY_NAV_ORDER = new Map<SidebarNavId, number>(LEGACY_NAV.map((item) => [item.id, item.order]));
 
@@ -535,7 +536,7 @@ const DEFAULT_UI: UiSettings = {
   }
 };
 
-const NAV_IDS: ReadonlySet<SidebarNavId> = new Set(['essay', 'bits', 'memo', 'archive', 'about']);
+const NAV_IDS: ReadonlySet<SidebarNavId> = new Set(['essay', 'bits', 'memo', 'archive', 'about', 'portfolio']);
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const GITHUB_HOSTS = ['github.com'];
 const X_HOSTS = ['x.com', 'twitter.com'];
@@ -555,7 +556,8 @@ const SIDEBAR_HREFS: Record<SidebarNavId, string> = {
   bits: '/bits/',
   memo: '/memo/',
   archive: '/archive/',
-  about: '/about/'
+  about: '/about/',
+  portfolio: '/portfolio/'
 };
 
 let cachedSettings: ThemeSettingsResolved | null = null;

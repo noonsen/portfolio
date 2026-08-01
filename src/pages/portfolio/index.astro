@@ -1,0 +1,189 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import '../../styles/portfolio.css';
+
+const summary =
+  'Delivery & Support Manager at A2K Group Corporation, leading a 9-person technical department across seven ' +
+  'concurrent products. Background spans technical leadership, IT operations, and hands-on development with ' +
+  'Astro, TypeScript, and Supabase.';
+
+const contact = {
+  location: 'San Roque, Guagua, Pampanga',
+  email: 'alonzoluis930@gmail.com',
+  phones: ['+63 9999946240', '+63 9760071470']
+};
+
+const skillGroups = [
+  {
+    title: 'Technical Leadership',
+    skills: ['Team leadership', 'Project delivery coordination', 'Stakeholder management', 'Release process management', 'Resource allocation']
+  },
+  {
+    title: 'Technical Writing & Documentation',
+    skills: ['Requirements translation', 'Technical specification writing', 'Markdown', 'Docs-as-code methodology', 'Astro Starlight']
+  },
+  {
+    title: 'IT Operations',
+    skills: ['Microsoft 365 administration', 'Entra ID management', 'User access controls', 'Tenant migration', 'Asset lifecycle management']
+  },
+  {
+    title: 'Development',
+    skills: ['TypeScript', 'Astro', 'Supabase', 'Git', 'Jira']
+  }
+];
+
+const experience = [
+  {
+    role: 'Delivery & Support Manager',
+    org: 'A2K Group Corporation',
+    period: 'May 2026 — Present',
+    bullets: [
+      'Lead technical department overseeing 9 staff (1 backend, 4 frontend developers, 2 UI/UX designers, 1 QA engineer) across seven concurrent products.',
+      'Interface directly with clients on strategic priorities, requirements refinement, and delivery alignment.',
+      'Manage end-to-end release process with weekly feature deployments across web, iOS, and Android platforms.',
+      'Review technical work before deployment and enforce quality standards across all project tracks.',
+      'Translate client requirements into technical specifications and Jira tickets; manage resource allocation and staffing decisions.',
+      'Oversee both development and post-launch support operations, improving client satisfaction through proactive requirement clarification and structured feedback loops.'
+    ]
+  },
+  {
+    role: 'Technical Lead, IT Support',
+    org: 'A2K Group Corporation',
+    period: 'June 2024 — May 2026',
+    bullets: [
+      'Administered Microsoft 365 and Entra ID environments, including user account management, security access controls, and IT asset lifecycle management.',
+      'Executed tenant-to-tenant domain migration; served as primary internal support for platform troubleshooting and optimization.',
+      'Led technical documentation initiatives across user manuals, IT support guides, and API documentation.',
+      'Implemented docs-as-code methodology using Markdown and Git; built and maintained internal documentation portal with Astro Starlight.'
+    ]
+  },
+  {
+    role: 'Software Developer, IT Support Intern',
+    org: 'A2K Group Corporation',
+    period: 'December 2023 — June 2024',
+    bullets: [
+      'Developed news management system using Supabase, Astro, and React to streamline content publication workflows.',
+      'Maintained IT asset inventory through Excel-based tracking system; administered resource handover documentation.'
+    ]
+  }
+];
+
+const projects = [
+  {
+    name: 'Internal Documentation Portal',
+    description: 'Docs-as-code documentation portal built with Astro Starlight, sourced from Markdown and versioned in Git.',
+    tags: ['Astro Starlight', 'Markdown', 'Git'],
+    href: null
+  },
+  {
+    name: 'News Management System',
+    description: 'Content publication workflow tool built to streamline how news content gets authored and published.',
+    tags: ['Astro', 'React', 'Supabase'],
+    href: null
+  }
+];
+
+const education = [
+  {
+    school: 'Pampanga State University (formerly Don Honorio Ventura State University)',
+    degree: 'Bachelor of Science in Computer Engineering',
+    period: 'Graduated September 2023'
+  }
+];
+---
+
+<BaseLayout
+  title="Portfolio"
+  description="Skills, experience, and projects."
+  bodyClass="portfolio-page"
+>
+  <div class="page-header page-header--portfolio">
+    <div class="page-heading">
+      <h1 class="page-title">Portfolio</h1>
+      <span class="page-subtitle">Skills, experience, and projects</span>
+    </div>
+  </div>
+
+  <div class="portfolio-body">
+    <section class="portfolio-section" aria-labelledby="portfolio-summary">
+      <h2 id="portfolio-summary">Summary</h2>
+      <p>{summary}</p>
+      <ul class="portfolio-contact-list">
+        <li>{contact.location}</li>
+        <li><a href={`mailto:${contact.email}`}>{contact.email}</a></li>
+        {contact.phones.map((phone) => <li>{phone}</li>)}
+      </ul>
+    </section>
+
+    <section class="portfolio-section" aria-labelledby="portfolio-skills">
+      <h2 id="portfolio-skills">Skills</h2>
+      <div class="portfolio-skill-groups">
+        {skillGroups.map((group) => (
+          <div class="portfolio-skill-group">
+            <h3>{group.title}</h3>
+            <ul class="portfolio-tag-list">
+              {group.skills.map((skill) => (
+                <li class="portfolio-tag">{skill}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="portfolio-section" aria-labelledby="portfolio-experience">
+      <h2 id="portfolio-experience">Experience</h2>
+      <ol class="portfolio-timeline">
+        {experience.map((item) => (
+          <li class="portfolio-timeline__item">
+            <div class="portfolio-timeline__head">
+              <span class="portfolio-timeline__role">{item.role}</span>
+              <span class="portfolio-timeline__period">{item.period}</span>
+            </div>
+            <span class="portfolio-timeline__org">{item.org}</span>
+            <ul class="portfolio-timeline__bullets">
+              {item.bullets.map((bullet) => (
+                <li>{bullet}</li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="portfolio-section" aria-labelledby="portfolio-projects">
+      <h2 id="portfolio-projects">Projects</h2>
+      <div class="portfolio-project-grid">
+        {projects.map((project) => (
+          <article class="portfolio-project-card">
+            <h3>{project.name}</h3>
+            <p>{project.description}</p>
+            <ul class="portfolio-tag-list">
+              {project.tags.map((tag) => (
+                <li class="portfolio-tag">{tag}</li>
+              ))}
+            </ul>
+            {project.href ? (
+              <a class="portfolio-project-card__link" href={project.href}>
+                View project
+              </a>
+            ) : null}
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="portfolio-section" aria-labelledby="portfolio-education">
+      <h2 id="portfolio-education">Education</h2>
+      <ul class="portfolio-education-list">
+        {education.map((item) => (
+          <li class="portfolio-education-item">
+            <span class="portfolio-education-item__school">{item.school}</span>
+            <span class="portfolio-education-item__degree">{item.degree}</span>
+            <span class="portfolio-education-item__period">{item.period}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  </div>
+</BaseLayout>

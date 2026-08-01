@@ -121,8 +121,8 @@ describe('theme-settings revision semantics', () => {
     const state = getEditableThemeSettingsState(resolved);
 
     expect(resolved.settings.ui.typography).toEqual({
-      readable: 'noto-serif-sc',
-      copy: 'lxgw-wenkai-lite',
+      readable: 'ibm-plex-sans',
+      copy: 'ibm-plex-sans',
       mono: 'system-mono',
       brand: 'serif-georgia'
     });
@@ -141,7 +141,7 @@ describe('theme-settings revision semantics', () => {
     const diagnostics = getThemeSettingsReadDiagnostics(resolved);
     const state = getEditableThemeSettingsState(resolved);
 
-    expect(resolved.settings.ui.typography.readable).toBe('noto-serif-sc');
+    expect(resolved.settings.ui.typography.readable).toBe('ibm-plex-sans');
     expect(diagnostics).toEqual(
       expect.arrayContaining([
         expect.objectContaining({

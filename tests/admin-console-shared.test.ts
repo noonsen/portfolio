@@ -198,7 +198,7 @@ describe('admin-console/shared', () => {
 
     expect(canonical.ui.typography).toEqual({
       readable: 'lxgw-wenkai-lite',
-      copy: 'lxgw-wenkai-lite',
+      copy: 'ibm-plex-sans',
       mono: 'system-mono',
       brand: 'serif-georgia'
     });

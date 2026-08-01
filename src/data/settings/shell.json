@@ -36,6 +36,13 @@
       "ornament": "·",
       "visible": true,
       "order": 5
+    },
+    {
+      "id": "portfolio",
+      "label": "Portfolio",
+      "ornament": "·",
+      "visible": true,
+      "order": 6
     }
   ]
 }

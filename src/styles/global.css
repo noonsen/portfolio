@@ -121,8 +121,8 @@
   --code-bg: var(--code-content-bg);
   --code-action-hover-bg: #e8e8e6;
   --panel: var(--code-header-bg);
-  --font-readable: "Noto Serif SC", ui-serif, Georgia, "Times New Roman", "Songti SC", serif;
-  --font-copy: "LXGW WenKai Lite", "Kaiti SC", "STKaiti", serif;
+  --font-readable: var(--font-ibm-plex-sans), ui-sans-serif, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-copy: var(--font-ibm-plex-sans), ui-sans-serif, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-mono: "Sarasa Mono SC", "Noto Sans Mono CJK SC", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --font-brand: Georgia, serif;
   --max: 900px;

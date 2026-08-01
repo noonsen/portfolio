@@ -17,8 +17,8 @@ describe('fonts/registry', () => {
         typography: { readable: 'bogus', copy: 'system-mono', mono: 'jetbrains-mono', brand: 'system-mono' }
       })
     ).toEqual({
-      readable: 'noto-serif-sc',
-      copy: 'lxgw-wenkai-lite',
+      readable: 'ibm-plex-sans',
+      copy: 'ibm-plex-sans',
       mono: 'jetbrains-mono',
       brand: 'serif-georgia'
     });
@@ -35,27 +35,26 @@ describe('fonts/registry', () => {
   });
 
   it('selects only chosen astro-fonts-api entries', () => {
-    expect(getSelectedAstroApiFonts(THEME_TYPOGRAPHY_DEFAULT)).toEqual([]);
+    // readable and copy both default to the astro-fonts-api ibm-plex-sans entry, deduped to one.
+    expect(getSelectedAstroApiFonts(THEME_TYPOGRAPHY_DEFAULT).map((entry) => entry.id)).toEqual(['ibm-plex-sans']);
     const selected = getSelectedAstroApiFonts({ ...THEME_TYPOGRAPHY_DEFAULT, mono: 'jetbrains-mono' });
-    expect(selected.map((entry) => entry.id)).toEqual(['jetbrains-mono']);
+    expect(selected.map((entry) => entry.id).sort()).toEqual(['ibm-plex-sans', 'jetbrains-mono']);
   });
 
-  it('keeps CJK api entries downloadable with explicit chinese subsets', () => {
-    const [cjk] = getSelectedAstroApiFonts({ ...THEME_TYPOGRAPHY_DEFAULT, copy: 'noto-sans-sc' });
-    expect(cjk?.id).toBe('noto-sans-sc');
-    // 缺少 chinese-simplified 会让构建只下载 latin，中文字形静默落到 fallback。
-    expect(cjk?.provider === 'fontsource' ? cjk.subsets : undefined).toContain('chinese-simplified');
-    expect(cjk?.weights).toEqual([400]);
+  it('keeps IBM Plex Sans downloadable as an astro-fonts-api entry', () => {
+    const [sans] = getSelectedAstroApiFonts({ ...THEME_TYPOGRAPHY_DEFAULT, copy: 'ibm-plex-sans' });
+    expect(sans?.id).toBe('ibm-plex-sans');
+    expect(sans?.weights).toEqual([400, 600]);
   });
 
   it('accepts new catalog entries for their declared roles only', () => {
     expect(
       resolveTypographyFromRawUiSettings({
-        typography: { readable: 'noto-sans-sc', copy: 'fira-code', mono: 'fira-code' }
+        typography: { readable: 'ibm-plex-sans', copy: 'fira-code', mono: 'fira-code' }
       })
     ).toEqual({
-      readable: 'noto-sans-sc',
-      copy: 'lxgw-wenkai-lite',
+      readable: 'ibm-plex-sans',
+      copy: 'ibm-plex-sans',
       mono: 'fira-code',
       brand: 'serif-georgia'
     });

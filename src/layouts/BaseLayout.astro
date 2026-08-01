@@ -200,7 +200,13 @@ const adminUiPrefsScriptHref = isDevAdminPage
       )
     }
     {devUiPrefsStylesHref ? <link rel="stylesheet" href={devUiPrefsStylesHref} /> : null}
-    {typographyApiFonts.map((font) => <Font cssVariable={`--font-${font.id}`} />)}
+    {typographyApiFonts.map((font) => (
+      // Astro's generated <Font cssVariable> type is a literal union derived from the
+      // fonts[] entries registered in astro.config.mjs; this list is itself computed
+      // dynamically from ui.json's typography selection, so it can't be statically
+      // narrowed at this call site.
+      <Font cssVariable={`--font-${font.id}` as any} />
+    ))}
     <slot name="head" />
   </head>
   <body
