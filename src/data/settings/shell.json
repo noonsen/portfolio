@@ -1,48 +1,48 @@
 {
-  "brandTitle": "Whono",
+  "brandTitle": "Regend",
   "quote": "A minimal Astro theme\nfor essays, notes, and docs.\nDesigned for reading,\nopen-source.",
   "nav": [
     {
       "id": "essay",
       "label": "Essays",
       "ornament": "·",
-      "visible": true,
-      "order": 1
+      "order": 1,
+      "visible": true
     },
     {
       "id": "bits",
       "label": "Bits",
       "ornament": "·",
-      "visible": true,
-      "order": 2
+      "order": 2,
+      "visible": true
     },
     {
       "id": "memo",
       "label": "Memo",
       "ornament": "·",
-      "visible": true,
-      "order": 3
+      "order": 3,
+      "visible": false
     },
     {
       "id": "archive",
       "label": "Archive",
       "ornament": "·",
-      "visible": true,
-      "order": 4
+      "order": 4,
+      "visible": false
     },
     {
       "id": "about",
       "label": "About",
       "ornament": "·",
-      "visible": true,
-      "order": 5
+      "order": 5,
+      "visible": true
     },
     {
       "id": "portfolio",
       "label": "Portfolio",
       "ornament": "·",
-      "visible": true,
-      "order": 6
+      "order": 6,
+      "visible": true
     }
   ]
 }

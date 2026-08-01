@@ -1,11 +1,11 @@
 {
-  "title": "Astro Themes by Whono",
+  "title": "Alonzo Luis' Portfolio",
   "description": "A showcase site for a minimal two-column Astro theme",
   "defaultLocale": "en-US",
   "footer": {
     "startYear": 2025,
     "showCurrentYear": true,
-    "copyright": "Whono · Theme Demo · by cxro"
+    "copyright": "Regend"
   },
   "adminOverview": {
     "publicVisible": true,
