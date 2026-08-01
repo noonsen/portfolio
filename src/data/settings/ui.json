@@ -21,8 +21,8 @@
     "sidebarDivider": "default"
   },
   "typography": {
-    "readable": "noto-serif-sc",
-    "copy": "lxgw-wenkai-lite",
+    "readable": "ibm-plex-sans",
+    "copy": "ibm-plex-sans",
     "mono": "system-mono",
     "brand": "serif-georgia"
   }

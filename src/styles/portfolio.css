@@ -1,0 +1,188 @@
+/* portfolio.css
+   Private styles for the /portfolio/ page: summary, skills, experience, projects.
+*/
+
+.portfolio-body {
+  margin: 30px 0 0;
+  font-family: var(--font-copy);
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.portfolio-section {
+  margin: 0 0 44px;
+}
+
+.portfolio-section:last-child {
+  margin-bottom: 0;
+}
+
+.portfolio-section h2 {
+  margin: 0 0 16px;
+  font-family: var(--font-readable);
+  font-size: 18px;
+}
+
+.portfolio-section h3 {
+  margin: 0 0 8px;
+  font-family: var(--font-readable);
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.portfolio-section p {
+  margin: 0;
+  color: var(--text);
+}
+
+.portfolio-contact-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.portfolio-contact-list a {
+  color: inherit;
+}
+
+.portfolio-skill-groups {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.portfolio-tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.portfolio-tag {
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 13px;
+  color: var(--muted);
+  background: var(--panel, transparent);
+}
+
+.portfolio-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.portfolio-timeline__item {
+  padding-left: 16px;
+  border-left: 2px solid var(--border);
+}
+
+.portfolio-timeline__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.portfolio-timeline__role {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.portfolio-timeline__period {
+  font-size: 13px;
+  color: var(--faint);
+  white-space: nowrap;
+}
+
+.portfolio-timeline__org {
+  display: block;
+  font-size: 14px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.portfolio-timeline__bullets {
+  margin: 10px 0 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.portfolio-timeline__bullets li {
+  font-size: 14px;
+  color: var(--text);
+}
+
+.portfolio-project-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.portfolio-project-card {
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.portfolio-project-card h3 {
+  color: var(--text);
+  font-size: 16px;
+}
+
+.portfolio-project-card p {
+  margin: 0 0 12px;
+  font-size: 14px;
+}
+
+.portfolio-project-card__link {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 14px;
+  color: var(--accent);
+}
+
+.portfolio-education-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.portfolio-education-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+}
+
+.portfolio-education-item__school {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.portfolio-education-item__degree {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.portfolio-education-item__period {
+  font-size: 13px;
+  color: var(--faint);
+}

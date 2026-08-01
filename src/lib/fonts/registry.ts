@@ -204,23 +204,18 @@ export const THEME_FONT_REGISTRY = [
     sizeHint: 'Downloaded and self-hosted at build time (latin; CJK falls back to system monospace)'
   },
   {
-    id: 'noto-sans-sc',
-    label: 'Noto Sans SC',
-    cardLabel: 'Noto Sans SC',
-    badge: 'Downloaded at build time ~1.1MB',
+    id: 'ibm-plex-sans',
+    label: 'IBM Plex Sans',
+    cardLabel: 'IBM Plex Sans',
+    badge: 'Downloaded at build time',
     roles: ['readable', 'copy'],
     acquisition: 'astro-fonts-api',
     provider: 'fontsource',
-    familyName: 'Noto Sans SC',
-    fallbacks: ['"PingFang SC"', '"Microsoft YaHei"', '"Heiti SC"', 'sans-serif'],
-    // Single-weight cap on download cost: fontsource's CJK subset ships as one
-    // monolithic file (unifont doesn't slice by weight in practice), so every
-    // additional weight adds +1.1 MB. Bold is synthesized by the browser, matching
-    // lxgw-wenkai-lite's single-weight strategy.
-    weights: [400],
+    familyName: 'IBM Plex Sans',
+    fallbacks: ['ui-sans-serif', '-apple-system', '"Segoe UI"', 'Roboto', 'sans-serif'],
+    weights: [400, 600],
     license: 'OFL-1.1',
-    sizeHint: 'Downloaded and self-hosted at build time (~1.1 MB for the full Chinese subset + 13 KB latin, unicode-range loaded on demand)',
-    subsets: ['chinese-simplified', 'latin']
+    sizeHint: 'Downloaded and self-hosted at build time (latin subset)'
   },
   {
     id: 'fira-code',
@@ -256,8 +251,8 @@ export type ThemeFontId = (typeof THEME_FONT_REGISTRY)[number]['id'];
 export const TYPOGRAPHY_ROLES = ['readable', 'copy', 'mono', 'brand'] as const satisfies readonly TypographyRole[];
 
 export const THEME_TYPOGRAPHY_DEFAULT: TypographySettings = {
-  readable: 'noto-serif-sc',
-  copy: 'lxgw-wenkai-lite',
+  readable: 'ibm-plex-sans',
+  copy: 'ibm-plex-sans',
   mono: 'system-mono',
   brand: 'serif-georgia'
 };
