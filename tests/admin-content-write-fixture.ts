@@ -41,7 +41,7 @@ export const setupAdminContentWriteFixture = (): (() => string) => {
     await writeFile(path.join(tempRoot, 'public', 'author', 'alice.webp'), 'avatar');
     await writeFile(
       path.join(tempRoot, 'src', 'content', 'essay', 'demo.md'),
-      ['---', 'title: Demo Essay', 'date: 2026-03-18', 'draft: false', '---', '', '# Essay', '', '正文保持不变。', ''].join('\n'),
+      ['---', 'title: Demo Essay', 'date: 2026-03-18', 'draft: false', '---', '', '# Essay', '', 'Body stays unchanged.', ''].join('\n'),
       'utf8'
     );
     await writeFile(

@@ -27,8 +27,8 @@ let {
 
 const DEFAULT_BITS_DATETIME_OFFSET = '+08:00';
 const BITS_DATETIME_RE = /^(\d{4}-\d{2}-\d{2})(?:[T\s](\d{2}:\d{2})(?::\d{2}(?:\.\d+)?)?(Z|[+-]\d{2}:?\d{2})?)?$/;
-const INLINE_TAGS_PLACEHOLDER = '#摄影 #建筑';
-const LOCATION_PLACEHOLDER = '(可选)';
+const INLINE_TAGS_PLACEHOLDER = '#photography #architecture';
+const LOCATION_PLACEHOLDER = '(optional)';
 const FIELD_ICONS = {
   date: 'calendar-days',
   time: 'clock-3',
@@ -176,14 +176,14 @@ $effect(() => {
 });
 </script>
 
-<section class="admin-bits-publish" aria-label="发布信息">
-  <div class="admin-bits-publish-strip" aria-label="发布属性">
-    <div class="admin-bits-publish-time-group" aria-label="发布时间">
+<section class="admin-bits-publish" aria-label="Publish info">
+  <div class="admin-bits-publish-strip" aria-label="Publish properties">
+    <div class="admin-bits-publish-time-group" aria-label="Publish time">
       <label class="admin-bits-publish-field admin-bits-publish-field--date" class:is-invalid={Boolean(dateIssue)}>
         <span class="admin-bits-publish-field__icon" aria-hidden="true">
           <AdminEditorIcon name={FIELD_ICONS.date} size={12} strokeWidth={1.9} />
         </span>
-        <span class="admin-bits-publish-field__label">日期</span>
+        <span class="admin-bits-publish-field__label">Date</span>
         <input
           class="admin-bits-publish-field__control"
           type="date"
@@ -199,7 +199,7 @@ $effect(() => {
         <span class="admin-bits-publish-field__icon" aria-hidden="true">
           <AdminEditorIcon name={FIELD_ICONS.time} size={12} strokeWidth={1.9} />
         </span>
-        <span class="admin-bits-publish-field__label">时间</span>
+        <span class="admin-bits-publish-field__label">Time</span>
         <input
           class="admin-bits-publish-field__control"
           type="time"
@@ -211,23 +211,23 @@ $effect(() => {
         />
       </label>
 
-      <div class="admin-bits-publish-current" aria-label="写入当前时间快捷操作">
+      <div class="admin-bits-publish-current" aria-label="Set current time shortcut">
         <button
           class="admin-bits-publish-current__text"
           class:is-active={currentDateTimeApplied}
           type="button"
           {disabled}
-          title={currentDateTimeApplied ? '重新写入当前日期和时间' : '写入当前日期和时间'}
+          title={currentDateTimeApplied ? 'Re-apply current date and time' : 'Apply current date and time'}
           onclick={useCurrentDateTime}
-        >写入当前时间</button>
+        >Use current time</button>
 
         {#if currentDateTimeApplied}
           <button
             class="admin-bits-publish-current__icon"
             type="button"
             {disabled}
-            title="撤回当前时间"
-            aria-label="撤回当前时间"
+            title="Undo current time"
+            aria-label="Undo current time"
             onclick={undoCurrentDateTime}
           >
             <AdminEditorIcon name="undo-2" size={14} strokeWidth={2.1} />
@@ -236,12 +236,12 @@ $effect(() => {
       </div>
     </div>
 
-    <div class="admin-bits-publish-tags-group" aria-label="标签与地点">
+    <div class="admin-bits-publish-tags-group" aria-label="Tags and location">
       <label class="admin-bits-publish-field admin-bits-publish-field--tags" class:is-invalid={Boolean(tagsIssue)}>
         <span class="admin-bits-publish-field__icon" aria-hidden="true">
           <AdminEditorIcon name={FIELD_ICONS.tags} size={12} strokeWidth={1.9} />
         </span>
-        <span class="admin-bits-publish-field__label">标签</span>
+        <span class="admin-bits-publish-field__label">Tags</span>
         <span class="admin-bits-publish-field__input admin-bits-publish-field__input--tags" bind:this={tagsAutosizeEl}>
           <input
             class="admin-bits-publish-field__control admin-bits-publish-field__control--autosize"
@@ -261,7 +261,7 @@ $effect(() => {
         <span class="admin-bits-publish-field__icon" aria-hidden="true">
           <AdminEditorIcon name={FIELD_ICONS.location} size={12} strokeWidth={1.9} />
         </span>
-        <span class="admin-bits-publish-field__label">地点</span>
+        <span class="admin-bits-publish-field__label">Location</span>
         <span class="admin-bits-publish-field__input admin-bits-publish-field__input--location" bind:this={locationAutosizeEl}>
           <input
             class="admin-bits-publish-field__control admin-bits-publish-field__control--autosize"

@@ -64,7 +64,7 @@ export const parseAdminSettingsExportBundle = (
   if (!isRecord(input)) {
     return {
       ok: false,
-      errors: ['导入文件必须是 JSON 对象']
+      errors: ['The import file must be a JSON object']
     };
   }
 
@@ -73,11 +73,11 @@ export const parseAdminSettingsExportBundle = (
   const rawSettings = input.settings;
 
   if (!isRecord(rawManifest)) {
-    errors.push('导入文件缺少 manifest 对象');
+    errors.push('The import file is missing the manifest object');
   }
 
   if (!isRecord(rawSettings)) {
-    errors.push('导入文件缺少 settings 快照');
+    errors.push('The import file is missing the settings snapshot');
   }
 
   if (errors.length > 0 || !isRecord(rawManifest) || !isRecord(rawSettings)) {
@@ -90,27 +90,27 @@ export const parseAdminSettingsExportBundle = (
   const schemaVersion = rawManifest.schemaVersion;
   if (schemaVersion !== ADMIN_SETTINGS_EXPORT_SCHEMA_VERSION) {
     errors.push(
-      `仅支持 schemaVersion=${ADMIN_SETTINGS_EXPORT_SCHEMA_VERSION} 的 settings 导入包`
+      `Only settings import bundles with schemaVersion=${ADMIN_SETTINGS_EXPORT_SCHEMA_VERSION} are supported`
     );
   }
 
   const createdAt = typeof rawManifest.createdAt === 'string' ? rawManifest.createdAt.trim() : '';
   if (!createdAt) {
-    errors.push('manifest.createdAt 缺失');
+    errors.push('manifest.createdAt is missing');
   }
 
   const includedScopes = Array.isArray(rawManifest.includedScopes)
     ? rawManifest.includedScopes.filter((value): value is string => typeof value === 'string')
     : [];
   if (!includedScopes.includes(ADMIN_SETTINGS_EXPORT_SCOPE)) {
-    errors.push('manifest.includedScopes 必须包含 settings');
+    errors.push('manifest.includedScopes must include settings');
   }
 
   const excludes = Array.isArray(rawManifest.excludes)
     ? rawManifest.excludes.filter((value): value is string => typeof value === 'string')
     : [];
   if (!Array.isArray(rawManifest.excludes)) {
-    errors.push('manifest.excludes 缺失');
+    errors.push('manifest.excludes is missing');
   }
 
   const rawLocale = Object.prototype.hasOwnProperty.call(rawManifest, 'locale')
@@ -121,7 +121,7 @@ export const parseAdminSettingsExportBundle = (
     && rawLocale !== undefined
     && typeof rawLocale !== 'string'
   ) {
-    errors.push('manifest.locale 必须是字符串、null，或在旧导出包中直接缺失');
+    errors.push('manifest.locale must be a string, null, or omitted entirely in older export bundles');
   }
 
   if (errors.length > 0) {

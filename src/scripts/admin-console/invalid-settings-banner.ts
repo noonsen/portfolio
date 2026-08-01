@@ -5,10 +5,10 @@ import type {
 
 const getDiagnosticHeadline = (diagnostic: ThemeSettingsReadDiagnostic): string => {
   const fileName = diagnostic.path.split('/').pop() || diagnostic.path;
-  if (diagnostic.code === 'invalid-json') return `${fileName} 格式错误`;
-  if (diagnostic.code === 'invalid-root') return `${fileName} 结构错误`;
-  if (diagnostic.code === 'schema-mismatch') return `${fileName} 配置不一致`;
-  return `${fileName} 读取失败`;
+  if (diagnostic.code === 'invalid-json') return `${fileName} has a format error`;
+  if (diagnostic.code === 'invalid-root') return `${fileName} has a structure error`;
+  if (diagnostic.code === 'schema-mismatch') return `${fileName} configuration is inconsistent`;
+  return `${fileName} failed to load`;
 };
 
 const createDiagnosticMeta = (label: string, value: string, options: { mono?: boolean } = {}): HTMLElement => {
@@ -38,7 +38,7 @@ const createDiagnosticDetails = (value: string): HTMLElement => {
 
   const summary = document.createElement('summary');
   summary.className = 'admin-banner__details-summary';
-  summary.textContent = '原始报错';
+  summary.textContent = 'Raw error';
 
   const body = document.createElement('code');
   body.className = 'admin-banner__details-body';
@@ -57,17 +57,17 @@ const createDiagnosticListItem = (diagnostic: ThemeSettingsReadDiagnostic): HTML
   title.textContent = getDiagnosticHeadline(diagnostic);
   item.appendChild(title);
 
-  item.appendChild(createDiagnosticMeta('文件', diagnostic.path, { mono: true }));
+  item.appendChild(createDiagnosticMeta('File', diagnostic.path, { mono: true }));
 
   if (typeof diagnostic.line === 'number' && typeof diagnostic.column === 'number') {
-    item.appendChild(createDiagnosticMeta('位置', `第 ${diagnostic.line} 行，第 ${diagnostic.column} 列`));
+    item.appendChild(createDiagnosticMeta('Location', `Line ${diagnostic.line}, column ${diagnostic.column}`));
   }
 
   if (diagnostic.detail) {
     if (shouldCollapseDiagnosticDetail(diagnostic.detail)) {
       item.appendChild(createDiagnosticDetails(diagnostic.detail));
     } else {
-      item.appendChild(createDiagnosticMeta('说明', diagnostic.detail, { mono: true }));
+      item.appendChild(createDiagnosticMeta('Detail', diagnostic.detail, { mono: true }));
     }
   }
 

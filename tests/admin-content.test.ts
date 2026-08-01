@@ -30,10 +30,10 @@ const mockedSourceIndex = vi.mocked(sourceIndexModule);
 const { getAdminContentEntryListHref } = contentRoutesModule;
 
 const COLLECTION_LABELS: Record<AdminContentCollectionKey, string> = {
-  essay: '随笔',
-  bits: '絮语',
-  memo: '小记',
-  about: '关于'
+  essay: 'Essays',
+  bits: 'Bits',
+  memo: 'Memo',
+  about: 'About'
 };
 
 const defaultManifest: AdminContentSourceManifest = {
@@ -76,7 +76,7 @@ const createDefaultItems = (): Record<AdminContentCollectionKey, AdminContentInd
   bits: [
     createItem({
       collection: 'bits',
-      collectionLabel: '絮语',
+      collectionLabel: 'Bits',
       id: 'bits-2026-02-03-2230',
       publicEntryId: 'bits-2026-02-03-2230',
       title: 'Bits Note',
@@ -93,7 +93,7 @@ const createDefaultItems = (): Record<AdminContentCollectionKey, AdminContentInd
   memo: [
     createItem({
       collection: 'memo',
-      collectionLabel: '小记',
+      collectionLabel: 'Memo',
       id: 'index',
       publicEntryId: 'index',
       title: 'Memo',
@@ -110,19 +110,19 @@ const createDefaultItems = (): Record<AdminContentCollectionKey, AdminContentInd
   about: [
     createItem({
       collection: 'about',
-      collectionLabel: '关于',
+      collectionLabel: 'About',
       id: 'index',
       publicEntryId: 'index',
-      title: '关于',
+      title: 'About',
       slug: 'about',
       relativePath: 'src/content/about/index.md',
       publicHref: '/about/',
       archive: null,
       date: null,
-      dateLabel: '固定单页',
+      dateLabel: 'Fixed single page',
       year: null,
       tags: [],
-      searchHaystack: '关于 about index friends contact'
+      searchHaystack: 'about about index friends contact'
     })
   ]
 });
@@ -256,7 +256,7 @@ describe('admin-console/content', () => {
       }),
       createItem({
         collection: 'bits',
-        collectionLabel: '絮语',
+        collectionLabel: 'Bits',
         id: 'bits/note',
         title: 'Bits Note',
         slug: 'bits-note',
@@ -287,7 +287,7 @@ describe('admin-console/content', () => {
       createItem(),
       createItem({
         collection: 'bits',
-        collectionLabel: '絮语',
+        collectionLabel: 'Bits',
         id: 'bits/note',
         title: 'Bits Note',
         slug: 'bits-note',
@@ -334,11 +334,11 @@ describe('admin-console/content', () => {
       hasNext: false
     });
     expect(pageData.collectionOptions).toEqual([
-      { value: 'all', label: '全部内容', count: 5 },
-      { value: 'essay', label: '随笔', count: 2 },
-      { value: 'bits', label: '絮语', count: 1 },
-      { value: 'memo', label: '小记', count: 1 },
-      { value: 'about', label: '关于', count: 1 }
+      { value: 'all', label: 'All content', count: 5 },
+      { value: 'essay', label: 'Essays', count: 2 },
+      { value: 'bits', label: 'Bits', count: 1 },
+      { value: 'memo', label: 'Memo', count: 1 },
+      { value: 'about', label: 'About', count: 1 }
     ]);
     expect('tagOptions' in pageData).toBe(false);
     expect(pageData.sections).toHaveLength(1);
@@ -394,7 +394,7 @@ describe('admin-console/content', () => {
   it('keeps untitled bits out of body-derived all content search', async () => {
     const metadataItem = createItem({
       collection: 'bits',
-      collectionLabel: '絮语',
+      collectionLabel: 'Bits',
       id: 'untitled-bit',
       publicEntryId: 'untitled-bit',
       title: 'untitled-bit',
@@ -424,7 +424,7 @@ describe('admin-console/content', () => {
   it('loads untitled bits body text only for collection search', async () => {
     const metadataItem = createItem({
       collection: 'bits',
-      collectionLabel: '絮语',
+      collectionLabel: 'Bits',
       id: 'untitled-bit',
       publicEntryId: 'untitled-bit',
       title: 'untitled-bit',
@@ -577,7 +577,7 @@ describe('admin-console/content', () => {
   it('preserves draft and published bits hrefs from the source index', async () => {
     const draftItem = createItem({
       collection: 'bits',
-      collectionLabel: '絮语',
+      collectionLabel: 'Bits',
       id: 'draft',
       publicEntryId: 'draft',
       title: 'Draft Bits',
@@ -592,7 +592,7 @@ describe('admin-console/content', () => {
       const id = `published-${String(index + 1).padStart(2, '0')}`;
       return createItem({
         collection: 'bits',
-        collectionLabel: '絮语',
+        collectionLabel: 'Bits',
         id,
         publicEntryId: id,
         title: `Published ${index + 1}`,
@@ -621,11 +621,11 @@ describe('admin-console/content', () => {
   });
 
   it('returns readable public fallback labels for non-public entries', () => {
-    expect(getAdminContentPublicFallbackLabel(createItem({ isDraft: true, publicHref: null }))).toContain('draft');
+    expect(getAdminContentPublicFallbackLabel(createItem({ isDraft: true, publicHref: null }))).toContain('Draft');
     expect(
       getAdminContentPublicFallbackLabel(createItem({
         collection: 'memo',
-        collectionLabel: '小记',
+        collectionLabel: 'Memo',
         id: 'index',
         publicHref: null,
         relativePath: 'src/content/memo/index.md'
@@ -634,7 +634,7 @@ describe('admin-console/content', () => {
     expect(
       getAdminContentPublicFallbackLabel(createItem({
         collection: 'about',
-        collectionLabel: '关于',
+        collectionLabel: 'About',
         id: 'index',
         publicHref: null,
         relativePath: 'src/content/about/index.md'
@@ -643,7 +643,7 @@ describe('admin-console/content', () => {
     expect(
       getAdminContentPublicFallbackLabel(createItem({
         collection: 'bits',
-        collectionLabel: '絮语',
+        collectionLabel: 'Bits',
         id: 'example',
         slug: 'bits-example',
         publicHref: null,
@@ -676,7 +676,7 @@ describe('admin-console/content', () => {
     expect(pageData.sections[0]?.collection).toBe('about');
     expect(pageData.sections[0]?.items[0]).toMatchObject({
       collection: 'about',
-      title: '关于',
+      title: 'About',
       publicHref: '/about/',
       readonlyReason: null
     });

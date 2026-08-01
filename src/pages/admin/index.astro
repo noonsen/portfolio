@@ -42,31 +42,31 @@ const getDaysSinceUpdate = (date: Date) =>
   Math.max(0, Math.floor((getUtcDayStart(new Date()) - getUtcDayStart(date)) / MS_PER_DAY));
 const lastUpdateDays = overview?.stats.lastUpdate
   ? String(getDaysSinceUpdate(overview.stats.lastUpdate.date))
-  : '暂无';
+  : 'N/A';
 const wordMetric = overview ? formatAdminOverviewWordMetric(overview.stats.wordCount) : null;
 const articleCount = overview?.collections.find((summary) => summary.key === 'essay')?.count ?? 0;
 const moreTagsHref = withBase('/archive/?picker=tag');
 const statItems = overview && wordMetric
   ? [
       {
-        label: '文章数量',
+        label: 'Articles',
         value: String(articleCount),
-        suffix: '篇'
+        suffix: ''
       },
       {
-        label: '标签数量',
+        label: 'Tags',
         value: String(overview.stats.tagCount),
-        suffix: '个'
+        suffix: ''
       },
       {
-        label: '文字统计',
+        label: 'Word Count',
         value: wordMetric.value,
         suffix: wordMetric.suffix
       },
       {
-        label: '距上次更新',
+        label: 'Since Last Update',
         value: lastUpdateDays,
-        suffix: overview.stats.lastUpdate ? '天' : ''
+        suffix: overview.stats.lastUpdate ? ' days' : ''
       }
     ]
   : [];
@@ -76,14 +76,14 @@ const statItems = overview && wordMetric
   <AdminShell
     currentRoute="overview"
     title="Site Overview"
-    subtitle="站点概览"
+    subtitle="Site Overview"
     showNav={isDev && overviewMode !== 'hidden'}
   >
     {overview ? (
     <section class="admin-site-overview" aria-labelledby="admin-site-overview-title" data-admin-overview-mode={overviewMode}>
-      <h2 id="admin-site-overview-title" class="sr-only">站点概览</h2>
+      <h2 id="admin-site-overview-title" class="sr-only">Site Overview</h2>
 
-      <div class="admin-site-overview__stats" aria-label="站点统计">
+      <div class="admin-site-overview__stats" aria-label="Site statistics">
         {
           statItems.map((item) => (
             <div class="admin-site-overview__stat">
@@ -102,7 +102,7 @@ const statItems = overview && wordMetric
           <div class="admin-site-overview__section-head">
             <h3 id="admin-overview-structure">
               <AdminIcon name="layers" class="admin-site-overview__icon" size={14} />
-              内容结构
+              Content Structure
             </h3>
           </div>
           <div class="admin-site-overview__structure-list">
@@ -134,7 +134,7 @@ const statItems = overview && wordMetric
             <div class="admin-site-overview__section-head">
               <h3 id="admin-overview-tags">
                 <AdminIcon name="tags" class="admin-site-overview__icon" size={14} />
-                热门标签
+                Popular Tags
               </h3>
             </div>
             {
@@ -155,16 +155,16 @@ const statItems = overview && wordMetric
                       <a
                         class="admin-site-overview__tag"
                         href={moreTagsHref}
-                        title="查看所有标签"
-                        aria-label={`查看全部 ${overview.stats.tagCount} 个标签`}
+                        title="View all tags"
+                        aria-label={`View all ${overview.stats.tagCount} tags`}
                       >
-                        <span class="admin-site-overview__tag-name">更多</span>
+                        <span class="admin-site-overview__tag-name">More</span>
                       </a>
                     ) : null
                   }
                 </div>
               ) : (
-                <p class="admin-site-overview__empty">暂无归档标签。</p>
+                <p class="admin-site-overview__empty">No archived tags yet.</p>
               )
             }
           </section>
@@ -178,10 +178,10 @@ const statItems = overview && wordMetric
         <div class="admin-site-overview__section-head admin-site-overview__section-head--split">
           <h3 id="admin-overview-recent">
             <AdminIcon name="list" class="admin-site-overview__icon" size={14} />
-            近期发布
+            Recent Publications
           </h3>
           {hasMaintainerDrafts ? (
-            <span class="admin-site-overview__recent-draft-note">草稿仅 DEV 可见</span>
+            <span class="admin-site-overview__recent-draft-note">Drafts visible in DEV only</span>
           ) : null}
         </div>
         {
@@ -209,7 +209,7 @@ const statItems = overview && wordMetric
               }
             </ol>
           ) : (
-            <p class="admin-site-overview__empty">暂无近期内容。</p>
+            <p class="admin-site-overview__empty">No recent content yet.</p>
           )
         }
       </section>
@@ -218,25 +218,25 @@ const statItems = overview && wordMetric
         <div class="admin-site-overview__section-head admin-site-overview__section-head--split">
           <h3 id="admin-overview-activity">
             <AdminIcon name="activity" class="admin-site-overview__icon" size={14} />
-            写作活动
+            Writing Activity
           </h3>
-          <span class="admin-site-overview__activity-range">最近 90 天</span>
+          <span class="admin-site-overview__activity-range">Last 90 days</span>
         </div>
         {
           overview.writingActivity.length > 0 ? (
-            <div class="admin-site-overview__activity-grid" role="img" aria-label="最近 90 天写作活动">
+            <div class="admin-site-overview__activity-grid" role="img" aria-label="Writing activity for the last 90 days">
               {
                 overview.writingActivity.map((day) => (
                   <span
                     class={`admin-site-overview__activity-dot is-level-${day.level}`}
-                    title={`${day.dateLabel}: ${day.count} 项`}
+                    title={`${day.dateLabel}: ${day.count} item(s)`}
                     aria-hidden="true"
                   ></span>
                 ))
               }
             </div>
           ) : (
-            <p class="admin-site-overview__empty">暂无可用于活动统计的公开随笔或絮语。</p>
+            <p class="admin-site-overview__empty">No public essays or bits available for activity stats yet.</p>
           )
         }
       </section>
@@ -245,7 +245,7 @@ const statItems = overview && wordMetric
         <div class="admin-site-overview__system-head">
           <h3 id="admin-overview-system">
             <AdminIcon name="terminal" class="admin-site-overview__icon" size={14} />
-            运行信息
+            Runtime Info
           </h3>
           <span class="admin-site-overview__system-state">
             <span aria-hidden="true"></span>
@@ -273,14 +273,14 @@ const statItems = overview && wordMetric
           </dl>
           {
             overview.systemStatus.activity.length > 0 ? (
-              <div class="admin-site-overview__system-pulse" role="group" aria-label="最近 14 天内容活动">
+              <div class="admin-site-overview__system-pulse" role="group" aria-label="Content activity for the last 14 days">
                 <span class="admin-site-overview__system-pulse-caption">Content Activity</span>
                 <div class="admin-site-overview__system-pulse-bars">
                   {
                     overview.systemStatus.activity.map((day) => (
                       <span
                         class={`admin-site-overview__system-pulse-bar is-level-${day.level}`}
-                        title={`${day.dateLabel}: ${day.count} 项`}
+                        title={`${day.dateLabel}: ${day.count} item(s)`}
                         aria-hidden="true"
                       ></span>
                     ))
@@ -298,7 +298,7 @@ const statItems = overview && wordMetric
         aria-labelledby="admin-site-overview-title"
         data-admin-overview-mode={overviewMode}
       >
-        <h2 id="admin-site-overview-title" class="sr-only">站点概览</h2>
+        <h2 id="admin-site-overview-title" class="sr-only">Site Overview</h2>
         <p class="admin-site-overview__hidden-message">{overviewHiddenMessage}</p>
       </section>
     )}

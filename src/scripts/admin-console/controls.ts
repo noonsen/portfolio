@@ -95,7 +95,7 @@ export type AdminThemeControls = RequiredElements<{
   inputSidebarDividerDefault: HTMLInputElement | null;
   inputSidebarDividerSubtle: HTMLInputElement | null;
   inputSidebarDividerNone: HTMLInputElement | null;
-  /* 排版字体是 radio 卡片组：控件引用的是 radiogroup 容器（id 与旧 select 一致），值经 :checked 读写。 */
+  /* Typography font is a radio card group: the control refers to the radiogroup container (id matches the old select), and its value is read/written via :checked. */
   inputTypographyReadable: HTMLElement | null;
   inputTypographyCopy: HTMLElement | null;
   inputTypographyMono: HTMLElement | null;

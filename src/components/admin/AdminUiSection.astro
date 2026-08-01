@@ -6,10 +6,10 @@ import {
 } from '../../lib/admin-console/theme-shared';
 
 const typographyFields = [
-  { role: 'readable', label: '正文字体', hint: '（文章正文与标题）' },
-  { role: 'copy', label: '文案字体', hint: '（导语、关于页等楷体场景）' },
-  { role: 'mono', label: '等宽字体', hint: '（代码块与行内代码）' },
-  { role: 'brand', label: '品牌字体', hint: '（侧栏站点名与引言）' }
+  { role: 'readable', label: 'Body font', hint: '(article body and headings)' },
+  { role: 'copy', label: 'Copy font', hint: '(intro text, about page, and other Kaiti-style contexts)' },
+  { role: 'mono', label: 'Monospace font', hint: '(code blocks and inline code)' },
+  { role: 'brand', label: 'Brand font', hint: '(sidebar site name and quote)' }
 ] as const;
 ---
 
@@ -17,14 +17,14 @@ const typographyFields = [
   <legend class="admin-group__legend">
     <AdminIcon name="admin-code" class="admin-group__legend-icon" size={14} />
     <span class="admin-group__legend-copy">
-      <span class="admin-group__legend-zh">代码显示</span>
+      <span class="admin-group__legend-zh">Code Display</span>
       <span class="admin-group__legend-en">Code</span>
     </span>
   </legend>
   <div class="admin-stack">
     <label class="admin-toggle-row">
       <input id="ui-code-line-numbers" type="checkbox" />
-      <span>在代码块中显示行号</span>
+      <span>Show line numbers in code blocks</span>
     </label>
   </div>
 </fieldset>
@@ -33,7 +33,7 @@ const typographyFields = [
   <legend class="admin-group__legend">
     <AdminIcon name="palette" class="admin-group__legend-icon" size={14} />
     <span class="admin-group__legend-copy">
-      <span class="admin-group__legend-zh">排版字体</span>
+      <span class="admin-group__legend-zh">Typography Fonts</span>
       <span class="admin-group__legend-en">Typography</span>
     </span>
   </legend>

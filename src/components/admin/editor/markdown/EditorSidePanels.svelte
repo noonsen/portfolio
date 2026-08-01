@@ -44,12 +44,12 @@ let {
   listItems,
   outlineHeadingsEnabled = true,
   outlineListEnabled = true,
-  outlineHeadingsTabLabel = '文章目录',
+  outlineHeadingsTabLabel = 'Outline',
   outlineHeadingsTabIcon = undefined,
-  outlineListTabLabel = '文章列表',
-  outlineHeadingsEmptyText = '暂无 H2/H3 标题',
-  outlineListEmptyText = '暂无文章',
-  outlinePanelLabel = '编辑器目录',
+  outlineListTabLabel = 'Posts',
+  outlineHeadingsEmptyText = 'No H2/H3 headings',
+  outlineListEmptyText = 'No posts',
+  outlinePanelLabel = 'Editor outline',
   onTabChange,
   onHeadingSelect,
   onSyntaxMaximizeToggle
@@ -193,7 +193,7 @@ $effect(() => {
   data-layout={layout}
   data-resizing={resizing ? 'true' : undefined}
   style={sidePanelsStyle}
-  aria-label="编辑器辅助面板"
+  aria-label="Editor side panels"
 >
   {#if outlineVisible}
     <div class="admin-editor-side-panels__panel admin-editor-side-panels__panel--outline">
@@ -223,7 +223,7 @@ $effect(() => {
       class="admin-editor-side-panels__resize"
       role="separator"
       tabindex="0"
-      aria-label="调整目录和语法面板高度"
+      aria-label="Resize outline and syntax panel height"
       aria-controls={outlinePanelId}
       aria-orientation="horizontal"
       aria-valuemin={Math.round(stackedRatioBounds.min)}

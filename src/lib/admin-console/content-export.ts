@@ -57,7 +57,7 @@ export const getAdminContentSourceDownloadName = (
 ): string => {
   const sourceFileName = path.basename(sourcePath);
   const parsed = path.parse(sourceFileName);
-  // 目录型条目磁盘上使用 index.md；下载时按条目末段命名，memo 单页保持 memo.md。
+  // Directory-style entries use index.md on disk; downloads are named after the entry's last path segment, and the memo single page stays memo.md.
   return parsed.name.toLowerCase() === 'index'
     ? `${getEntryDownloadStem(collection, entryId)}${parsed.ext.toLowerCase()}`
     : sourceFileName;
@@ -69,7 +69,7 @@ export const createAdminContentSourceDownloadHeaders = (
 ): HeadersInit => ({
   'content-type': contentType,
   'cache-control': 'no-store',
-  // filename 作为 ASCII 兜底；真实文件名保留在 filename*。
+  // filename is an ASCII fallback; the real file name is kept in filename*.
   'content-disposition': `attachment; filename="${toAsciiHeaderFileName(fileName)}"; filename*=UTF-8''${encodeContentDispositionFileName(fileName)}`
 });
 

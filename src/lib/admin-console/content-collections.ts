@@ -34,7 +34,7 @@ export const ADMIN_CONTENT_COLLECTION_KEYS = ['essay', 'bits', 'memo', 'about'] 
 export const ADMIN_CONTENT_COLLECTION_CAPABILITIES = {
   essay: {
     collection: 'essay',
-    label: '随笔',
+    label: 'Essays',
     consoleSectionHref: '/essay/',
     fixedPage: null,
     visible: true,
@@ -56,7 +56,7 @@ export const ADMIN_CONTENT_COLLECTION_CAPABILITIES = {
   },
   bits: {
     collection: 'bits',
-    label: '絮语',
+    label: 'Bits',
     consoleSectionHref: '/bits/',
     fixedPage: null,
     visible: true,
@@ -78,7 +78,7 @@ export const ADMIN_CONTENT_COLLECTION_CAPABILITIES = {
   },
   memo: {
     collection: 'memo',
-    label: '小记',
+    label: 'Memo',
     consoleSectionHref: '/memo/',
     fixedPage: {
       entryId: 'index',
@@ -99,11 +99,11 @@ export const ADMIN_CONTENT_COLLECTION_CAPABILITIES = {
     imageUpload: true,
     imagePicker: false,
     readonlyReason: null,
-    deleteUnsupportedReason: 'memo 是固定单页内容，不支持从 Content Console 删除'
+    deleteUnsupportedReason: 'memo is fixed single-page content and cannot be deleted from Content Console'
   },
   about: {
     collection: 'about',
-    label: '关于',
+    label: 'About',
     consoleSectionHref: '/about/',
     fixedPage: {
       entryId: 'index',
@@ -124,7 +124,7 @@ export const ADMIN_CONTENT_COLLECTION_CAPABILITIES = {
     imageUpload: false,
     imagePicker: false,
     readonlyReason: null,
-    deleteUnsupportedReason: 'about 是固定单页内容，不支持从 Content Console 删除'
+    deleteUnsupportedReason: 'about is fixed single-page content and cannot be deleted from Content Console'
   }
 } as const satisfies Record<AdminContentCollectionKey, AdminContentCollectionCapability>;
 

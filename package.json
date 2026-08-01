@@ -38,15 +38,19 @@
     "new:bit": "node ./scripts/new-bit.mjs"
   },
   "dependencies": {
-    "@astrojs/rss": "^4.0.18",
-    "@astrojs/sitemap": "^3.7.2",
+    "@astrojs/markdown-remark": "^7.2.2",
+    "@astrojs/markdown-satteri": "^0.3.5",
+    "@astrojs/rss": "4.0.19",
+    "@astrojs/sitemap": "3.7.3",
     "@lucide/astro": "^1.8.0",
-    "astro": "^6.3.2",
-    "github-slugger": "^2.0.0"
+    "astro": "^7.1.6",
+    "github-slugger": "^2.0.0",
+    "satteri": "^0.9.5",
+    "yaml": "^2.8.3"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.8",
-    "@astrojs/svelte": "^8.1.0",
+    "@astrojs/check": "0.9.10",
+    "@astrojs/svelte": "^9.0.1",
     "@codemirror/commands": "^6.10.3",
     "@codemirror/lang-markdown": "^6.5.0",
     "@codemirror/language": "^6.12.3",
@@ -57,10 +61,13 @@
     "@lezer/highlight": "^1.2.3",
     "@lucide/svelte": "^1.8.0",
     "@shikijs/rehype": "^4.0.2",
+    "@types/hast": "^3.0.5",
     "@types/node": "^22.0.0",
     "emoji-picker-element": "^1.29.1",
     "emoji-picker-element-data": "^1.8.0",
     "fflate": "^0.8.3",
+    "hast-util-raw": "^9.1.0",
+    "hast-util-sanitize": "^5.0.2",
     "katex": "^0.16.47",
     "rehype-katex": "^7.0.1",
     "rehype-raw": "^7.0.0",
@@ -72,10 +79,12 @@
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.1.2",
     "remark-smartypants": "^3.0.2",
+    "sharp": "^0.34.5",
     "svelte": "^5.55.5",
     "typescript": "^5.9.3",
     "unified": "^11.0.5",
     "unist-util-visit": "^5.0.0",
+    "vfile": "^6.0.3",
     "vitest": "^4.1.2"
   },
   "overrides": {

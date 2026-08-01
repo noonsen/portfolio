@@ -51,4 +51,4 @@ export type MarkdownToolbarCommand =
     };
 
 export const buildMarkdownCalloutText = (calloutType: MarkdownCalloutType): string =>
-  `\n:::${calloutType}[标题]\n内容\n:::\n`;
+  `\n:::${calloutType}[Title]\nContent\n:::\n`;

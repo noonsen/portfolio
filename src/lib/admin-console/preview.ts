@@ -194,7 +194,7 @@ const createPreviewProcessor = (collection: AdminContentCollectionKey, sourceFil
 
   const processor = unified()
     .use(remarkParse)
-    // 后台预览是手写 pipeline，不继承 Astro Markdown 默认 GFM / smartypants。
+    // The admin preview is a hand-rolled pipeline and does not inherit Astro Markdown's default GFM / smartypants.
     .use(remarkGfm)
     .use(remarkSmartypants, markdownSmartypantsOptions);
 

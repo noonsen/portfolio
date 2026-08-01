@@ -36,7 +36,7 @@ type AdminAboutWriteSourceState = {
 };
 
 const ABOUT_FIELD_LABELS: Readonly<Record<string, string>> = {
-  body: '正文'
+  body: 'Body'
 };
 
 export const createAdminAboutEditorValues = (): AdminAboutEditorValues => ({});

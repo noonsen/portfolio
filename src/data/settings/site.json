@@ -1,7 +1,7 @@
 {
   "title": "Astro Themes by Whono",
-  "description": "一个极简双栏 Astro 主题的展示站",
-  "defaultLocale": "zh-CN",
+  "description": "A showcase site for a minimal two-column Astro theme",
+  "defaultLocale": "en-US",
   "footer": {
     "startYear": 2025,
     "showCurrentYear": true,
@@ -9,7 +9,7 @@
   },
   "adminOverview": {
     "publicVisible": true,
-    "hiddenMessage": "作者暂未公开此页面。"
+    "hiddenMessage": "The author hasn't made this page public yet."
   },
   "socialLinks": {
     "github": "https://github.com/cxro/astro-whono",

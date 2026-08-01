@@ -16,36 +16,36 @@ const { footerStartYearMin, footerStartYearMax, socialCustomLimit } = Astro.prop
   <legend class="admin-group__legend">
     <AdminIcon name="admin-site" class="admin-group__legend-icon" size={14} />
     <span class="admin-group__legend-copy">
-      <span class="admin-group__legend-zh">站点设置</span>
+      <span class="admin-group__legend-zh">Site settings</span>
       <span class="admin-group__legend-en">Site</span>
     </span>
   </legend>
   <div class="admin-grid">
     <label class="admin-field">
       <span class="admin-label">
-        <span class="admin-label__main">站点标题</span>
-        <span class="admin-label__hint">（用于浏览器标题 / RSS / 分享）</span>
+        <span class="admin-label__main">Site title</span>
+        <span class="admin-label__hint">(used for browser title / RSS / sharing)</span>
       </span>
       <input class="admin-field__control" id="site-title" type="text" autocomplete="off" />
     </label>
     <label class="admin-field">
       <span class="admin-label">
-        <span class="admin-label__main">站点语言</span>
-        <span class="admin-label__hint">（默认值为 zh-CN）</span>
+        <span class="admin-label__main">Site language</span>
+        <span class="admin-label__hint">(default is zh-CN)</span>
       </span>
       <input class="admin-field__control" id="site-default-locale" type="text" autocomplete="off" />
     </label>
     <label class="admin-field admin-field--full">
       <span class="admin-label">
-        <span class="admin-label__main">默认 SEO 描述</span>
-        <span class="admin-label__hint">（用于搜索结果和分享摘要）</span>
+        <span class="admin-label__main">Default SEO description</span>
+        <span class="admin-label__hint">(used for search results and share summaries)</span>
       </span>
       <textarea class="admin-field__control admin-field__control--singleline-textarea" id="site-description" rows="1"></textarea>
     </label>
     <label class="admin-field">
       <span class="admin-label">
-        <span class="admin-label__main">页脚年份</span>
-        <span class="admin-label__hint">（结束年份自动拾取当前年）</span>
+        <span class="admin-label__main">Footer year</span>
+        <span class="admin-label__hint">(end year auto-picks the current year)</span>
       </span>
       <span class="admin-year-range">
         <input
@@ -67,36 +67,36 @@ const { footerStartYearMin, footerStartYearMax, socialCustomLimit } = Astro.prop
           value={String(footerStartYearMax)}
           readonly
           tabindex="-1"
-          aria-label="当前年份（自动）"
+          aria-label="Current year (automatic)"
         />
         <label class="admin-year-range__toggle">
           <input id="site-footer-show-current-year" type="checkbox" checked />
-          <span class="sr-only">显示当前年</span>
+          <span class="sr-only">Show current year</span>
         </label>
       </span>
     </label>
     <label class="admin-field">
       <span class="admin-label">
-        <span class="admin-label__main">页脚版权文案</span>
+        <span class="admin-label__main">Footer copyright text</span>
       </span>
       <input class="admin-field__control" id="site-footer-copyright" type="text" autocomplete="off" aria-describedby="site-footer-preview" />
     </label>
     <div class="admin-field admin-field--full">
       <p id="site-footer-preview" class="admin-help">
-        页脚预览：<code id="site-footer-preview-value">© {footerStartYearMax} Whono · Theme Demo · by cxro</code>
+        Footer preview: <code id="site-footer-preview-value">© {footerStartYearMax} Whono · Theme Demo · by cxro</code>
       </p>
     </div>
     <div class="admin-field admin-field--full">
       <div class="admin-label admin-label--split">
         <span class="admin-label__copy">
           <label class="admin-label__main" for="site-admin-overview-hidden-message">
-            <code>/admin/</code> Overview 公开访问（不收录）
+            <code>/admin/</code> Overview public access (not indexed)
           </label>
-          <span class="admin-label__hint">（构建后生效；关闭公开时，该页仅显示下方文字）</span>
+          <span class="admin-label__hint">(takes effect after build; when public access is off, this page shows only the text below)</span>
         </span>
         <label class="admin-label__toggle" for="site-admin-overview-public-visible">
           <input id="site-admin-overview-public-visible" type="checkbox" checked />
-          <span>公开</span>
+          <span>Public</span>
         </label>
       </div>
       <input

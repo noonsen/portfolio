@@ -1,8 +1,8 @@
 export const LEGACY_MEMO_INTRO_LINES = [
-  '时间流经我们，如同风穿过回廊。',
-  '总有一些瞬间，携带着特别的气息或光亮，短暂停留后便消散。',
-  '有些感受，无法被镜头承载，有些记忆难以被影像收藏。',
-  '也许，为瞬间的感受留下一份文字备份，正是抵抗遗忘最温柔却最有效的方式。'
+  'Time flows through us, like wind through a corridor.',
+  'There are always moments carrying a particular scent or light, lingering briefly before fading away.',
+  'Some feelings can’t be captured by a lens; some memories are hard to preserve in images.',
+  'Perhaps leaving a written record of a fleeting feeling is the gentlest yet most effective way to resist forgetting.'
 ] as const;
 
 export type MemoMarkdownSections = {

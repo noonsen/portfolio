@@ -47,7 +47,7 @@ const getRequiredStringField = (
 ): string => {
   const value = input[field];
   if (typeof value === 'string') return value;
-  issues.push(createIssue(field, `frontmatter.${field} 必须是字符串`));
+  issues.push(createIssue(field, `frontmatter.${field} must be a string`));
   return '';
 };
 
@@ -58,7 +58,7 @@ const getRequiredBooleanField = (
 ): boolean => {
   const value = input[field];
   if (typeof value === 'boolean') return value;
-  issues.push(createIssue(field, `frontmatter.${field} 必须是布尔值`));
+  issues.push(createIssue(field, `frontmatter.${field} must be a boolean`));
   return false;
 };
 
@@ -74,7 +74,7 @@ export const parseAdminEssayEditorInput = (
     return {
       publishedAtInputMode: 'missing',
       updatedAtInputMode: 'missing',
-      issues: [createIssue('frontmatter', 'frontmatter 必须是对象')]
+      issues: [createIssue('frontmatter', 'frontmatter must be an object')]
     };
   }
 
@@ -180,8 +180,8 @@ export const validateEssayPublicSlug = async (
       createIssue(
         'slug',
         frontmatter.slug
-          ? 'essay.slug 必须是小写 kebab-case'
-          : '当前条目路径拍平后的公开 slug 不合法，请设置合法 slug 或调整文件路径'
+          ? 'essay.slug must be lowercase kebab-case'
+          : 'The public slug flattened from the current entry path is invalid. Please set a valid slug or adjust the file path.'
       )
     );
   }
@@ -190,7 +190,7 @@ export const validateEssayPublicSlug = async (
     issues.push(
       createIssue(
         'slug',
-        `公开 slug "${publicSlug}" 与 /archive 或 /essay 下的保留路由冲突，请修改 slug`
+        `Public slug "${publicSlug}" conflicts with a reserved route under /archive or /essay. Please change the slug.`
       )
     );
   }
@@ -206,7 +206,7 @@ export const validateEssayPublicSlug = async (
       issues.push(
         createIssue(
           'slug',
-          `公开 slug "${publicSlug}" 已被其他 essay 占用：${collisionEntryId}`
+          `Public slug "${publicSlug}" is already taken by another essay: ${collisionEntryId}`
         )
       );
       return issues;
@@ -215,7 +215,7 @@ export const validateEssayPublicSlug = async (
     issues.push(
       createIssue(
         'slug',
-        `无法完成 essay.slug 唯一性校验：${error instanceof Error ? error.message : 'unknown error'}`
+        `Unable to complete essay.slug uniqueness validation: ${error instanceof Error ? error.message : 'unknown error'}`
       )
     );
   }
@@ -233,12 +233,12 @@ export const buildEssayFrontmatterFromValues = (
   const issues: AdminContentValidationIssue[] = [];
   const title = values.title.trim();
   if (!title) {
-    issues.push(createIssue('title', 'title 不能为空'));
+    issues.push(createIssue('title', 'title cannot be empty'));
   }
 
   const dateResult = parseEssayDateInput(values.date);
   if (!dateResult) {
-    issues.push(createIssue('date', 'essay.date 必须是 YYYY-MM-DD 或带时区的 ISO 8601 日期时间'));
+    issues.push(createIssue('date', 'essay.date must be YYYY-MM-DD or an ISO 8601 date-time with a timezone'));
   }
 
   const explicitPublishedAt = values.publishedAt.trim();
@@ -248,7 +248,7 @@ export const buildEssayFrontmatterFromValues = (
     : dateResult?.publishedAt;
 
   if (hasExplicitPublishedAt && !publishedAt) {
-    issues.push(createIssue('publishedAt', 'essay.publishedAt 必须是带时区的 ISO 8601 日期时间'));
+    issues.push(createIssue('publishedAt', 'essay.publishedAt must be an ISO 8601 date-time with a timezone'));
   }
 
   const explicitUpdatedAt = values.updatedAt.trim();
@@ -258,7 +258,7 @@ export const buildEssayFrontmatterFromValues = (
     : null;
 
   if (hasExplicitUpdatedAt && !updatedAtResult) {
-    issues.push(createIssue('updatedAt', 'essay.updatedAt 必须是 YYYY-MM-DD 或带时区的 ISO 8601 日期时间'));
+    issues.push(createIssue('updatedAt', 'essay.updatedAt must be YYYY-MM-DD or an ISO 8601 date-time with a timezone'));
   }
 
   if (!dateResult || issues.length > 0) {
@@ -284,7 +284,7 @@ export const buildEssayFrontmatterFromValues = (
       : null;
 
   if (finalUpdatedAtResult && finalUpdatedAtResult.date.valueOf() < effectiveDateResult.date.valueOf()) {
-    issues.push(createIssue('updatedAt', 'essay.updatedAt 不能早于 essay.date'));
+    issues.push(createIssue('updatedAt', 'essay.updatedAt cannot be earlier than essay.date'));
     return { issues };
   }
 

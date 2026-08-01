@@ -124,11 +124,11 @@ export const createEditorShellController = ({
   const previewViewToggleLabel = $derived(getEditorPreviewViewToggleLabel(viewMode));
   const compactPaneToggleText = $derived(getEditorCompactPaneToggleText(compactPaneMode));
   const compactPaneToggleLabel = $derived(getEditorCompactPaneToggleLabel(compactPaneMode));
-  const outlineToggleLabel = $derived(outlineOpen ? '关闭目录' : '打开目录');
+  const outlineToggleLabel = $derived(outlineOpen ? 'Close outline' : 'Open outline');
   const outlineControlDisabled = $derived(!outlineOpen && !sidePanelsAvailable);
-  const syntaxToggleLabel = $derived(syntaxOpen ? '关闭语法实例' : '打开语法实例');
+  const syntaxToggleLabel = $derived(syntaxOpen ? 'Close syntax examples' : 'Open syntax examples');
   const syntaxControlDisabled = $derived(!syntaxOpen && !sidePanelsAvailable);
-  const lineNumbersToggleLabel = $derived(lineNumbers ? '隐藏行号' : '显示行号');
+  const lineNumbersToggleLabel = $derived(lineNumbers ? 'Hide line numbers' : 'Show line numbers');
 
   const shouldUseSessionDefaults = () => readAdminDefaults() !== null;
 

@@ -282,3 +282,28 @@ export const createPublicMarkdownConfig = ({ base = '/' } = {}) => ({
   rehypePlugins: createProjectMarkdownRehypePlugins({ aboutBase: base }),
   shikiConfig: createMarkdownShikiConfig()
 });
+
+/** Public build's native-Sätteri equivalent of createPublicMarkdownConfig. */
+export const createPublicSatteriMarkdownConfig = async ({ base = '/' } = {}) => {
+  const { satteri } = await import('@astrojs/markdown-satteri');
+  const { satteriMathPlugin } = await import('./satteri/math.mjs');
+  const { satteriDirectivesTagPlugin, satteriDirectivesRenderPlugin, satteriDirectivesGroupPlugin } = await import('./satteri/directives.mjs');
+  const { satteriSanitizePlugin } = await import('./satteri/sanitize.mjs');
+
+  return {
+    processor: satteri({
+      features: {
+        math: markdownMathOptions,
+        directive: true,
+        smartPunctuation: true
+      },
+      mdastPlugins: [satteriMathPlugin(), satteriDirectivesTagPlugin({ aboutBase: base })],
+      hastPlugins: [
+        satteriDirectivesRenderPlugin({ aboutBase: base }),
+        satteriDirectivesGroupPlugin(),
+        satteriSanitizePlugin()
+      ]
+    }),
+    shikiConfig: createMarkdownShikiConfig()
+  };
+};

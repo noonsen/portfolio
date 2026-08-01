@@ -22,27 +22,27 @@ export const MARKDOWN_HIGHLIGHT_THEME_OPTIONS: readonly MarkdownHighlightThemeOp
   {
     id: 'github',
     label: 'GitHub',
-    description: '默认'
+    description: 'Default'
   },
   {
     id: 'nord',
     label: 'Nord',
-    description: '极地'
+    description: 'Polar'
   },
   {
     id: 'onedark',
     label: 'One Dark',
-    description: '暮色'
+    description: 'Dusk'
   },
   {
     id: 'classic',
     label: 'Classic',
-    description: '素笺'
+    description: 'Plain'
   },
   {
     id: 'vivid',
     label: 'Vivid',
-    description: '霓光'
+    description: 'Neon'
   }
 ] as const;
 

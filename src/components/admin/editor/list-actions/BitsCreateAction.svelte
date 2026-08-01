@@ -15,7 +15,7 @@ type Props = {
 const CREATE_TRIGGER_SELECTOR = '[data-admin-content-bits-create-action]';
 const BITS_CREATE_DATE_RE = /^(\d{4})-(\d{2})-(\d{2})$/;
 const BITS_CREATE_TIME_RE = /^([01]\d|2[0-3]):([0-5]\d)$/;
-const ENTRY_ID_CONFLICT_MESSAGE = '此时间已使用，请调整创建时间';
+const ENTRY_ID_CONFLICT_MESSAGE = 'This time is already in use, please adjust the creation time';
 const pad2 = (value: number): string => String(value).padStart(2, '0');
 
 let { base = '/', createEndpoint }: Props = $props();
@@ -24,7 +24,7 @@ let open = $state(false);
 let busy = $state(false);
 let dateValue = $state('');
 let timeValue = $state('');
-let createActionLabel = $state('新建内容');
+let createActionLabel = $state('New Content');
 let issues = $state<AdminContentIssue[]>([]);
 let panelEl = $state<HTMLElement | null>(null);
 let dateInputEl = $state<HTMLInputElement | null>(null);
@@ -32,7 +32,7 @@ let closeButtonEl = $state<HTMLButtonElement | null>(null);
 
 const withBase = $derived(createWithBase(base));
 const dialogTitle = $derived(createActionLabel);
-const closeLabel = $derived(`关闭${dialogTitle}`);
+const closeLabel = $derived(`Close ${dialogTitle}`);
 const canCreate = $derived(dateValue.trim().length > 0 && timeValue.trim().length > 0 && !busy);
 
 const formatLocalDateInput = (date = new Date()): string =>
@@ -117,11 +117,11 @@ const dialogFocus = createModalDialogFocusController({
 
 const openCreateDialog = (trigger: HTMLElement) => {
   if (busy) {
-    setStatus('warn', '操作进行中');
+    setStatus('warn', 'Operation in progress');
     return;
   }
 
-  createActionLabel = trigger.dataset.createActionLabel?.trim() || '新建内容';
+  createActionLabel = trigger.dataset.createActionLabel?.trim() || 'New Content';
   const now = new Date();
   dateValue = formatLocalDateInput(now);
   timeValue = formatLocalTimeInput(now);
@@ -136,10 +136,10 @@ const saveCreate = async () => {
 
   busy = true;
   issues = [];
-  setStatus('loading', '正在创建');
+  setStatus('loading', 'Creating');
 
   if (!isValidDate(dateValue) || !BITS_CREATE_TIME_RE.test(timeValue.trim())) {
-    setStatus('error', '请填写合法发布时间');
+    setStatus('error', 'Please enter a valid publish time');
     busy = false;
     return;
   }
@@ -155,14 +155,14 @@ const saveCreate = async () => {
 
     if (!outcome.responseOk || !outcome.payloadOk || !outcome.editHref) {
       issues = outcome.issues;
-      setStatus('error', outcome.errors.length > 0 ? '创建失败' : '创建响应异常，请检查开发日志');
+      setStatus('error', outcome.errors.length > 0 ? 'Creation failed' : 'Unexpected creation response, please check dev logs');
       return;
     }
 
-    setStatus('ok', '已创建，进入编辑页');
+    setStatus('ok', 'Created, opening editor');
     window.location.assign(withBase(outcome.editHref));
   } catch {
-    setStatus('error', '创建请求失败，请稍后重试');
+    setStatus('error', 'Creation request failed, please try again later');
   } finally {
     busy = false;
   }
@@ -247,11 +247,11 @@ $effect(() => {
         </header>
 
         <div class="admin-modal__body">
-          <div class="admin-editor-frontmatter" aria-label="新增字段">
+          <div class="admin-editor-frontmatter" aria-label="New Fields">
             <div class="admin-editor-frontmatter__fields">
               <div class="admin-editor-frontmatter__datetime-grid">
                 <label class="admin-field admin-content-editor__field" class:is-invalid={Boolean(dateIssue)}>
-                  <span class="admin-field__label">发布时间</span>
+                  <span class="admin-field__label">Publish Date</span>
                   <input
                     bind:this={dateInputEl}
                     class="admin-field__control"
@@ -265,7 +265,7 @@ $effect(() => {
                 </label>
 
                 <label class="admin-field admin-content-editor__field" class:is-invalid={Boolean(dateIssue)}>
-                  <span class="admin-field__label">时间（24小时）</span>
+                  <span class="admin-field__label">Time (24-hour)</span>
                   <input
                     class="admin-field__control"
                     name="time"
@@ -284,7 +284,7 @@ $effect(() => {
               </p>
 
               <div class="admin-field admin-content-editor__field">
-                <span class="admin-field__label">源文件</span>
+                <span class="admin-field__label">Source File</span>
                 <code class="admin-field__control admin-content-bits-create-dialog__source">{sourceFilePreview}</code>
               </div>
             </div>
@@ -294,15 +294,15 @@ $effect(() => {
         <footer class="admin-modal__actions admin-content-bits-create-dialog__actions">
           <div class="admin-content-bits-create-dialog__publish-state">
             <div class="admin-content-bits-create-dialog__toggles">
-              <span class="admin-badge admin-content-bits-create-dialog__state-badge">草稿</span>
+              <span class="admin-badge admin-content-bits-create-dialog__state-badge">Draft</span>
             </div>
           </div>
           <div class="admin-content-bits-create-dialog__buttons">
             <button class="admin-btn admin-btn--ghost admin-btn--compact" type="button" disabled={busy} onclick={closeDialog}>
-              取消
+              Cancel
             </button>
             <button class="admin-btn admin-btn--primary admin-btn--compact" type="submit" disabled={!canCreate}>
-              创建
+              Create
             </button>
           </div>
         </footer>

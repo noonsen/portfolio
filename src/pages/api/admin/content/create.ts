@@ -72,8 +72,8 @@ const createJsonErrorResponse = (
 const extractCreateInput = (body: unknown): CreateInput => {
   if (!isRecord(body)) {
     return {
-      errors: ['请求体必须是 JSON 对象'],
-      issues: [{ path: 'body', message: '请求体必须是 JSON 对象' }]
+      errors: ['Request body must be a JSON object'],
+      issues: [{ path: 'body', message: 'Request body must be a JSON object' }]
     };
   }
 
@@ -86,15 +86,15 @@ const extractCreateInput = (body: unknown): CreateInput => {
   let collection: AdminContentCreatableCollectionKey | undefined;
 
   if (!rawCollection) {
-    const message = '请求体缺少 collection';
+    const message = 'Request body is missing collection';
     errors.push(message);
     issues.push({ path: 'collection', message });
   } else if (!isAdminContentCollectionKey(rawCollection)) {
-    const message = `不支持的 content collection：${rawCollection}；仅支持 ${ADMIN_CONTENT_COLLECTION_KEYS.join(' / ')}`;
+    const message = `Unsupported content collection: ${rawCollection}; only ${ADMIN_CONTENT_COLLECTION_KEYS.join(' / ')} are supported`;
     errors.push(message);
     issues.push({ path: 'collection', message });
   } else if (!isAdminContentCreatableCollectionKey(rawCollection)) {
-    const message = `当前 collection 暂不支持新增：${rawCollection}`;
+    const message = `This collection does not currently support creation: ${rawCollection}`;
     errors.push(message);
     issues.push({ path: 'collection', message });
   } else {
@@ -102,21 +102,21 @@ const extractCreateInput = (body: unknown): CreateInput => {
   }
 
   if (collection === 'essay' && !entryId) {
-    const message = '请求体缺少 entryId';
+    const message = 'Request body is missing entryId';
     errors.push(message);
     issues.push({ path: 'entryId', message });
   } else if (collection === 'bits' && hasEntryId) {
-    const message = 'bits 新增由 date 派生 entryId，不接收手动 entryId';
+    const message = 'bits entries derive entryId from date and do not accept a manual entryId';
     errors.push(message);
     issues.push({ path: 'entryId', message });
   }
 
   if (!hasFrontmatter) {
-    const message = '请求体缺少 frontmatter 字段';
+    const message = 'Request body is missing the frontmatter field';
     errors.push(message);
     issues.push({ path: 'frontmatter', message });
   } else if (!isRecord(body.frontmatter)) {
-    const message = 'frontmatter 必须是对象';
+    const message = 'frontmatter must be an object';
     errors.push(message);
     issues.push({ path: 'frontmatter', message });
   }
@@ -162,13 +162,13 @@ export const POST: APIRoute = async ({ request, url }) => {
     return DEV_ONLY_NOT_FOUND_RESPONSE.clone();
   }
 
-  const requestError = validateAdminJsonWriteRequest(request, url, 'Content Console create', '新增');
+  const requestError = validateAdminJsonWriteRequest(request, url, 'Content Console create', 'create');
   if (requestError) {
     return createJsonErrorResponse(requestError.status, [requestError.error]);
   }
 
   const bodyResult = await readAdminJsonRequestBody(request, {
-    emptyBodyError: '请求体为空，请确认已发送 JSON 字符串'
+    emptyBodyError: 'Request body is empty — make sure a JSON string was sent'
   });
   if (!bodyResult.ok) {
     return createJsonErrorResponse(bodyResult.status, [bodyResult.error]);
@@ -221,7 +221,7 @@ export const POST: APIRoute = async ({ request, url }) => {
       ], {
         beforeWrite: async () => {
           if (await fileExists(plan.sourcePath)) {
-            throw new AdminContentEntryResolutionError('invalid-entry-id', `源文件已存在：${plan.relativePath}`);
+            throw new AdminContentEntryResolutionError('invalid-entry-id', `Source file already exists: ${plan.relativePath}`);
           }
           await ensureAdminContentCreateParentDirectory(plan);
         }
@@ -249,7 +249,7 @@ export const POST: APIRoute = async ({ request, url }) => {
       if (errorResponse) return errorResponse;
 
       console.error('[astro-whono] Failed to create admin content entry:', error);
-      return createJsonErrorResponse(500, ['新增内容文件失败，请检查本地文件权限或日志']);
+      return createJsonErrorResponse(500, ['Failed to create the content file — check local file permissions or logs']);
     }
   });
 };

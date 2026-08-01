@@ -33,12 +33,12 @@ let {
   dirty = false,
   returnHref,
   exportHref,
-  actionLabel = '内容操作',
-  moreLabel = '更多内容操作',
-  saveLabel = '保存内容',
-  resetLabel = '还原更改',
-  downloadLabel = '下载源文件',
-  deleteLabel = '删除内容',
+  actionLabel = 'Content actions',
+  moreLabel = 'More content actions',
+  saveLabel = 'Save content',
+  resetLabel = 'Revert changes',
+  downloadLabel = 'Download source file',
+  deleteLabel = 'Delete content',
   showDelete = true,
   onSave,
   onReset,
@@ -54,10 +54,10 @@ let {
   <button class="admin-btn admin-btn--secondary admin-btn--compact" type="button" onclick={() => void onSave()} disabled={!canWriteContent}>
     {saveLabel}
   </button>
-  <a class="admin-btn admin-btn--ghost admin-btn--compact" href={returnHref}>返回</a>
+  <a class="admin-btn admin-btn--ghost admin-btn--compact" href={returnHref}>Back</a>
   <details class="admin-editor-shell__action-more">
     <summary class="admin-btn admin-btn--ghost admin-btn--compact admin-editor-shell__action-more-trigger" aria-label={moreLabel}>
-      <span>更多</span>
+      <span>More</span>
       <AdminEditorIcon name="ellipsis" size={14} strokeWidth={2} />
     </summary>
     <div class="admin-content-menu-panel admin-editor-shell__action-menu" aria-label={moreLabel}>

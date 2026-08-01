@@ -158,9 +158,9 @@ const COLLECTION_LABELS: Record<AdminOverviewCollectionKey, string> = {
 };
 
 const COLLECTION_DETAILS: Record<AdminOverviewCollectionKey, string> = {
-  essay: '文章',
-  bits: '动态',
-  memo: '小记'
+  essay: 'Essays',
+  bits: 'Moments',
+  memo: 'Notes'
 };
 
 const RECENT_LIMIT = 6;
@@ -274,7 +274,7 @@ const getRecentMemoPublication = (entry: MemoEntry): AdminOverviewRecentPublicat
   const isDraft = entry.data.draft === true;
   const title = entry.data.title?.trim()
     || getMemoDerivedText(entry).excerptText
-    || '小记';
+    || 'Note';
   return {
     collection: 'memo',
     collectionLabel: COLLECTION_LABELS.memo,
@@ -282,7 +282,7 @@ const getRecentMemoPublication = (entry: MemoEntry): AdminOverviewRecentPublicat
     href: isDraft ? null : '/memo/',
     isDraft,
     date: entry.data.date ?? null,
-    dateLabel: entry.data.date ? formatCompactDate(entry.data.date) : '未设置日期',
+    dateLabel: entry.data.date ? formatCompactDate(entry.data.date) : 'No date set',
     shortDateLabel: formatShortDate(entry.data.date ?? null)
   };
 };
@@ -351,13 +351,13 @@ export const formatAdminOverviewWordMetric = (wordCount: number): { value: strin
   if (wordCount <= WORD_COUNT_COMPACT_THRESHOLD) {
     return {
       value: String(wordCount),
-      suffix: '字'
+      suffix: ' words'
     };
   }
 
   return {
     value: (wordCount / WORD_COUNT_COMPACT_UNIT).toFixed(1),
-    suffix: '万字'
+    suffix: '0,000 words'
   };
 };
 

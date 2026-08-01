@@ -311,7 +311,7 @@ const CONTENT_EDITOR_PAGE_REGISTRY = {
     outlineKind: 'essay',
     infoTrigger: {
       attribute: 'data-admin-article-info-trigger',
-      label: '修改信息',
+      label: 'Edit metadata',
       panelId: 'admin-editor-frontmatter-panel'
     },
     usesImagePicker: getAdminContentCollectionCapability('essay').imagePicker,
@@ -332,7 +332,7 @@ const CONTENT_EDITOR_PAGE_REGISTRY = {
     outlineKind: 'list',
     infoTrigger: {
       attribute: 'data-admin-bits-info-trigger',
-      label: '修改信息',
+      label: 'Edit metadata',
       panelId: 'admin-editor-frontmatter-panel'
     },
     usesImagePicker: getAdminContentCollectionCapability('bits').imagePicker,

@@ -118,7 +118,7 @@ const copyCommand = async (root: RecoveryRoot) => {
 
   try {
     await navigator.clipboard.writeText(COMMAND);
-    setStatus(root, '已复制');
+    setStatus(root, 'Copied');
   } catch (_) {
     setStatus(root, COMMAND);
   }

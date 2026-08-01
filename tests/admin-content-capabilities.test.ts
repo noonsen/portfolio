@@ -53,7 +53,7 @@ describe('admin content collection capabilities', () => {
     });
     expect(getAdminContentCollectionCapability('essay').create).toBe(true);
     expect(getAdminContentCollectionCapability('about')).toMatchObject({
-      label: '关于',
+      label: 'About',
       visible: true,
       entryWritable: true,
       writable: true,

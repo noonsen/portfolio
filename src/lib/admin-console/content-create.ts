@@ -74,12 +74,12 @@ const normalizeCreateEntryId = (entryId: string): string => {
     ? withoutExtension.slice(0, -'/index'.length)
     : withoutExtension;
   if (!normalized || normalized.startsWith('/') || normalized.includes('//')) {
-    throw new AdminContentEntryResolutionError('invalid-entry-id', `不支持的 content entryId：${entryId}`);
+    throw new AdminContentEntryResolutionError('invalid-entry-id', `Unsupported content entryId: ${entryId}`);
   }
 
   const segments = normalized.split('/');
   if (segments.some((segment) => !segment || segment === '.' || segment === '..')) {
-    throw new AdminContentEntryResolutionError('invalid-entry-id', `不支持的 content entryId：${entryId}`);
+    throw new AdminContentEntryResolutionError('invalid-entry-id', `Unsupported content entryId: ${entryId}`);
   }
 
   return normalized;
@@ -204,22 +204,22 @@ const parseBitsCreateDate = (
   frontmatter: unknown
 ): { entryId?: string; date?: string; issues: AdminContentValidationIssue[] } => {
   if (!isRecord(frontmatter)) {
-    return { issues: [createIssue('frontmatter', 'frontmatter 必须是对象')] };
+    return { issues: [createIssue('frontmatter', 'frontmatter must be an object')] };
   }
 
   const input = typeof frontmatter.date === 'string' ? frontmatter.date.trim() : '';
   if (!input) {
-    return { issues: [createIssue('date', 'bits.date 不能为空')] };
+    return { issues: [createIssue('date', 'bits.date cannot be empty')] };
   }
 
   const match = BITS_CREATE_DATETIME_RE.exec(input);
   if (!match) {
-    return { issues: [createIssue('date', 'bits.date 必须是带时区的 YYYY-MM-DDTHH:mm:ss±HH:mm 格式')] };
+    return { issues: [createIssue('date', 'bits.date must be in the YYYY-MM-DDTHH:mm:ss±HH:mm format with a timezone')] };
   }
 
   const [, year, month, day, hour, minute, offset] = match;
   if (!year || !month || !day || !hour || !minute || !offset || !isValidCalendarDate(year, month, day)) {
-    return { issues: [createIssue('date', 'bits.date 不是合法日期时间')] };
+    return { issues: [createIssue('date', 'bits.date is not a valid date/time')] };
   }
 
   return {
@@ -230,7 +230,7 @@ const parseBitsCreateDate = (
 };
 
 const assertUnsupportedCreateCollection = (collection: never): never => {
-  throw new AdminContentEntryResolutionError('invalid-entry-id', `当前 collection 暂未实现新增：${String(collection)}`);
+  throw new AdminContentEntryResolutionError('invalid-entry-id', `Creating entries is not yet implemented for this collection: ${String(collection)}`);
 };
 
 const buildEssayContentCreatePlan = async (
@@ -241,7 +241,7 @@ const buildEssayContentCreatePlan = async (
   const sourcePathCandidates = getAdminContentEntrySourcePathCandidates(collection, entryId);
   const [sourcePath] = sourcePathCandidates;
   if (!sourcePath) {
-    throw new AdminContentEntryResolutionError('source-not-found', `未找到 content 源文件候选：${collection}/${entryId}`);
+    throw new AdminContentEntryResolutionError('source-not-found', `No candidate content source file found: ${collection}/${entryId}`);
   }
   const relativePath = toAdminContentRelativeProjectPath(sourcePath);
   const publicEntryId = contentSourceEntryIdToPublicEntryId(entryId) || entryId;
@@ -288,7 +288,7 @@ const buildEssayContentCreatePlan = async (
       relativePath,
       sourceText: '',
       editHref: getAdminContentEntryEditHref(collection, entryId),
-      issues: [createIssue('entryId', `源文件已存在：${toAdminContentRelativeProjectPath(existingSourcePath)}`)]
+      issues: [createIssue('entryId', `Source file already exists: ${toAdminContentRelativeProjectPath(existingSourcePath)}`)]
     };
   }
 
@@ -358,7 +358,7 @@ const buildBitsContentCreatePlan = async (
   const sourcePathCandidates = getAdminContentEntrySourcePathCandidates(collection, entryId);
   const [sourcePath] = sourcePathCandidates;
   if (!sourcePath) {
-    throw new AdminContentEntryResolutionError('source-not-found', `未找到 content 源文件候选：${collection}/${entryId}`);
+    throw new AdminContentEntryResolutionError('source-not-found', `No candidate content source file found: ${collection}/${entryId}`);
   }
   const relativePath = toAdminContentRelativeProjectPath(sourcePath);
   const publicEntryId = contentSourceEntryIdToPublicEntryId(entryId) || entryId;
@@ -376,7 +376,7 @@ const buildBitsContentCreatePlan = async (
       relativePath,
       sourceText: '',
       editHref,
-      issues: [createIssue('entryId', `源文件已存在：${toAdminContentRelativeProjectPath(existingSourcePath)}`)]
+      issues: [createIssue('entryId', `Source file already exists: ${toAdminContentRelativeProjectPath(existingSourcePath)}`)]
     };
   }
 

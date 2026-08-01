@@ -79,8 +79,8 @@ const createEntryResolutionErrorResponse = (error: unknown): Response | null => 
 const extractDeleteInput = (body: unknown): DeleteInput => {
   if (!isRecord(body)) {
     return {
-      errors: ['请求体必须是 JSON 对象'],
-      issues: [{ path: 'body', message: '请求体必须是 JSON 对象' }]
+      errors: ['Request body must be a JSON object'],
+      issues: [{ path: 'body', message: 'Request body must be a JSON object' }]
     };
   }
 
@@ -95,15 +95,15 @@ const extractDeleteInput = (body: unknown): DeleteInput => {
   let collection: AdminContentDeletableCollectionKey | undefined;
 
   if (!rawCollection) {
-    const message = '请求体缺少 collection';
+    const message = 'Request body is missing collection';
     errors.push(message);
     issues.push({ path: 'collection', message });
   } else if (!isAdminContentCollectionKey(rawCollection)) {
-    const message = `不支持的 content collection：${rawCollection}；仅支持 ${ADMIN_CONTENT_COLLECTION_KEYS.join(' / ')}`;
+    const message = `Unsupported content collection: ${rawCollection}; only ${ADMIN_CONTENT_COLLECTION_KEYS.join(' / ')} are supported`;
     errors.push(message);
     issues.push({ path: 'collection', message });
   } else if (!isAdminContentDeletableCollectionKey(rawCollection)) {
-    const message = getAdminContentDeleteUnsupportedReason(rawCollection) ?? `当前 collection 暂不支持删除：${rawCollection}`;
+    const message = getAdminContentDeleteUnsupportedReason(rawCollection) ?? `This collection does not currently support deletion: ${rawCollection}`;
     errors.push(message);
     issues.push({ path: 'collection', message });
   } else {
@@ -111,19 +111,19 @@ const extractDeleteInput = (body: unknown): DeleteInput => {
   }
 
   if (!entryId) {
-    const message = '请求体缺少 entryId';
+    const message = 'Request body is missing entryId';
     errors.push(message);
     issues.push({ path: 'entryId', message });
   }
 
   if (!revision) {
-    const message = '请求体缺少 revision';
+    const message = 'Request body is missing revision';
     errors.push(message);
     issues.push({ path: 'revision', message });
   }
 
   if (!expectedRelativePath) {
-    const message = '请求体缺少 expectedRelativePath';
+    const message = 'Request body is missing expectedRelativePath';
     errors.push(message);
     issues.push({ path: 'expectedRelativePath', message });
   }
@@ -151,13 +151,13 @@ export const POST: APIRoute = async ({ request, url }) => {
     return DEV_ONLY_NOT_FOUND_RESPONSE.clone();
   }
 
-  const requestError = validateAdminJsonWriteRequest(request, url, 'Content Console entry', '删除');
+  const requestError = validateAdminJsonWriteRequest(request, url, 'Content Console entry', 'delete');
   if (requestError) {
     return createJsonErrorResponse(requestError.status, [requestError.error]);
   }
 
   const bodyResult = await readAdminJsonRequestBody(request, {
-    emptyBodyError: '请求体为空，请确认已发送 JSON 字符串'
+    emptyBodyError: 'Request body is empty — make sure a JSON string was sent'
   });
   if (!bodyResult.ok) {
     return createJsonErrorResponse(bodyResult.status, [bodyResult.error]);
@@ -202,7 +202,7 @@ export const POST: APIRoute = async ({ request, url }) => {
       if (errorResponse) return errorResponse;
 
       console.error('[astro-whono] Failed to delete admin content entry:', error);
-      return createJsonErrorResponse(500, ['删除内容文件失败，请检查本地文件权限或日志']);
+      return createJsonErrorResponse(500, ['Failed to delete the content file — check local file permissions or logs']);
     }
   });
 };

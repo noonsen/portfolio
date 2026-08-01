@@ -94,7 +94,7 @@ type Props = {
   bitsOutlineItems?: EditorOutlineListSourceItem[];
 };
 
-const LEAVE_CONFIRM_MESSAGE = '当前内容尚未保存，确认离开此页面？';
+const LEAVE_CONFIRM_MESSAGE = 'Current content is unsaved. Leave this page anyway?';
 const BITS_INFO_TRIGGER_SELECTOR = '[data-admin-bits-info-trigger]';
 const PAGE_ACTIONS_HOST_SELECTOR = '[data-admin-editor-page-actions-host]';
 const BITS_INFO_PANEL_ID = 'admin-editor-frontmatter-panel';
@@ -275,15 +275,15 @@ const markDirty = () => {
 };
 
 const handleImageToolRequest = () => {
-  setStatus('warn', '正文图片请在卡片图片区维护');
+  setStatus('warn', 'Manage body images in the card image section');
 };
 
 const openGalleryInsert = () => {
-  setStatus('warn', '正文暂不提供图片画廊');
+  setStatus('warn', 'Image gallery is not available in the body');
 };
 
 const handleGalleryEditRequest = () => {
-  setStatus('warn', '正文暂不提供图片画廊');
+  setStatus('warn', 'Image gallery is not available in the body');
 };
 
 const setBodyScrollElement = (element: HTMLElement | null) => {
@@ -367,6 +367,7 @@ const resetBitsInfoToBaseline = () => {
   setStatus('idle', '');
 };
 
+
 const closeBitsInfoPanel = () => {
   bitsInfoOpen = false;
 };
@@ -423,7 +424,7 @@ const applyLatestBaseline = (latestValues: AdminBitsEditorValues | null, latestB
 const requestContentWrite = async () => {
   busy = true;
   clearWriteFeedback();
-  setStatus('loading', '正在保存内容');
+  setStatus('loading', 'Saving content');
 
   try {
     const saveOutcome = await saveContentEntry({
@@ -441,7 +442,7 @@ const requestContentWrite = async () => {
       issues = saveOutcome.issues;
       const nextErrors = saveOutcome.errors.length > 0
         ? saveOutcome.errors
-        : ['保存失败，请检查当前内容与磁盘状态'];
+        : ['Save failed. Check the current content and disk state'];
       if (saveOutcome.status === 409 && applyLatestBaseline(
         isBitsEditorValues(saveOutcome.latestValues) ? saveOutcome.latestValues : null,
         saveOutcome.latestBody
@@ -449,30 +450,30 @@ const requestContentWrite = async () => {
         if (saveOutcome.revision) currentRevision = saveOutcome.revision;
         errors = [
           ...nextErrors,
-          '已载入磁盘最新版本作为冲突基线，当前编辑内容仍保留。请核对后再次保存，或通过“还原更改”载入磁盘版本。'
+          'The latest version on disk has been loaded as the conflict baseline; your current edits are preserved. Review and save again, or load the disk version via "Reset changes".'
         ];
-        setStatus('warn', '检测到外部更新，草稿已保留');
+        setStatus('warn', 'External update detected, draft preserved');
         return;
       }
 
       errors = nextErrors;
-      setStatus(saveOutcome.status === 409 ? 'warn' : 'error', saveOutcome.status === 409 ? '检测到外部更新' : '写入失败');
+      setStatus(saveOutcome.status === 409 ? 'warn' : 'error', saveOutcome.status === 409 ? 'External update detected' : 'Write failed');
       return;
     }
 
     const result = saveOutcome.result;
     if (!result) {
-      errors = ['响应体缺少 result 字段，请检查开发日志'];
-      setStatus('error', '写入响应异常');
+      errors = ['Response body is missing the result field. Check dev logs'];
+      setStatus('error', 'Unexpected write response');
       return;
     }
 
     writeResult = result;
     commitLatestValues(isBitsEditorValues(saveOutcome.latestValues) ? saveOutcome.latestValues : null, saveOutcome.latestBody);
-    setStatus(result.changed ? 'ok' : 'ready', result.changed ? '内容已保存' : '当前没有变更');
+    setStatus(result.changed ? 'ok' : 'ready', result.changed ? 'Content saved' : 'No changes');
   } catch {
-    errors = ['保存请求失败，请稍后重试'];
-    setStatus('error', '保存请求失败');
+    errors = ['Save request failed. Please try again later'];
+    setStatus('error', 'Save request failed');
   } finally {
     busy = false;
   }
@@ -498,7 +499,7 @@ const requestPreview = async (sourceSnapshot: string) => {
 
     const previewResult = previewOutcome.result;
     if (!previewOutcome.responseOk || !previewOutcome.payloadOk || !previewResult) {
-      previewError = previewOutcome.errors[0] ?? '预览生成失败，请检查响应与控制台日志';
+      previewError = previewOutcome.errors[0] ?? 'Preview generation failed. Check the response and console logs';
       return;
     }
 
@@ -506,7 +507,7 @@ const requestPreview = async (sourceSnapshot: string) => {
     previewWarnings = previewResult.warnings;
   } catch {
     if (previewRequest.signal.aborted || !previewRequest.isCurrent()) return;
-    previewError = '预览请求失败，请稍后重试';
+    previewError = 'Preview request failed. Please try again later';
   } finally {
     if (previewRequest.isCurrent()) {
       previewBusy = false;
@@ -519,7 +520,7 @@ const storeContentListDeleteFeedback = () => {
   try {
     window.sessionStorage.setItem(CONTENT_LIST_DELETE_FEEDBACK_STORAGE_KEY, CONTENT_LIST_DELETE_FEEDBACK_VALUE);
   } catch {
-    // 删除后的列表反馈只改善返回体验，不影响删除主流程。
+    // The post-delete list feedback only improves the return experience; it does not affect the main delete flow.
   }
 };
 
@@ -527,23 +528,23 @@ const deleteContentEntry = async (event: MouseEvent) => {
   closeActionMenu(event.currentTarget);
 
   if (busy) {
-    setStatus('warn', '操作进行中');
+    setStatus('warn', 'Operation in progress');
     return;
   }
 
   const confirmed = window.confirm([
-    `确认删除《${editorAdapter.getDeleteTitle(frontmatter, entryId)}》？`,
+    `Delete "${editorAdapter.getDeleteTitle(frontmatter, entryId)}"?`,
     '',
-    `源文件：${relativePath}`,
-    ...(dirty ? ['', '当前未保存改动不会写入文件，删除会移动当前源文件。'] : []),
+    `Source file: ${relativePath}`,
+    ...(dirty ? ['', 'Unsaved changes will not be written to the file; deleting will move the current source file.'] : []),
     '',
-    '文件会移到 .trash/content/，之后可从回收站手动恢复。'
+    'The file will be moved to .trash/content/, and can be restored manually from the trash afterward.'
   ].join('\n'));
   if (!confirmed) return;
 
   busy = true;
   clearWriteFeedback();
-  setStatus('loading', '正在移动到回收站');
+  setStatus('loading', 'Moving to trash');
 
   try {
     const deleteOutcome = await requestContentDelete({
@@ -558,15 +559,15 @@ const deleteContentEntry = async (event: MouseEvent) => {
     if (!deleteOutcome.responseOk || !deleteOutcome.payloadOk) {
       errors = deleteOutcome.errors;
       issues = deleteOutcome.issues;
-      setStatus(deleteOutcome.status === 409 ? 'warn' : 'error', deleteOutcome.errors[0] ?? '删除失败');
+      setStatus(deleteOutcome.status === 409 ? 'warn' : 'error', deleteOutcome.errors[0] ?? 'Delete failed');
       return;
     }
 
     const result = deleteOutcome.result;
     if (!result || !result.deleted || !result.trashedPath) {
-      errors = ['删除响应异常，请检查开发日志'];
+      errors = ['Unexpected delete response. Check dev logs'];
       issues = [];
-      setStatus('error', '删除响应异常');
+      setStatus('error', 'Unexpected delete response');
       return;
     }
 
@@ -575,9 +576,9 @@ const deleteContentEntry = async (event: MouseEvent) => {
     storeContentListDeleteFeedback();
     window.location.assign(returnHref || '/admin/content/');
   } catch {
-    errors = ['删除请求失败，请稍后重试'];
+    errors = ['Delete request failed. Please try again later'];
     issues = [];
-    setStatus('error', '删除请求失败');
+    setStatus('error', 'Delete request failed');
   } finally {
     busy = false;
   }
@@ -598,7 +599,7 @@ $effect(() => {
       isDirty: () => dirty || imageUploadPending,
       message: LEAVE_CONFIRM_MESSAGE,
       onBlocked: () => {
-        setStatus('warn', imageUploadPending ? '请等待图片上传完成' : '请先保存或还原');
+        setStatus('warn', imageUploadPending ? 'Please wait for the image upload to finish' : 'Please save or reset first');
       }
     },
     articleInfoTrigger: {
@@ -763,11 +764,11 @@ onMount(() => {
     {dirty}
     {returnHref}
     {exportHref}
-    actionLabel="内容操作"
-    moreLabel="更多内容操作"
-    saveLabel="保存内容"
-    downloadLabel="下载源文件"
-    deleteLabel="删除内容"
+    actionLabel="Content actions"
+    moreLabel="More content actions"
+    saveLabel="Save content"
+    downloadLabel="Download source file"
+    deleteLabel="Delete content"
     onSave={requestContentWrite}
     onReset={handleActionMenuReset}
     onDownload={handleActionMenuDownload}
@@ -806,9 +807,9 @@ onMount(() => {
     {markdownOutlineItems}
     {outlineListItems}
     outlineHeadingsEnabled={false}
-    outlineListTabLabel="动态列表"
-    outlineListEmptyText="暂无絮语"
-    outlinePanelLabel="动态辅助目录"
+    outlineListTabLabel="Feed list"
+    outlineListEmptyText="No bits yet"
+    outlinePanelLabel="Feed outline panel"
     onBodyScrollElementChange={setBodyScrollElement}
     onBodyOutlineJump={handleBodyOutlineJump}
     onImageToolRequest={handleImageToolRequest}
@@ -867,8 +868,8 @@ onMount(() => {
     disabled={editorBusy}
     dirty={bitsInfoDirty}
     canSave={!editorBusy && bitsInfoDirty}
-    dialogTitle="修改信息"
-    fieldsAriaLabel="标题、摘要与作者"
+    dialogTitle="Edit info"
+    fieldsAriaLabel="Title, summary, and author"
     bitsDefaultAuthor={defaultAuthor}
     fieldScope="bits-summary"
     onDirty={markDirty}

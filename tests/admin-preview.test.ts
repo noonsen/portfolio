@@ -21,10 +21,10 @@ describe('admin preview api', () => {
         source: [
           '# Preview',
           '',
-          ':::warning[注意]',
+          ':::warning[Notice]',
           '<script>alert("x")</script>',
           '',
-          '<figure class="figure"><figcaption>说明</figcaption></figure>',
+          '<figure class="figure"><figcaption>Caption</figcaption></figure>',
           ':::'
         ].join('\n')
       }),
@@ -150,10 +150,10 @@ describe('admin preview api', () => {
 
     const result = await renderAdminMarkdownPreview({
       collection: 'essay',
-      source: ['~~删除线~~', '', '- [x] 已完成', '- [ ] 待办事项'].join('\n')
+      source: ['~~strikethrough~~', '', '- [x] Done', '- [ ] Todo item'].join('\n')
     });
 
-    expect(result.html).toContain('<del>删除线</del>');
+    expect(result.html).toContain('<del>strikethrough</del>');
     expect(result.html).toContain('<input type="checkbox" checked disabled>');
     expect(result.html).toContain('<input type="checkbox" disabled>');
   });
@@ -273,13 +273,13 @@ describe('admin preview api', () => {
           'Should not render as a card.',
           ':::',
           '',
-          ':::faq{question="能编辑吗？"}',
-          '可以。',
+          ':::faq{question="Can this be edited?"}',
+          'Yes.',
           '',
-          '::site-info{name="Whono" url="https://astro.whono.me/" description="一个极简的双栏 Astro 主题" avatar="author/avatar.webp"}',
+          '::site-info{name="Whono" url="https://astro.whono.me/" description="A minimal two-column Astro theme" avatar="author/avatar.webp"}',
           ':::',
           '',
-          '## 联系',
+          '## Contact',
           '',
           '::contact-links'
         ].join('\n')
@@ -298,13 +298,13 @@ describe('admin preview api', () => {
     expect(payload.result.html).toContain('href="https://alice.example/"');
     expect(payload.result.html).toContain('src="/friends/alice.webp"');
     expect(payload.result.html).toContain('Engineer');
-    expect(payload.result.html).toContain('<div class="qa-list" aria-label="常见问题">');
+    expect(payload.result.html).toContain('<div class="qa-list" aria-label="FAQ">');
     expect(payload.result.html).toContain('<summary class="qa-question">');
-    expect(payload.result.html).toContain('能编辑吗？');
+    expect(payload.result.html).toContain('Can this be edited?');
     expect(payload.result.html).toContain('class="about-site-info"');
     expect(payload.result.html).toContain('data-about-site-info-copy');
     expect(payload.result.html).toContain('data-about-copy-text=');
-    expect(payload.result.html).toContain('<dt class="about-site-info__field-label">名称</dt>');
+    expect(payload.result.html).toContain('<dt class="about-site-info__field-label">Name</dt>');
     expect(payload.result.html).toContain('<dd class="about-site-info__field-value">Whono</dd>');
     expect(payload.result.html).toContain('avatar: author/avatar.webp');
     expect(payload.result.html).not.toContain('about-site-info__avatar');

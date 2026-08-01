@@ -62,7 +62,7 @@ const exportOneEntry = async (
     return {
       result: createResult(entry, {
         status: 'skipped',
-        errors: [`不支持的 content collection：${entry.collection}`],
+        errors: [`Unsupported content collection: ${entry.collection}`],
         errorCodes: ['unsupported_collection']
       }),
       file: null
@@ -73,7 +73,7 @@ const exportOneEntry = async (
     return {
       result: createResult(entry, {
         status: 'skipped',
-        errors: [`当前 collection 暂不支持导出：${entry.collection}`],
+        errors: [`Export is not supported for this collection: ${entry.collection}`],
         errorCodes: ['unsupported_collection']
       }),
       file: null
@@ -87,7 +87,7 @@ const exportOneEntry = async (
         result: createResult(entry, {
           status: 'failed',
           relativePath: download.relativePath,
-          errors: ['检测到内容文件路径与列表不一致，请刷新后重试'],
+          errors: ['Detected a mismatch between the content file path and the list; please refresh and try again'],
           errorCodes: ['relative_path_mismatch']
         }),
         file: null
@@ -120,7 +120,7 @@ const exportOneEntry = async (
     return {
       result: createResult(entry, {
         status: 'failed',
-        errors: ['导出内容源文件失败，请检查本地文件权限或日志'],
+        errors: ['Failed to export content source file. Check local file permissions or logs.'],
         errorCodes: ['export_failed']
       }),
       file: null
@@ -155,32 +155,32 @@ const createHeaderSummary = (
 };
 
 const getReportStatusLabel = (status: AdminContentBulkResult['status']): string => {
-  if (status === 'succeeded') return '成功';
-  if (status === 'unchanged') return '无需修改';
-  if (status === 'skipped') return '跳过';
-  return '失败';
+  if (status === 'succeeded') return 'Succeeded';
+  if (status === 'unchanged') return 'No changes needed';
+  if (status === 'skipped') return 'Skipped';
+  return 'Failed';
 };
 
 const formatReportList = (title: string, results: readonly AdminContentBulkResult[]): string[] => {
   const lines = [`## ${title}`, ''];
   if (results.length === 0) {
-    lines.push('无。', '');
+    lines.push('None.', '');
     return lines;
   }
 
   for (const result of results) {
     lines.push(`- ${result.collection}/${result.entryId}`);
-    lines.push(`  - 状态：${getReportStatusLabel(result.status)}`);
-    if (result.relativePath) lines.push(`  - 路径：${result.relativePath}`);
-    if (result.trashedPath) lines.push(`  - 回收站路径：${result.trashedPath}`);
+    lines.push(`  - Status: ${getReportStatusLabel(result.status)}`);
+    if (result.relativePath) lines.push(`  - Path: ${result.relativePath}`);
+    if (result.trashedPath) lines.push(`  - Trash path: ${result.trashedPath}`);
     if (result.changedFields && result.changedFields.length > 0) {
-      lines.push(`  - 变更字段：${result.changedFields.join(', ')}`);
+      lines.push(`  - Changed fields: ${result.changedFields.join(', ')}`);
     }
     if (result.errorCodes && result.errorCodes.length > 0) {
-      lines.push(`  - 错误码：${result.errorCodes.join(', ')}`);
+      lines.push(`  - Error codes: ${result.errorCodes.join(', ')}`);
     }
     if (result.errors && result.errors.length > 0) {
-      lines.push(`  - 错误信息：${result.errors.join('；')}`);
+      lines.push(`  - Errors: ${result.errors.join('; ')}`);
     }
   }
 
@@ -196,20 +196,20 @@ const createExportReportMarkdown = (
   const skipped = results.filter((result) => result.status === 'skipped');
   const failed = results.filter((result) => result.status === 'failed');
   const lines = [
-    '# Admin Content 批量下载报告',
+    '# Admin Content Bulk Export Report',
     '',
-    '## 摘要',
+    '## Summary',
     '',
-    `- 请求数量：${summary.requested}`,
-    `- 已处理：${summary.processed}`,
-    `- 成功：${summary.succeeded}`,
-    `- 无需修改：${summary.unchanged}`,
-    `- 跳过：${summary.skipped}`,
-    `- 失败：${summary.failed}`,
+    `- Requested: ${summary.requested}`,
+    `- Processed: ${summary.processed}`,
+    `- Succeeded: ${summary.succeeded}`,
+    `- No changes needed: ${summary.unchanged}`,
+    `- Skipped: ${summary.skipped}`,
+    `- Failed: ${summary.failed}`,
     '',
-    ...formatReportList('成功', succeeded),
-    ...formatReportList('跳过', skipped),
-    ...formatReportList('失败', failed)
+    ...formatReportList('Succeeded', succeeded),
+    ...formatReportList('Skipped', skipped),
+    ...formatReportList('Failed', failed)
   ];
 
   return `${lines.join('\n')}\n`;
@@ -228,13 +228,13 @@ export const POST: APIRoute = async ({ request, url }) => {
     return DEV_ONLY_NOT_FOUND_RESPONSE.clone();
   }
 
-  const requestError = validateAdminJsonWriteRequest(request, url, 'Content Console bulk export', '批量导出');
+  const requestError = validateAdminJsonWriteRequest(request, url, 'Content Console bulk export', 'bulk export');
   if (requestError) {
     return createAdminJsonErrorResponse(requestError.status, [requestError.error]);
   }
 
   const bodyResult = await readAdminJsonRequestBody(request, {
-    emptyBodyError: '请求体为空，请确认已发送 JSON 字符串'
+    emptyBodyError: 'Request body is empty. Please confirm a JSON string was sent.'
   });
   if (!bodyResult.ok) {
     return createAdminJsonErrorResponse(bodyResult.status, [bodyResult.error]);
@@ -259,7 +259,7 @@ export const POST: APIRoute = async ({ request, url }) => {
       JSON.stringify(
         {
           ok: false,
-          errors: ['没有可导出的内容条目'],
+          errors: ['No content entries available to export'],
           summary,
           results
         },

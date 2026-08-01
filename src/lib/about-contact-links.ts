@@ -74,7 +74,7 @@ export const renderAboutContactLinksHtml = (
   ].join(''));
 
   return [
-    '<div class="contact-block" aria-label="联系方式">',
+    '<div class="contact-block" aria-label="Contact">',
     '<ul class="contact-list">',
     ...listItems,
     '</ul>',

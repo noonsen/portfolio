@@ -55,7 +55,7 @@ describe('admin-console/settings-data', () => {
 
     expect(parsed.ok).toBe(false);
     if (!parsed.ok) {
-      expect(parsed.errors).toContain('manifest.includedScopes 必须包含 settings');
+      expect(parsed.errors).toContain('manifest.includedScopes must include settings');
     }
   });
 

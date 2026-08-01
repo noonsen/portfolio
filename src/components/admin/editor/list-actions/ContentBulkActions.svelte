@@ -34,7 +34,7 @@ import {
 import { dispatchAdminContentStatus } from './content-action-status-events';
 import type { AdminStatusFeedbackOptions, StatusState } from './content-action-feedback';
 
-// 该组件仅用于 DEV 内容控制台；生产构建不会加载批量管理 UI。
+// This component is only used in the DEV content console; production builds do not load the bulk management UI.
 
 type BulkEntry = {
   collection: string;
@@ -97,11 +97,11 @@ const getEntryKey = (entry: { collection: string; entryId: string }): string =>
   `${entry.collection}\u0000${entry.entryId}`;
 
 const getErrorMessageFromCodes = (codes: readonly string[]): string => {
-  if (codes.includes('relative_path_mismatch')) return '列表已过期，请刷新后重试';
-  if (codes.includes('source_not_found')) return '源文件不存在，请刷新后重试';
-  if (codes.includes('invalid_entry_id')) return '内容无效，请刷新后重试';
-  if (codes.includes('unsupported_collection')) return '当前内容类型暂不支持此操作';
-  if (codes.includes('export_failed')) return '导出内容源文件失败，请检查本地文件权限或日志';
+  if (codes.includes('relative_path_mismatch')) return 'The list is stale, please refresh and try again';
+  if (codes.includes('source_not_found')) return 'Source file does not exist, please refresh and try again';
+  if (codes.includes('invalid_entry_id')) return 'Invalid content, please refresh and try again';
+  if (codes.includes('unsupported_collection')) return 'This content type does not support this operation yet';
+  if (codes.includes('export_failed')) return 'Failed to export content source file, please check local file permissions or logs';
   return codes.join(', ');
 };
 
@@ -121,7 +121,7 @@ const getSelectedEntries = (): BulkEntry[] =>
 
 const refreshSelected = () => {
   selected = getSelectedEntries();
-  // 列表刷新前保留完成提示，避免选中项变化时提前清空状态。
+  // Keep the completion message before the list refreshes, to avoid clearing status early when selection changes.
   if (selected.length === 0 && !reloading) {
     clearStatus();
     menuEl?.removeAttribute('open');
@@ -158,10 +158,10 @@ const toRequestEntry = (entry: BulkEntry) => ({
   expectedRelativePath: entry.expectedRelativePath
 });
 
-// 与服务端共用同一上限，超限时提前拦截，避免整单 400。
+// Shares the same limit as the server; intercept early when exceeded to avoid a whole-batch 400.
 const exceedsBulkLimit = (count: number): boolean => {
   if (count <= ADMIN_CONTENT_BULK_ENTRY_LIMIT) return false;
-  setStatus('warn', `一次最多处理 ${ADMIN_CONTENT_BULK_ENTRY_LIMIT} 条，请减少选中数量`, { autoClear: true });
+  setStatus('warn', `A maximum of ${ADMIN_CONTENT_BULK_ENTRY_LIMIT} items can be processed at once, please reduce the selection`, { autoClear: true });
   return true;
 };
 
@@ -252,13 +252,13 @@ const showResult = (options: ResultDialogOptions) => {
   menuEl?.removeAttribute('open');
 };
 
-// 批量写入成功后等待内容列表刷新，再恢复结果弹窗，避免当前页和刷新后重复展示。
-// 若列表没有自动刷新，延迟触发一次刷新，保证用户能看到最新列表和本次结果。
+// After a bulk write succeeds, wait for the content list to refresh before restoring the result dialog, to avoid showing it twice (current page and after refresh).
+// If the list doesn't refresh automatically, trigger a delayed refresh so the user still sees the latest list and this result.
 const reloadWithResult = (options: ResultDialogOptions) => {
   storeContentBulkResultDialog(createResultDialog(options));
   menuEl?.removeAttribute('open');
   reloading = true;
-  setStatus('loading', '已完成，正在刷新列表…');
+  setStatus('loading', 'Done, refreshing list…');
   window.setTimeout(() => window.location.reload(), RELOAD_FALLBACK_DELAY_MS);
 };
 
@@ -290,13 +290,13 @@ const runStatus = async (targetDraft: boolean) => {
   if (actionsDisabled) return;
   const entries = selected;
   if (entries.length === 0 || statusCount === 0) {
-    setStatus('warn', '没有可更新状态的内容', { autoClear: true });
+    setStatus('warn', 'No content to update status for', { autoClear: true });
     return;
   }
   if (exceedsBulkLimit(entries.length)) return;
 
   busy = true;
-  setStatus('loading', targetDraft ? '正在改为草稿' : '正在发布');
+  setStatus('loading', targetDraft ? 'Switching to draft' : 'Publishing');
   try {
     const { response, payload } = await postJson(statusEndpoint, {
       targetDraft,
@@ -305,10 +305,10 @@ const runStatus = async (targetDraft: boolean) => {
     const results = attachEntryTitles(parseBulkResults(payload), entries);
     if (!response.ok || !isPayloadOk(payload)) {
       const errors = getPayloadErrors(payload);
-      setStatus('error', errors[0] ?? '批量状态更新失败');
+      setStatus('error', errors[0] ?? 'Bulk status update failed');
       showResult({
         kind: 'status',
-        title: targetDraft ? '批量改草稿' : '批量发布',
+        title: targetDraft ? 'Bulk switch to draft' : 'Bulk publish',
         requested: entries.length,
         results
       });
@@ -317,7 +317,7 @@ const runStatus = async (targetDraft: boolean) => {
 
     const dialogOptions: ResultDialogOptions = {
       kind: 'status',
-      title: targetDraft ? '批量改草稿' : '批量发布',
+      title: targetDraft ? 'Bulk switch to draft' : 'Bulk publish',
       requested: entries.length,
       results,
       summary: parseBulkSummary(payload)
@@ -329,7 +329,7 @@ const runStatus = async (targetDraft: boolean) => {
     clearStatus();
     showResult(dialogOptions);
   } catch {
-    setStatus('error', '批量状态请求失败，请稍后重试');
+    setStatus('error', 'Bulk status request failed, please try again later');
   } finally {
     busy = false;
   }
@@ -365,7 +365,7 @@ const prefetchDeleteEntries = async (entries: readonly BulkEntry[]) => {
           entryId: entry.entryId,
           title: entry.title,
           status: 'skipped',
-          errors: [`当前 collection 暂不支持删除：${entry.collection}`],
+          errors: [`This collection does not support deletion yet: ${entry.collection}`],
           errorCodes: ['unsupported_collection'],
           changedFields: []
         });
@@ -381,12 +381,12 @@ const prefetchDeleteEntries = async (entries: readonly BulkEntry[]) => {
         const payload = await parseResponseBody(response);
         const entryPayload = getPayloadEditorPayload(payload);
         if (!response.ok || !isPayloadOk(payload) || !entryPayload || entryPayload.collection !== entry.collection) {
-          rejected.push(createPrefetchFailure(entry, getPayloadErrors(payload)[0] ?? '删除确认失败，请刷新后重试', 'prefetch_failed'));
+          rejected.push(createPrefetchFailure(entry, getPayloadErrors(payload)[0] ?? 'Delete confirmation failed, please refresh and try again', 'prefetch_failed'));
           return;
         }
 
         if (entryPayload.relativePath !== entry.expectedRelativePath) {
-          rejected.push(createPrefetchFailure(entry, '列表已过期，请刷新后再删除', 'relative_path_mismatch'));
+          rejected.push(createPrefetchFailure(entry, 'The list is stale, please refresh before deleting', 'relative_path_mismatch'));
           return;
         }
 
@@ -396,7 +396,7 @@ const prefetchDeleteEntries = async (entries: readonly BulkEntry[]) => {
           expectedRelativePath: entryPayload.relativePath
         });
       } catch {
-        rejected.push(createPrefetchFailure(entry, '删除确认请求失败，请稍后重试', 'prefetch_failed'));
+        rejected.push(createPrefetchFailure(entry, 'Delete confirmation request failed, please try again later', 'prefetch_failed'));
       }
     }));
   }
@@ -406,9 +406,9 @@ const prefetchDeleteEntries = async (entries: readonly BulkEntry[]) => {
 
 const confirmBulkDelete = (count: number): boolean => {
   return window.confirm([
-    `确认删除 ${count} 个文件？`,
+    `Confirm deletion of ${count} file(s)?`,
     '',
-    '文件会移到 .trash/content/，之后可从回收站手动恢复。'
+    'Files will be moved to .trash/content/, and can be manually restored from the trash afterward.'
   ].join('\n'));
 };
 
@@ -416,20 +416,20 @@ const runDelete = async () => {
   if (actionsDisabled) return;
   const entries = selected;
   if (entries.length === 0 || deleteCount === 0) {
-    setStatus('warn', '没有可删除的文件', { autoClear: true });
+    setStatus('warn', 'No files to delete', { autoClear: true });
     return;
   }
   if (exceedsBulkLimit(entries.length)) return;
 
   busy = true;
-  setStatus('loading', '正在确认删除');
+  setStatus('loading', 'Confirming deletion');
   try {
     const { deletable, rejected } = await prefetchDeleteEntries(entries);
     if (deletable.length === 0) {
-      setStatus('warn', '没有可删除的文件', { autoClear: true });
+      setStatus('warn', 'No files to delete', { autoClear: true });
       showResult({
         kind: 'delete',
-        title: '批量删除',
+        title: 'Bulk delete',
         requested: entries.length,
         results: rejected
       });
@@ -437,11 +437,11 @@ const runDelete = async () => {
     }
 
     if (!confirmBulkDelete(deletable.length)) {
-      setStatus('ready', '已取消删除', { autoClear: true });
+      setStatus('ready', 'Deletion cancelled', { autoClear: true });
       return;
     }
 
-    setStatus('loading', '正在删除');
+    setStatus('loading', 'Deleting');
     const { response, payload } = await postJson(deleteEndpoint, {
       entries: deletable.map((entry) => ({
         ...toRequestEntry(entry),
@@ -451,10 +451,10 @@ const runDelete = async () => {
     const serverResults = attachEntryTitles(parseBulkResults(payload), entries);
     const results = [...rejected, ...serverResults];
     if (!response.ok || !isPayloadOk(payload)) {
-      setStatus('error', getPayloadErrors(payload)[0] ?? '批量删除失败');
+      setStatus('error', getPayloadErrors(payload)[0] ?? 'Bulk delete failed');
       showResult({
         kind: 'delete',
-        title: '批量删除',
+        title: 'Bulk delete',
         requested: entries.length,
         results
       });
@@ -463,7 +463,7 @@ const runDelete = async () => {
 
     const dialogOptions: ResultDialogOptions = {
       kind: 'delete',
-      title: '批量删除',
+      title: 'Bulk delete',
       requested: entries.length,
       results
     };
@@ -474,7 +474,7 @@ const runDelete = async () => {
     clearStatus();
     showResult(dialogOptions);
   } catch {
-    setStatus('error', '批量删除请求失败，请稍后重试');
+    setStatus('error', 'Bulk delete request failed, please try again later');
   } finally {
     busy = false;
   }
@@ -555,13 +555,13 @@ const runExport = async () => {
   if (actionsDisabled) return;
   const entries = selected;
   if (entries.length === 0 || exportCount === 0) {
-    setStatus('warn', '没有可下载的文件', { autoClear: true });
+    setStatus('warn', 'No files to download', { autoClear: true });
     return;
   }
   if (exceedsBulkLimit(entries.length)) return;
 
   busy = true;
-  setStatus('loading', '正在打包下载');
+  setStatus('loading', 'Packaging download');
   try {
     const response = await fetch(exportEndpoint, {
       method: 'POST',
@@ -578,10 +578,10 @@ const runExport = async () => {
     if (!response.ok) {
       const payload = await parseResponseBody(response);
       const results = attachEntryTitles(parseBulkResults(payload), entries);
-      setStatus('error', getPayloadErrors(payload)[0] ?? '批量下载失败');
+      setStatus('error', getPayloadErrors(payload)[0] ?? 'Bulk download failed');
       showResult({
         kind: 'export',
-        title: '批量下载',
+        title: 'Bulk download',
         requested: entries.length,
         results,
         summary: parseBulkSummary(payload)
@@ -596,7 +596,7 @@ const runExport = async () => {
     if (headerSummary) {
       showResult({
         kind: 'export',
-        title: '批量下载',
+        title: 'Bulk download',
         requested: entries.length,
         results: headerSummary.results,
         summary: headerSummary.summary,
@@ -605,7 +605,7 @@ const runExport = async () => {
     } else {
       showResult({
         kind: 'export',
-        title: '批量下载',
+        title: 'Bulk download',
         requested: entries.length,
         results: [],
         summary: {
@@ -616,11 +616,11 @@ const runExport = async () => {
           skipped: 0,
           failed: 0
         },
-        note: '已保存为 zip 文件。'
+        note: 'Saved as a zip file.'
       });
     }
   } catch {
-    setStatus('error', '批量下载请求失败，请稍后重试');
+    setStatus('error', 'Bulk download request failed, please try again later');
   } finally {
     busy = false;
   }
@@ -640,7 +640,7 @@ const handleDocumentChange = (event: Event) => {
 onMount(() => {
   resetSelectedCheckboxes();
   refreshSelected();
-  // 列表刷新后恢复上一次批量结果；用户关闭前继续保留，避免连续刷新丢失提示。
+  // Restore the previous bulk result after the list refreshes; keep it until the user closes it, to avoid losing the message on repeated refreshes.
   resultDialog = readContentBulkResultDialog();
   const cleanupDetailsMenus = initAdminDetailsMenus({
     selector: '.admin-content-bulk-menu'
@@ -659,33 +659,33 @@ onMount(() => {
     <span class="admin-content-bulk-separator" aria-hidden="true">｜</span>
     <details class="admin-content-bulk-menu" bind:this={menuEl}>
       <summary class="admin-content-bulk-trigger">
-        <span>批量操作</span>
+        <span>Bulk Actions</span>
         <span class="admin-content-bulk-trigger__count">{selectedCount}</span>
       </summary>
-      <div class="admin-content-bulk-menu__panel" aria-label="批量操作">
+      <div class="admin-content-bulk-menu__panel" aria-label="Bulk Actions">
         <button class="admin-content-menu-item" type="button" disabled={actionsDisabled || statusCount === 0} onclick={() => void runStatus(false)}>
           <AdminEditorIcon name="check" size={14} />
-          <span>发布</span>
+          <span>Publish</span>
           <span class="admin-content-bulk-menu__count">{statusCount}</span>
         </button>
         <button class="admin-content-menu-item" type="button" disabled={actionsDisabled || statusCount === 0} onclick={() => void runStatus(true)}>
           <AdminEditorIcon name="lock" size={14} />
-          <span>改草稿</span>
+          <span>Switch to Draft</span>
           <span class="admin-content-bulk-menu__count">{statusCount}</span>
         </button>
         <button class="admin-content-menu-item" type="button" disabled={actionsDisabled || exportCount === 0} onclick={() => void runExport()}>
           <AdminEditorIcon name="download" size={14} />
-          <span>下载</span>
+          <span>Download</span>
           <span class="admin-content-bulk-menu__count">{exportCount}</span>
         </button>
         <button class="admin-content-menu-item admin-content-menu-item--danger" type="button" disabled={actionsDisabled || deleteCount === 0} onclick={() => void runDelete()}>
           <AdminEditorIcon name="trash" size={14} />
-          <span>删除</span>
+          <span>Delete</span>
           <span class="admin-content-bulk-menu__count">{deleteCount}</span>
         </button>
       </div>
     </details>
-    <button class="admin-content-bulk-clear" type="button" disabled={actionsDisabled} onclick={clearSelection}>取消</button>
+    <button class="admin-content-bulk-clear" type="button" disabled={actionsDisabled} onclick={clearSelection}>Cancel</button>
   </div>
 {/if}
 

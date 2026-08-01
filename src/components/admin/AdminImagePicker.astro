@@ -21,7 +21,7 @@ const { listEndpoint, metaEndpoint } = Astro.props;
       <div class="admin-images-picker__topbar">
         <div class="admin-images-picker__copy">
           <h2 id="admin-images-picker-title" class="admin-images-picker__title" data-admin-images-picker-title>
-            选择本地图片
+            Choose local image
           </h2>
         </div>
         <span class="admin-images-picker__header-divider" aria-hidden="true"></span>
@@ -35,7 +35,7 @@ const { listEndpoint, metaEndpoint } = Astro.props;
             hidden
           >
             <AdminIcon name="funnel" size={16} />
-            <span>筛选</span>
+            <span>Filter</span>
           </button>
           <div
             id="admin-images-picker-filters"
@@ -46,25 +46,25 @@ const { listEndpoint, metaEndpoint } = Astro.props;
             <div class="admin-images-picker__filter-tabs" data-admin-images-picker-filter-tabs></div>
           </div>
           <label class="admin-field admin-field--compact admin-images-picker__search">
-            <span class="admin-sr-only">搜索路径或文件名</span>
+            <span class="admin-sr-only">Search by path or filename</span>
             <input
               class="admin-field__control"
               type="search"
               inputmode="search"
               autocomplete="off"
-              placeholder="搜索路径或文件名，如hero"
+              placeholder="Search by path or filename, e.g. hero"
               data-admin-images-picker-query
             />
           </label>
-          <p class="admin-images-picker__status" data-admin-images-picker-status aria-live="polite">等待加载</p>
+          <p class="admin-images-picker__status" data-admin-images-picker-status aria-live="polite">Waiting to load</p>
         </div>
         <div class="admin-images-picker__tool-actions">
           <button
             class="admin-btn admin-btn--tool admin-btn--compact admin-btn--icon admin-images-picker__tool-btn"
             type="button"
             data-admin-images-picker-view="list"
-            aria-label="列表视图"
-            title="列表视图"
+            aria-label="List view"
+            title="List view"
           >
             <AdminIcon name="list" size={18} />
           </button>
@@ -72,8 +72,8 @@ const { listEndpoint, metaEndpoint } = Astro.props;
             class="admin-btn admin-btn--tool admin-btn--compact admin-btn--icon admin-images-picker__tool-btn"
             type="button"
             data-admin-images-picker-view="grid"
-            aria-label="网格平铺视图"
-            title="网格平铺视图"
+            aria-label="Grid view"
+            title="Grid view"
           >
             <AdminIcon name="grid-tiles" size={18} />
           </button>
@@ -82,8 +82,8 @@ const { listEndpoint, metaEndpoint } = Astro.props;
           class="admin-btn admin-btn--tool admin-btn--compact admin-btn--icon admin-images-picker__icon-btn"
           type="button"
           data-admin-images-picker-close
-          aria-label="关闭"
-          title="关闭"
+          aria-label="Close"
+          title="Close"
         >
           <AdminIcon name="x-mark" size={18} />
         </button>
@@ -101,15 +101,15 @@ const { listEndpoint, metaEndpoint } = Astro.props;
 
     <div class="admin-images-picker__footer">
       <div class="admin-images-picker__footer-side admin-images-picker__footer-side--start">
-        <button class="admin-btn admin-btn--secondary" type="button" data-admin-images-picker-reset hidden>恢复默认</button>
+        <button class="admin-btn admin-btn--secondary" type="button" data-admin-images-picker-reset hidden>Restore default</button>
       </div>
-      <div class="admin-images-picker__pager" role="group" aria-label="图片列表分页">
+      <div class="admin-images-picker__pager" role="group" aria-label="Image list pagination">
         <button
           class="admin-btn admin-btn--tool admin-btn--compact admin-btn--icon admin-images-picker__pager-btn"
           type="button"
           data-admin-images-picker-prev
-          aria-label="上一页"
-          title="上一页"
+          aria-label="Previous page"
+          title="Previous page"
         >
           <AdminIcon
             name="chevron-down"
@@ -123,8 +123,8 @@ const { listEndpoint, metaEndpoint } = Astro.props;
           class="admin-btn admin-btn--tool admin-btn--compact admin-btn--icon admin-images-picker__pager-btn"
           type="button"
           data-admin-images-picker-next
-          aria-label="下一页"
-          title="下一页"
+          aria-label="Next page"
+          title="Next page"
         >
           <AdminIcon
             name="chevron-down"
@@ -136,7 +136,7 @@ const { listEndpoint, metaEndpoint } = Astro.props;
       </div>
       <div class="admin-images-picker__footer-side admin-images-picker__footer-side--end">
         <div class="admin-images-picker__actions">
-          <button class="admin-btn admin-btn--primary" type="button" data-admin-images-picker-confirm disabled>使用所选图片</button>
+          <button class="admin-btn admin-btn--primary" type="button" data-admin-images-picker-confirm disabled>Use selected image</button>
         </div>
       </div>
     </div>

@@ -13,7 +13,7 @@ if (!entry) {
 
 const { settings } = getThemeSettings();
 const resolvedSocialItems = settings.site.socialLinks.resolvedSocialItems.filter((item) => item.visible);
-const aboutTitle = settings.page.about.title || '关于';
+const aboutTitle = settings.page.about.title || 'About';
 const aboutSubtitle = settings.page.about.subtitle;
 const entryWithContactLinks = entry.rendered
   ? {

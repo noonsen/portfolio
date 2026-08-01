@@ -82,7 +82,7 @@ const parseFrontmatterTextFromPrefix = (
     const mayStillBeOpeningMarker = FRONTMATTER_OPENING_MARKERS.some((marker) => marker.startsWith(sourcePrefix));
     if (!reachedEof && mayStillBeOpeningMarker) return { status: 'pending' };
     if (reachedEof && sourcePrefix === '---') {
-      throw new Error('Markdown frontmatter 缺少关闭标记');
+      throw new Error('Markdown frontmatter is missing its closing marker');
     }
     return { status: 'none' };
   }
@@ -109,7 +109,7 @@ const parseFrontmatterTextFromPrefix = (
         };
       }
       if (reachedEof) {
-        throw new Error('Markdown frontmatter 缺少关闭标记');
+        throw new Error('Markdown frontmatter is missing its closing marker');
       }
       return { status: 'pending' };
     }
@@ -118,7 +118,7 @@ const parseFrontmatterTextFromPrefix = (
   }
 
   if (reachedEof) {
-    throw new Error('Markdown frontmatter 缺少关闭标记');
+    throw new Error('Markdown frontmatter is missing its closing marker');
   }
   return { status: 'pending' };
 };
@@ -154,12 +154,12 @@ const parseFrontmatterRecord = (frontmatterText: string | null): Record<string, 
 const normalizeEntryId = (entryId: string): string => {
   const normalized = entryId.trim().replace(/\\/g, '/');
   if (!normalized || normalized.startsWith('/') || normalized.includes('//')) {
-    throw new AdminContentEntryResolutionError('invalid-entry-id', `不支持的 content entryId：${entryId}`);
+    throw new AdminContentEntryResolutionError('invalid-entry-id', `Unsupported content entryId: ${entryId}`);
   }
 
   const segments = normalized.split('/');
   if (segments.some((segment) => !segment || segment === '.' || segment === '..')) {
-    throw new AdminContentEntryResolutionError('invalid-entry-id', `不支持的 content entryId：${entryId}`);
+    throw new AdminContentEntryResolutionError('invalid-entry-id', `Unsupported content entryId: ${entryId}`);
   }
 
   return normalized;
@@ -175,7 +175,7 @@ export const getAdminContentEntrySourcePathCandidates = (
     if (normalizedEntryId !== fixedPage.entryId) {
       throw new AdminContentEntryResolutionError(
         'invalid-entry-id',
-        `${collection} 仅支持固定源文件：${fixedPage.sourcePath}`
+        `${collection} only supports a fixed source file: ${fixedPage.sourcePath}`
       );
     }
     return [toAdminContentAbsoluteProjectPath(fixedPage.sourcePath)];
@@ -200,14 +200,14 @@ export const resolveAdminContentEntrySourcePath = (
     if (resolved) return resolved;
     throw new AdminContentEntryResolutionError(
       'source-not-found',
-      `${collection} 固定源文件不存在：${fixedPage.sourcePath}`
+      `${collection} fixed source file does not exist: ${fixedPage.sourcePath}`
     );
   }
 
   if (!resolved) {
     throw new AdminContentEntryResolutionError(
       'source-not-found',
-      `未找到 content 源文件：${collection}/${normalizedEntryId}`
+      `Content source file not found: ${collection}/${normalizedEntryId}`
     );
   }
 
@@ -231,7 +231,7 @@ export const resolveAdminContentEntryLegacySourcePath = (
   if (!resolved) {
     throw new AdminContentEntryResolutionError(
       'source-not-found',
-      `未找到 content 源文件：${collection}/${normalizedEntryId}`
+      `Content source file not found: ${collection}/${normalizedEntryId}`
     );
   }
 
@@ -247,7 +247,7 @@ export const resolveAdminContentEntryIdFromSourcePath = (
   if (relative.startsWith('../') || relative === '..' || path.isAbsolute(relative)) {
     throw new AdminContentEntryResolutionError(
       'invalid-entry-id',
-      `content 源文件不在 ${collection} 集合目录下：${toAdminContentRelativeProjectPath(absoluteFilePath)}`
+      `Content source file is not under the ${collection} collection directory: ${toAdminContentRelativeProjectPath(absoluteFilePath)}`
     );
   }
   if (relative.endsWith('/index.md')) {
@@ -274,7 +274,7 @@ export const listAdminCollectionSourceFiles = async (
         await access(filePath);
         files.push(filePath);
       } catch {
-        // 固定页面源不存在时保持空 manifest。
+        // Keep the manifest empty when the fixed page source does not exist.
       }
     }
     return files;
@@ -314,7 +314,7 @@ export const loadAdminContentSourceState = async (
   entryId: string
 ): Promise<AdminContentSourceState> => {
   const sourcePath = resolveAdminContentEntrySourcePath(collection, entryId);
-  // 以实际源文件路径回算 entryId，避免把公开 id 当作磁盘文件名使用。
+  // Derive the entryId from the actual source file path, avoiding using the public id as the on-disk file name.
   const sourceEntryId = resolveAdminContentEntryIdFromSourcePath(collection, sourcePath);
   const publicEntryId = resolveDefaultPublicEntryId(sourceEntryId);
   const sourceText = await readFile(sourcePath, 'utf8');

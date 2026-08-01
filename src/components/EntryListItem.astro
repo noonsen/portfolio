@@ -22,7 +22,7 @@ const {
 
 const shouldShowMetaLine = articleMetaSettings.showDate || (articleMetaSettings.showTags && visibleTags.length > 0);
 const displayDate = updatedAt ?? date;
-const displayDateLabel = updatedAt ? '更新于：' : (articleMetaSettings.dateLabel ?? '');
+const displayDateLabel = updatedAt ? 'Updated: ' : (articleMetaSettings.dateLabel ?? '');
 ---
 
 <a class="list-item list-item--link" href={href}>

@@ -20,7 +20,7 @@ const { navIdOrder } = Astro.props;
   <legend class="admin-group__legend">
     <AdminIcon name="admin-sidebar" class="admin-group__legend-icon" size={14} />
     <span class="admin-group__legend-copy">
-      <span class="admin-group__legend-zh">侧栏设置</span>
+      <span class="admin-group__legend-zh">Sidebar settings</span>
       <span class="admin-group__legend-en">Sidebar</span>
     </span>
   </legend>
@@ -28,24 +28,24 @@ const { navIdOrder } = Astro.props;
     <div class="admin-sidebar-layout__main">
       <label class="admin-field">
         <span class="admin-label">
-          <span class="admin-label__main">侧栏站点名</span>
-          <span class="admin-label__hint">（显示在左侧站点标题）</span>
+          <span class="admin-label__main">Sidebar site name</span>
+          <span class="admin-label__hint">(shown as the site title on the left)</span>
         </span>
         <input class="admin-field__control" id="shell-brand-title" type="text" autocomplete="off" />
       </label>
       <label class="admin-field">
         <span class="admin-label">
-          <span class="admin-label__main">侧栏引用文案</span>
-          <span class="admin-label__hint">（支持换行显示）</span>
+          <span class="admin-label__main">Sidebar quote text</span>
+          <span class="admin-label__hint">(supports line breaks)</span>
         </span>
         <textarea class="admin-field__control" id="shell-quote" rows="4"></textarea>
       </label>
       <div class="admin-field admin-field--sidebar-divider">
         <span class="admin-label">
-          <span class="admin-label__main">侧栏分隔线</span>
-          <span class="admin-label__hint">（控制与正文间的分隔强度）</span>
+          <span class="admin-label__main">Sidebar divider</span>
+          <span class="admin-label__hint">(controls the separation strength from the body)</span>
         </span>
-        <div class="admin-segmented" role="radiogroup" aria-label="侧栏分隔线样式">
+        <div class="admin-segmented" role="radiogroup" aria-label="Sidebar divider style">
           {
             ADMIN_SIDEBAR_DIVIDER_OPTIONS.map((option) => (
               <label class="admin-segmented__option" for={`ui-layout-sidebar-divider-${option.id}`}>
@@ -65,12 +65,12 @@ const { navIdOrder } = Astro.props;
 
       <div class="admin-subgroup admin-subgroup--sidebar-icons">
         <p class="admin-subtitle">
-          <span class="admin-subtitle__main">侧栏图标</span>
-          <span class="admin-subtitle__hint">（选择底部显示的图标）</span>
+          <span class="admin-subtitle__main">Sidebar icons</span>
+          <span class="admin-subtitle__hint">(choose which icons show at the bottom)</span>
         </p>
-        <div class="admin-sidebar-icon-grid" role="group" aria-label="侧栏图标显隐">
-          <label class="admin-sidebar-icon-toggle" for="ui-reading-entry" title="显示阅读模式入口">
-            <input id="ui-reading-entry" type="checkbox" aria-label="显示阅读模式入口" title="显示阅读模式入口" />
+        <div class="admin-sidebar-icon-grid" role="group" aria-label="Sidebar icon visibility">
+          <label class="admin-sidebar-icon-toggle" for="ui-reading-entry" title="Show reading mode entry">
+            <input id="ui-reading-entry" type="checkbox" aria-label="Show reading mode entry" title="Show reading mode entry" />
             <span
               class="admin-btn admin-btn--tool admin-btn--compact admin-btn--icon admin-sidebar-icon-toggle__button"
               aria-hidden="true"
@@ -78,12 +78,12 @@ const { navIdOrder } = Astro.props;
               <UiIcon name="book-open" size={18} strokeWidth={2} />
             </span>
           </label>
-          <label class="admin-sidebar-icon-toggle" for="ui-sidebar-actions-show-rss-link" title="显示 RSS 入口">
+          <label class="admin-sidebar-icon-toggle" for="ui-sidebar-actions-show-rss-link" title="Show RSS entry">
             <input
               id="ui-sidebar-actions-show-rss-link"
               type="checkbox"
-              aria-label="显示 RSS 入口"
-              title="显示 RSS 入口"
+              aria-label="Show RSS entry"
+              title="Show RSS entry"
             />
             <span
               class="admin-btn admin-btn--tool admin-btn--compact admin-btn--icon admin-sidebar-icon-toggle__button"
@@ -92,12 +92,12 @@ const { navIdOrder } = Astro.props;
               <UiIcon name="rss" size={18} strokeWidth={2} />
             </span>
           </label>
-          <label class="admin-sidebar-icon-toggle" for="ui-sidebar-actions-show-theme-toggle" title="显示主题切换入口">
+          <label class="admin-sidebar-icon-toggle" for="ui-sidebar-actions-show-theme-toggle" title="Show theme toggle entry">
             <input
               id="ui-sidebar-actions-show-theme-toggle"
               type="checkbox"
-              aria-label="显示主题切换入口"
-              title="显示主题切换入口"
+              aria-label="Show theme toggle entry"
+              title="Show theme toggle entry"
             />
             <span
               class="admin-btn admin-btn--tool admin-btn--compact admin-btn--icon admin-sidebar-icon-toggle__button"
@@ -110,13 +110,13 @@ const { navIdOrder } = Astro.props;
             id="ui-sidebar-actions-show-admin-entry-row"
             class="admin-sidebar-icon-toggle"
             for="ui-sidebar-actions-show-admin-entry"
-            title="显示站点概览入口（/admin/）"
+            title="Show site overview entry (/admin/)"
           >
             <input
               id="ui-sidebar-actions-show-admin-entry"
               type="checkbox"
-              aria-label="显示 /admin/ 入口"
-              title="显示站点概览入口（/admin/）"
+              aria-label="Show /admin/ entry"
+              title="Show site overview entry (/admin/)"
             />
             <span
               class="admin-btn admin-btn--tool admin-btn--compact admin-btn--icon admin-sidebar-icon-toggle__button"
@@ -131,27 +131,27 @@ const { navIdOrder } = Astro.props;
 
     <div class="admin-subgroup admin-subgroup--sidebar-nav">
       <p class="admin-subtitle">
-        <span class="admin-subtitle__main">侧栏导航</span>
+        <span class="admin-subtitle__main">Sidebar navigation</span>
         <AdminHelpTip
           id="admin-nav-ornament-hint"
-          label="侧栏导航后缀说明"
-          text={`后缀支持短文本/符号；留空隐藏，输入 ${ADMIN_NAV_ORNAMENT_DEFAULT} 还原默认。`}
+          label="Sidebar navigation suffix info"
+          text={`Suffix supports short text/symbols; leave blank to hide, enter ${ADMIN_NAV_ORNAMENT_DEFAULT} to restore the default.`}
         />
       </p>
       <div class="admin-nav-grid admin-nav-grid--compact">
         <div class="admin-nav-header" aria-hidden="true">
-          <span>排序</span>
-          <span>页面 ID</span>
-          <span>导航名称</span>
-          <span>导航后缀</span>
-          <span>是否展示</span>
+          <span>Order</span>
+          <span>Page ID</span>
+          <span>Nav name</span>
+          <span>Nav suffix</span>
+          <span>Visible</span>
         </div>
         {
           navIdOrder.map((id, index) => (
             <div class="admin-row admin-row--interactive admin-row--table admin-nav-row" data-nav-id={id}>
               <label class="admin-field admin-nav-field admin-nav-field--order">
-                <span class="admin-nav-cell-label">排序</span>
-                <span class="sr-only">{id} 排序</span>
+                <span class="admin-nav-cell-label">Order</span>
+                <span class="sr-only">{id} order</span>
                 <span class="admin-social-order-frame admin-nav-order-frame">
                   <span class="admin-social-order-frame__mark" aria-hidden="true">[</span>
                   <input
@@ -168,12 +168,12 @@ const { navIdOrder } = Astro.props;
                 </span>
               </label>
               <p class="admin-nav-id">
-                <span class="admin-nav-cell-label">页面 ID</span>
+                <span class="admin-nav-cell-label">Page ID</span>
                 <span class="admin-nav-id__text">{id}</span>
               </p>
               <label class="admin-field admin-nav-field admin-nav-field--name">
-                <span class="admin-nav-cell-label">导航名称</span>
-                <span class="sr-only">{id} 导航名称</span>
+                <span class="admin-nav-cell-label">Nav name</span>
+                <span class="sr-only">{id} nav name</span>
                 <input
                   class="admin-field__control admin-field__control--soft"
                   data-nav-field="label"
@@ -183,8 +183,8 @@ const { navIdOrder } = Astro.props;
                 />
               </label>
               <label class="admin-field admin-nav-field admin-nav-field--ornament">
-                <span class="admin-nav-cell-label">导航后缀</span>
-                <span class="sr-only">{id} 导航后缀，留空表示不显示</span>
+                <span class="admin-nav-cell-label">Nav suffix</span>
+                <span class="sr-only">{id} nav suffix, leave blank to hide</span>
                 <input
                   class="admin-field__control admin-field__control--soft"
                   data-nav-field="ornament"
@@ -196,13 +196,13 @@ const { navIdOrder } = Astro.props;
                 />
               </label>
               <label class="admin-toggle">
-                <span class="admin-nav-cell-label">是否展示</span>
+                <span class="admin-nav-cell-label">Visible</span>
                 <span class="admin-toggle__control">
                   <input
                     data-nav-field="visible"
                     name={`shell-nav-${id}-visible`}
                     type="checkbox"
-                    aria-label={`${id} 是否显示`}
+                    aria-label={`${id} visible`}
                   />
                 </span>
               </label>

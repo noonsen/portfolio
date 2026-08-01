@@ -53,7 +53,7 @@ const ADMIN_IMAGE_PICKER_SEARCH_DEBOUNCE_MS = 260;
 const formatAdminImageGridMetaSummary = (
   item: Pick<AdminImageClientItem, 'width' | 'height' | 'size'>
 ): string => {
-  const dimensions = item.width && item.height ? `${item.width}×${item.height}` : '尺寸未知';
+  const dimensions = item.width && item.height ? `${item.width}×${item.height}` : 'Unknown dimensions';
   return `${dimensions} · ${formatAdminImageBytes(item.size)}`;
 };
 
@@ -151,7 +151,7 @@ export const createAdminImagePicker = (root: ParentNode = document): AdminImageP
   if (missingEndpoints.length > 0) {
     reportAdminDomSetupError({
       prefix: '[admin-images-picker]',
-      message: '图片选择器缺少必要 endpoint 配置，客户端脚本已停止初始化。',
+      message: 'The image picker is missing required endpoint configuration — the client script has stopped initializing.',
       missing: missingEndpoints,
       statusEl
     });
@@ -162,7 +162,7 @@ export const createAdminImagePicker = (root: ParentNode = document): AdminImageP
     const allowedOrigins = getAdminImageFieldAllowedOrigins(field).filter((origin) => origin !== 'src/content');
     if (allowedOrigins.length <= 1) return [];
     return [
-      { value: 'all', label: '全部' },
+      { value: 'all', label: 'All' },
       ...allowedOrigins.map((origin) => ({ value: origin, label: getAdminImageOriginLabel(origin) }))
     ];
   };
@@ -255,14 +255,14 @@ export const createAdminImagePicker = (root: ParentNode = document): AdminImageP
     if (currentValue.length > 0) {
       return {
         value: currentValue,
-        label: '当前使用'
+        label: 'Currently used'
       };
     }
 
     if (fallbackCurrentValue.length > 0) {
       return {
         value: fallbackCurrentValue,
-        label: fallbackCurrentLabel || '当前使用'
+        label: fallbackCurrentLabel || 'Currently used'
       };
     }
 
@@ -335,11 +335,11 @@ export const createAdminImagePicker = (root: ParentNode = document): AdminImageP
     currentTotalCount = totalCount;
     syncSelectedItemFromCurrentItems();
     resultsEl.replaceChildren();
-    setStatus(`${totalCount} 个文件`);
+    setStatus(`${totalCount} files`);
     if (!items.length) {
       const empty = document.createElement('li');
       empty.className = 'admin-images-picker__empty';
-      empty.textContent = '没有匹配到可选图片。';
+      empty.textContent = 'No matching images found.';
       resultsEl.appendChild(empty);
       return;
     }
@@ -406,14 +406,14 @@ export const createAdminImagePicker = (root: ParentNode = document): AdminImageP
       if (isCurrent) {
         const currentBadge = document.createElement('span');
         currentBadge.className = 'admin-images-picker__badge';
-        currentBadge.textContent = currentMarker?.label ?? '当前使用';
+        currentBadge.textContent = currentMarker?.label ?? 'Currently used';
         badgesEl.appendChild(currentBadge);
       }
 
       if (isSelected && !isCurrent) {
         const selectedBadge = document.createElement('span');
         selectedBadge.className = 'admin-images-picker__badge admin-images-picker__badge--selected';
-        selectedBadge.textContent = '已选中';
+        selectedBadge.textContent = 'Selected';
         badgesEl.appendChild(selectedBadge);
       }
 
@@ -453,7 +453,7 @@ export const createAdminImagePicker = (root: ParentNode = document): AdminImageP
     const token = ++requestToken;
     setResultsLoading(true);
     resetResultsScroll();
-    setStatus('加载中…');
+    setStatus('Loading...');
 
     const params = new URLSearchParams({
       field: currentOptions.field,
@@ -467,7 +467,7 @@ export const createAdminImagePicker = (root: ParentNode = document): AdminImageP
     }
 
     try {
-      const payload = await fetchAdminImageJson(`${listEndpoint}?${params.toString()}`, '图片列表请求失败');
+      const payload = await fetchAdminImageJson(`${listEndpoint}?${params.toString()}`, 'Image list request failed');
       if (token !== requestToken) return;
 
       const result = parseAdminImageListResponse(payload);
@@ -477,14 +477,14 @@ export const createAdminImagePicker = (root: ParentNode = document): AdminImageP
       renderItems(result.items, result.totalCount);
     } catch (error) {
       if (token !== requestToken) return;
-      console.warn('[admin-images-picker] 图片列表加载失败', error);
+      console.warn('[admin-images-picker] Failed to load image list', error);
       currentItems = [];
       currentTotalCount = 0;
       syncSelectedItemFromCurrentItems();
       totalPages = 1;
       syncPager();
       resultsEl.replaceChildren();
-      setStatus(error instanceof Error ? error.message : '加载失败');
+      setStatus(error instanceof Error ? error.message : 'Failed to load');
     } finally {
       if (token === requestToken) {
         setResultsLoading(false);
@@ -530,7 +530,7 @@ export const createAdminImagePicker = (root: ParentNode = document): AdminImageP
     }
 
     queryInput.value = options.query?.trim() ?? '';
-    resetBtn.textContent = options.resetLabel?.trim() || '恢复默认';
+    resetBtn.textContent = options.resetLabel?.trim() || 'Reset to default';
     resetBtn.hidden = typeof options.onReset !== 'function';
     resultsEl.replaceChildren();
     syncViewMode();
@@ -565,7 +565,7 @@ export const createAdminImagePicker = (root: ParentNode = document): AdminImageP
       params.set('field', field);
       params.set('value', value?.trim() ?? '');
     }
-    const payload = await fetchAdminImageJson(`${metaEndpoint}?${params.toString()}`, '图片元数据请求失败');
+    const payload = await fetchAdminImageJson(`${metaEndpoint}?${params.toString()}`, 'Image metadata request failed');
     return parseAdminImageMetaResponse(payload);
   };
 

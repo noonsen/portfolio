@@ -42,7 +42,7 @@ const deleteOneEntry = async (entry: AdminContentBulkEntryInput): Promise<AdminC
   if (!isAdminContentCollectionKey(entry.collection)) {
     return createResult(entry, {
       status: 'skipped',
-      errors: [`不支持的 content collection：${entry.collection}`],
+      errors: [`Unsupported content collection: ${entry.collection}`],
       errorCodes: ['unsupported_collection']
     });
   }
@@ -50,7 +50,7 @@ const deleteOneEntry = async (entry: AdminContentBulkEntryInput): Promise<AdminC
   if (!isAdminContentDeletableCollectionKey(entry.collection)) {
     return createResult(entry, {
       status: 'skipped',
-      errors: [getAdminContentDeleteUnsupportedReason(entry.collection) ?? `当前 collection 暂不支持删除：${entry.collection}`],
+      errors: [getAdminContentDeleteUnsupportedReason(entry.collection) ?? `Delete is not supported for this collection: ${entry.collection}`],
       errorCodes: ['unsupported_collection']
     });
   }
@@ -89,7 +89,7 @@ const deleteOneEntry = async (entry: AdminContentBulkEntryInput): Promise<AdminC
     console.error('[astro-whono] Failed to bulk delete admin content entry:', error);
     return createResult(entry, {
       status: 'failed',
-      errors: ['删除内容文件失败，请检查本地文件权限或日志'],
+      errors: ['Failed to delete content file. Check local file permissions or logs.'],
       errorCodes: ['delete_failed']
     });
   }
@@ -108,13 +108,13 @@ export const POST: APIRoute = async ({ request, url }) => {
     return DEV_ONLY_NOT_FOUND_RESPONSE.clone();
   }
 
-  const requestError = validateAdminJsonWriteRequest(request, url, 'Content Console bulk delete', '批量删除');
+  const requestError = validateAdminJsonWriteRequest(request, url, 'Content Console bulk delete', 'bulk delete');
   if (requestError) {
     return createAdminJsonErrorResponse(requestError.status, [requestError.error]);
   }
 
   const bodyResult = await readAdminJsonRequestBody(request, {
-    emptyBodyError: '请求体为空，请确认已发送 JSON 字符串'
+    emptyBodyError: 'Request body is empty. Please confirm a JSON string was sent.'
   });
   if (!bodyResult.ok) {
     return createAdminJsonErrorResponse(bodyResult.status, [bodyResult.error]);

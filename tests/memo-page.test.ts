@@ -47,7 +47,7 @@ describe('memo page content split', () => {
       contentMarkdown: source,
       hasBodyIntro: false
     });
-    expect(LEGACY_MEMO_INTRO_LINES).toContain('时间流经我们，如同风穿过回廊。');
+    expect(LEGACY_MEMO_INTRO_LINES).toContain('Time flows through us, like wind through a corridor.');
   });
 
   it('ignores H2 markers inside fenced code when locating the content body', () => {

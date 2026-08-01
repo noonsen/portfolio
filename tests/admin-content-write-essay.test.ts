@@ -58,7 +58,7 @@ describe('admin content essay write contract', () => {
     const after = await readFile(path.join(getTempRoot(), 'src', 'content', 'essay', 'demo.md'), 'utf8');
     expect(after).toContain('title: Edited Essay');
     expect(after).toContain('tags:');
-    expect(after.endsWith('# Essay\n\n正文保持不变。\n')).toBe(true);
+    expect(after.endsWith('# Essay\n\nBody stays unchanged.\n')).toBe(true);
     expect(after).not.toBe(before);
   });
 
@@ -559,7 +559,7 @@ describe('admin content essay write contract', () => {
     const { POST } = await import('../src/pages/api/admin/content/entry');
 
     const current = await readAdminContentEntryEditorPayload('essay', 'demo');
-    const nextBody = ['# Essay', '', '正文已经由后台编辑器写入。', ''].join('\n');
+    const nextBody = ['# Essay', '', 'Body written by the admin console editor.', ''].join('\n');
 
     const dryRunResponse = await POST({
       request: createJsonRequest('http://127.0.0.1:4321/api/admin/content/entry?dryRun=1', {
@@ -725,14 +725,14 @@ describe('admin content essay write contract', () => {
     expect(payload.ok).toBe(false);
     expect(payload.errors).toEqual(
       expect.arrayContaining([
-        '正文引用的本地图片不存在：src/content/essay/demo-assets/missing.webp',
-        '正文引用的本地图片不存在：src/content/essay/demo-assets/missing-figure.webp',
-        '正文引用的本地图片不存在：src/content/essay/demo-assets/missing-rich-caption-figure.webp',
-        '正文引用的本地图片不存在：src/content/essay/demo-assets/missing-gallery.webp'
+        'Local image referenced in the body does not exist: src/content/essay/demo-assets/missing.webp',
+        'Local image referenced in the body does not exist: src/content/essay/demo-assets/missing-figure.webp',
+        'Local image referenced in the body does not exist: src/content/essay/demo-assets/missing-rich-caption-figure.webp',
+        'Local image referenced in the body does not exist: src/content/essay/demo-assets/missing-gallery.webp'
       ])
     );
     expect(payload.errors).not.toContain(
-      '正文引用的本地图片不存在：src/content/essay/demo-assets/missing-in-code.webp'
+      'Local image referenced in the body does not exist: src/content/essay/demo-assets/missing-in-code.webp'
     );
     expect(payload.issues).toEqual(
       expect.arrayContaining([
@@ -858,7 +858,7 @@ describe('admin content essay write contract', () => {
     expect(response.status).toBe(409);
     const payload = JSON.parse(await response.text());
     expect(payload.ok).toBe(false);
-    expect(payload.errors[0]).toContain('外部更新');
+    expect(payload.errors[0]).toContain('updated externally');
     expect(payload.payload.values.title).toBe('External Change');
   });
 

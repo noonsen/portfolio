@@ -47,7 +47,7 @@ describe('admin editor markdown transforms', () => {
   it('wraps empty and non-empty inline math selections', () => {
     expect(MARKDOWN_MATH_INSERT_TOOLS.find((tool) => tool.id === 'inlineMath')).toMatchObject({
       type: 'math',
-      label: '行内公式',
+      label: 'Inline formula',
       icon: 'sigma'
     });
 
@@ -65,7 +65,7 @@ describe('admin editor markdown transforms', () => {
   it('inserts block math as an independent editable block', () => {
     expect(MARKDOWN_MATH_INSERT_TOOLS.find((tool) => tool.id === 'blockMath')).toMatchObject({
       type: 'math',
-      label: '块级公式',
+      label: 'Block formula',
       icon: 'square-sigma'
     });
 
@@ -113,8 +113,8 @@ describe('admin editor markdown transforms', () => {
     });
 
     expectMarkdownEdit('Intro', calloutEdit, {
-      value: 'Intro\n:::note[标题]\n内容\n:::\n',
-      selection: { from: 25, to: 25 }
+      value: 'Intro\n:::note[Title]\nContent\n:::\n',
+      selection: { from: 33, to: 33 }
     });
 
     expectMarkdownEdit('Intro outro', insertMarkdownText('Intro outro', { from: 6, to: 11 }, '![Alt](./image.webp)'), {
@@ -127,7 +127,7 @@ describe('admin editor markdown transforms', () => {
     expect(MARKDOWN_DETAILS_INSERT_TOOL).toMatchObject({
       type: 'details',
       id: 'details',
-      label: '折叠内容',
+      label: 'Collapsible content',
       icon: 'list-collapse',
       placement: 'block'
     });
@@ -142,7 +142,7 @@ describe('admin editor markdown transforms', () => {
 
     const source = 'Intro\n\nAlpha\nBeta\n\nOutro';
     const wrappedEdit = applyMarkdownToolToText(source, { from: 7, to: 17 }, MARKDOWN_DETAILS_INSERT_TOOL.id);
-    const wrappedValue = 'Intro\n\n<details>\n<summary>标题</summary>\n\nAlpha\nBeta\n</details>\n\nOutro';
+    const wrappedValue = 'Intro\n\n<details>\n<summary>Title</summary>\n\nAlpha\nBeta\n</details>\n\nOutro';
 
     expectMarkdownEdit(source, wrappedEdit, {
       value: wrappedValue,

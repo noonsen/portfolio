@@ -82,13 +82,13 @@ const bootstrapText = imagesDevState
   <AdminShell
     currentRoute="images"
     title="Images Console"
-    subtitle="图库"
+    subtitle="Image Library"
     showNav={isDev}
   >
     {isDev ? (
       <div slot="status" class="admin-status-slot">
         <p id="admin-images-status-live" class="admin-sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
-        <p id="admin-images-status" class="admin-status" data-state="idle">准备中</p>
+        <p id="admin-images-status" class="admin-status" data-state="idle">Preparing</p>
       </div>
     ) : null}
 
@@ -98,7 +98,7 @@ const bootstrapText = imagesDevState
           <form id="admin-images-form" class="admin-images-browser__controls">
             <div class="admin-images-browser__toolbar">
               <div class="admin-images-browser__toolbar-main">
-                <h2 class="admin-overview-card__title">图片管理</h2>
+                <h2 class="admin-overview-card__title">Image Management</h2>
                 <div class="admin-images-browser__toolbar-primary">
                   <span class="admin-images-browser__toolbar-separator" aria-hidden="true">｜</span>
 
@@ -107,26 +107,26 @@ const bootstrapText = imagesDevState
                       id="admin-images-filter-toggle"
                       class="admin-btn admin-btn--tool admin-btn--compact admin-images-browser__filter-toggle"
                       type="button"
-                      aria-label={hasInitialFilters ? '收起图片筛选' : '展开图片筛选'}
+                      aria-label={hasInitialFilters ? 'Collapse image filters' : 'Expand image filters'}
                       aria-controls="admin-images-filters"
                       aria-expanded={hasInitialFilters ? 'true' : 'false'}
                       data-active={hasInitialFilters ? 'true' : 'false'}
                     >
                       <AdminIcon name="funnel" size={16} />
-                      <span>筛选</span>
+                      <span>Filter</span>
                     </button>
 
                     <button
                       id="admin-images-search-toggle"
                       class="admin-btn admin-btn--tool admin-btn--compact admin-images-browser__tool-btn admin-images-browser__search-toggle"
                       type="button"
-                      aria-label="搜索图片"
+                      aria-label="Search images"
                       aria-controls="admin-images-search-panel"
                       aria-expanded={hasInitialQuery ? 'true' : 'false'}
                       data-active={hasInitialQuery ? 'true' : 'false'}
-                      title="搜索图片"
+                      title="Search images"
                     >
-                      <span class="admin-images-browser__search-label">搜索</span>
+                      <span class="admin-images-browser__search-label">Search</span>
                       <span class="admin-images-browser__search-icon" aria-hidden="true">
                         <AdminIcon name="search" size={18} />
                       </span>
@@ -139,7 +139,7 @@ const bootstrapText = imagesDevState
                       aria-hidden={hasInitialQuery ? 'false' : 'true'}
                     >
                       <label class="admin-images-browser__search-shell" for="admin-images-query">
-                        <span class="admin-sr-only">搜索图片</span>
+                        <span class="admin-sr-only">Search images</span>
                         <input
                           id="admin-images-query"
                           name="q"
@@ -147,7 +147,7 @@ const bootstrapText = imagesDevState
                           inputmode="search"
                           tabindex={hasInitialQuery ? undefined : '-1'}
                           value={rawQuery}
-                          placeholder="搜索图片路径、文件名或 owner"
+                          placeholder="Search image path, filename, or owner"
                           autocomplete="off"
                         />
                       </label>
@@ -157,15 +157,15 @@ const bootstrapText = imagesDevState
               </div>
 
               <div class="admin-images-browser__toolbar-actions">
-                <div class="admin-images-browser__view-switch" role="group" aria-label="图片浏览视图">
+                <div class="admin-images-browser__view-switch" role="group" aria-label="Image browsing view">
                   <button
                     id="admin-images-view-grid"
                     class="admin-btn admin-btn--tool admin-btn--compact admin-btn--icon admin-images-browser__tool-btn"
                     type="button"
-                    aria-label="网格视图"
+                    aria-label="Grid view"
                     aria-pressed="true"
                     data-active="true"
-                    title="网格视图"
+                    title="Grid view"
                   >
                     <AdminIcon name="grid-tiles" size={18} />
                   </button>
@@ -173,9 +173,9 @@ const bootstrapText = imagesDevState
                     id="admin-images-view-list"
                     class="admin-btn admin-btn--tool admin-btn--compact admin-btn--icon admin-images-browser__tool-btn"
                     type="button"
-                    aria-label="列表视图"
+                    aria-label="List view"
                     aria-pressed="false"
-                    title="列表视图"
+                    title="List view"
                   >
                     <AdminIcon name="list" size={18} />
                   </button>
@@ -186,15 +186,15 @@ const bootstrapText = imagesDevState
                   class="admin-btn admin-btn--tool admin-btn--compact admin-images-browser__recent-link"
                   type="button"
                 >
-                  最新修改
+                  Recently modified
                 </button>
 
                 <button
                   id="admin-images-refresh"
                   class="admin-btn admin-btn--tool admin-btn--compact admin-btn--icon admin-images-browser__tool-btn"
                   type="button"
-                  aria-label="刷新图库并重置筛选"
-                  title="刷新图库并重置筛选"
+                  aria-label="Refresh library and reset filters"
+                  title="Refresh library and reset filters"
                 >
                   <AdminIcon name="refresh" size={18} />
                 </button>
@@ -212,7 +212,7 @@ const bootstrapText = imagesDevState
                 <div class="admin-images-browser__filter-head">
                   <p class="admin-images-browser__filter-label">
                     <AdminIcon name="images" class="admin-images-browser__filter-label-icon" size={13} />
-                    <span>图片分类</span>
+                    <span>Category</span>
                   </p>
                 </div>
                 <div id="admin-images-groups" class="admin-images-browser__chips"></div>
@@ -221,7 +221,7 @@ const bootstrapText = imagesDevState
               <div id="admin-images-subgroups-wrap" class="admin-images-browser__filter-group" hidden>
                 <p class="admin-images-browser__filter-label">
                   <AdminIcon name="waypoints" class="admin-images-browser__filter-label-icon" size={13} />
-                  <span>应用位置</span>
+                  <span>Usage location</span>
                 </p>
                 <div id="admin-images-subgroups" class="admin-images-browser__chips"></div>
               </div>
@@ -230,15 +230,15 @@ const bootstrapText = imagesDevState
 
           <article class="admin-images-browser__results">
             <ul id="admin-images-result-list" class="admin-images-browser__items" data-view="grid"></ul>
-            <p id="admin-images-empty" class="admin-content-empty" hidden>没有找到符合条件的图片。</p>
+            <p id="admin-images-empty" class="admin-content-empty" hidden>No matching images found.</p>
 
-            <nav class="admin-images-browser__pager" aria-label="图库分页">
+            <nav class="admin-images-browser__pager" aria-label="Image library pagination">
               <button
                 id="admin-images-prev"
                 class="admin-btn admin-btn--tool admin-btn--compact admin-btn--icon admin-images-browser__pager-btn"
                 type="button"
-                aria-label="上一页"
-                title="上一页"
+                aria-label="Previous page"
+                title="Previous page"
                 disabled
               >
                 &lt;
@@ -248,8 +248,8 @@ const bootstrapText = imagesDevState
                 id="admin-images-next"
                 class="admin-btn admin-btn--tool admin-btn--compact admin-btn--icon admin-images-browser__pager-btn"
                 type="button"
-                aria-label="下一页"
-                title="下一页"
+                aria-label="Next page"
+                title="Next page"
                 disabled
               >
                 &gt;
@@ -269,7 +269,7 @@ const bootstrapText = imagesDevState
         </section>
       ) : (
         <AdminReadonlyNotice>
-          若需浏览图库或复制资源路径，请在本地运行 <code translate="no">npm run dev</code> 后从此入口进入。
+          To browse the image library or copy asset paths, run <code translate="no">npm run dev</code> locally and access it from this entry point.
         </AdminReadonlyNotice>
       )
     }

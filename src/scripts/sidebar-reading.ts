@@ -25,10 +25,10 @@ const setReaderDisabled = (disabled: boolean) => {
   readerBtn.setAttribute('aria-pressed', 'false');
   readerBtn.setAttribute('aria-disabled', disabled ? 'true' : 'false');
   if (disabled) {
-    setControlLabel(readerBtn, '阅读模式（仅文章/小记页可用）');
+    setControlLabel(readerBtn, 'Reading mode (essay/memo pages only)');
     readerBtn.tabIndex = -1;
   } else {
-    setControlLabel(readerBtn, '阅读模式');
+    setControlLabel(readerBtn, 'Reading mode');
     readerBtn.tabIndex = 0;
   }
 };
@@ -57,7 +57,7 @@ const applyReader = (on: boolean) => {
     readerBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
   }
   if (readerExit) {
-    setControlLabel(readerExit, '退出阅读');
+    setControlLabel(readerExit, 'Exit reading');
   }
   setVisible(readerExit as HTMLElement | null, on);
   notifyReadingModeChange();

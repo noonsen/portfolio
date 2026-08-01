@@ -47,9 +47,12 @@ export const getPageSlice = <T>(items: T[], currentPage: number, pageSize: numbe
 const isContentSourceFilePresent = <K extends CollectionKey>(entry: CollectionEntry<K>): boolean => {
   if (!import.meta.env.DEV) return true;
 
-  // DEV-only 同步 existsSync 防御，仅服务公开页 / 公开内容 getter 在 dev preview 下避免显示已删除条目。
-  // Admin Content 列表已迁移到源文件索引层，不依赖也不扩散此过滤。
-  // 同步 IO 成本若随公开内容规模增长变得可见，应作为公开侧优化单独处理。
+  // DEV-only synchronous existsSync guard, serving only public pages / public content
+  // getters, to avoid showing deleted entries in dev preview.
+  // The Admin Content list has moved to the source-file index layer and neither
+  // depends on nor propagates this filter.
+  // If the synchronous IO cost becomes noticeable as public content grows, address
+  // it as a separate public-side optimization.
   const filePath = (entry as CollectionEntryWithSourcePath).filePath;
   return typeof filePath !== 'string' || filePath.length === 0 || existsSync(filePath);
 };

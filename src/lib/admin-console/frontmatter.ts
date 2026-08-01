@@ -53,13 +53,13 @@ export const splitMarkdownFrontmatter = (sourceText: string): MarkdownFrontmatte
     }
 
     if (lineEnd === -1) {
-      throw new Error('Markdown frontmatter 缺少关闭标记');
+      throw new Error('Markdown frontmatter is missing its closing marker');
     }
 
     index = lineEnd + 1;
   }
 
-  throw new Error('Markdown frontmatter 缺少关闭标记');
+  throw new Error('Markdown frontmatter is missing its closing marker');
 };
 
 export const parseMarkdownFrontmatterDocument = (frontmatterText: string | null) => {

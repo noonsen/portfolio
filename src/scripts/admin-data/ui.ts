@@ -164,7 +164,7 @@ export const createAdminDataUi = ({
     errors: readonly string[],
     options: AdminDataErrorOptions = {}
   ) => {
-    errorTitleEl.textContent = options.title ?? '导入导出未完成';
+    errorTitleEl.textContent = options.title ?? 'Import/export not completed';
 
     if (options.message) {
       errorMessageEl.hidden = false;
@@ -279,12 +279,12 @@ export const createAdminDataUi = ({
     const badge = document.createElement('span');
     badge.className = 'admin-data-terminal__list-badge';
     badge.textContent = String(count);
-    badge.title = `${count} 处字段`;
-    badge.setAttribute('aria-label', `${count} 处字段`);
+    badge.title = `${count} fields`;
+    badge.setAttribute('aria-label', `${count} fields`);
     return badge;
   };
 
-  const normalizeChangedPathLabel = (path: string): string => path === 'root' ? '(整个分组)' : path;
+  const normalizeChangedPathLabel = (path: string): string => path === 'root' ? '(entire group)' : path;
 
   const createChangeValueRow = (
     label: string,
@@ -368,8 +368,8 @@ export const createAdminDataUi = ({
       const values = document.createElement('div');
       values.className = 'admin-data-terminal__change-values';
       values.append(
-        createChangeValueRow('当前', change.before, 'current'),
-        createChangeValueRow('导入', change.after, 'imported')
+        createChangeValueRow('Current', change.before, 'current'),
+        createChangeValueRow('Imported', change.after, 'imported')
       );
 
       item.append(head, values);
@@ -419,8 +419,8 @@ export const createAdminDataUi = ({
   const resetPreview = () => {
     showPreviewEmpty({
       state: 'idle',
-      title: '等待导入快照',
-      body: '选择 JSON 快照并执行 dry-run 后，此处显示预览结果'
+      title: 'Waiting for a snapshot to import',
+      body: 'Select a JSON snapshot and run a dry-run — the preview results will appear here'
     });
   };
 
@@ -443,8 +443,8 @@ export const createAdminDataUi = ({
     if (changedGroups.length === 0) {
       previewBodyEl.textContent = options.body ?? '';
       const cleanState = createResultItem(
-        '当前导入快照与本地 settings 一致',
-        'dry-run 未检测到需要写入的分组，可以继续保留当前本地配置。'
+        'The imported snapshot matches the local settings',
+        'The dry-run detected no groups that need to be written — you can keep the current local configuration.'
       );
       resultListEl.appendChild(
         cleanState.item
@@ -458,7 +458,7 @@ export const createAdminDataUi = ({
     );
     if (options.state === 'diff') {
       previewBodyEl.classList.add('admin-data-terminal__section-body--summary');
-      previewBodyEl.textContent = `${changedGroups.length} 个分组待更新，共 ${totalChangedCount} 处字段将变更`;
+      previewBodyEl.textContent = `${changedGroups.length} group(s) pending update, ${totalChangedCount} field(s) will change in total`;
     }
 
     const fragment = document.createDocumentFragment();
@@ -468,7 +468,7 @@ export const createAdminDataUi = ({
 
       const changedCount = getWriteResultChangedFieldCount(result);
       const resultItem = createResultItem(
-        `${GROUP_LABELS[group]} · ${result.written ? '已写入' : '待更新'}`,
+        `${GROUP_LABELS[group]} · ${result.written ? 'Written' : 'Pending update'}`,
         GROUP_FILES[group],
         {
           marker: '#',
@@ -496,7 +496,7 @@ export const createAdminDataUi = ({
 
     const dropzoneMetaFields: DropzoneMetaField[] = [
       {
-        label: '创建时间',
+        label: 'Created At',
         value: formatManifestCreatedAt(bundle.manifest.createdAt),
         wide: true
       },
@@ -515,8 +515,8 @@ export const createAdminDataUi = ({
         compact: true
       },
       {
-        label: '不包含',
-        value: bundle.manifest.excludes.length > 0 ? bundle.manifest.excludes.join(', ') : '（无）',
+        label: 'Excludes',
+        value: bundle.manifest.excludes.length > 0 ? bundle.manifest.excludes.join(', ') : '(none)',
         wide: true
       }
     ];
@@ -575,10 +575,10 @@ export const createAdminDataUi = ({
   };
 
   const showBootstrapError = (message: string) => {
-    setStatus('error', '初始化失败');
+    setStatus('error', 'Initialization failed');
     showPreviewEmpty({
       state: 'error',
-      title: 'Data Console 初始化失败',
+      title: 'Data Console failed to initialize',
       body: message
     });
   };

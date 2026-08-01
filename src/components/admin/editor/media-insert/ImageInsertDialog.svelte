@@ -28,17 +28,17 @@ type Props = {
 type ImageInsertMode = 'upload' | 'url';
 
 const IMAGE_DISPLAY_SIZE_OPTIONS: Array<{ value: ImageDisplaySize; label: string }> = [
-  { value: 'default', label: '默认' },
-  { value: 'sm', label: '小' },
-  { value: 'md', label: '中' },
-  { value: 'lg', label: '大' },
-  { value: 'full', label: '全宽' }
+  { value: 'default', label: 'Default' },
+  { value: 'sm', label: 'Small' },
+  { value: 'md', label: 'Medium' },
+  { value: 'lg', label: 'Large' },
+  { value: 'full', label: 'Full width' }
 ];
 
 const IMAGE_ALIGNMENT_OPTIONS: Array<{ value: ImageDisplayAlignment; label: string }> = [
-  { value: 'center', label: '居中' },
-  { value: 'left', label: '左对齐' },
-  { value: 'right', label: '右对齐' }
+  { value: 'center', label: 'Center' },
+  { value: 'left', label: 'Left' },
+  { value: 'right', label: 'Right' }
 ];
 
 let {
@@ -73,20 +73,20 @@ let appliedEditDraftKey = $state('');
 const submitButtonText = $derived(
   busy
     ? insertMode === 'upload'
-      ? '上传中…'
-      : '插入中…'
+      ? 'Uploading…'
+      : 'Inserting…'
     : insertMode === 'url'
       ? editDraft
-        ? '保存链接'
-        : '插入链接'
+        ? 'Save link'
+        : 'Insert link'
       : editDraft
         ? selectedFile
-          ? '上传并替换'
-          : '保存修改'
-        : '上传并插入'
+          ? 'Upload and replace'
+          : 'Save changes'
+        : 'Upload and insert'
 );
 
-const dialogTitle = $derived(editDraft ? '编辑图片' : '插入图片');
+const dialogTitle = $derived(editDraft ? 'Edit image' : 'Insert image');
 
 const formatBytes = (value: number): string => {
   if (value >= 1024 * 1024) return `${(value / 1024 / 1024).toFixed(1)} MB`;
@@ -192,7 +192,7 @@ const uploadAndInsert = async () => {
       insertImageText(editDraft.src);
       return;
     }
-    errorText = '请选择图片';
+    errorText = 'Please select an image';
     return;
   }
 
@@ -270,7 +270,7 @@ $effect(() => {
     <button
       class="admin-modal__backdrop admin-editor-image-insert__backdrop"
       type="button"
-      aria-label="关闭插入图片"
+      aria-label="Close insert image"
       onclick={closeDialog}
     ></button>
     <div
@@ -299,7 +299,7 @@ $effect(() => {
             bind:this={closeButtonEl}
             class="admin-btn admin-btn--ghost admin-btn--compact admin-btn--icon admin-editor-image-insert__close"
             type="button"
-            aria-label="关闭插入图片"
+            aria-label="Close insert image"
             disabled={busy}
             onclick={closeDialog}
           >
@@ -308,7 +308,7 @@ $effect(() => {
         </header>
 
         <div class="admin-modal__body admin-editor-image-insert__body">
-          <div class="admin-editor-image-insert__mode-switch" role="group" aria-label="图片插入方式">
+          <div class="admin-editor-image-insert__mode-switch" role="group" aria-label="Image insert method">
             <button
               class="admin-editor-image-insert__mode-button"
               class:is-active={insertMode === 'upload'}
@@ -317,7 +317,7 @@ $effect(() => {
               disabled={disabled || busy}
               onclick={() => setInsertMode('upload')}
             >
-              上传文件
+              Upload file
             </button>
             <button
               class="admin-editor-image-insert__mode-button"
@@ -327,7 +327,7 @@ $effect(() => {
               disabled={disabled || busy}
               onclick={() => setInsertMode('url')}
             >
-              图床链接
+              Image URL
             </button>
           </div>
 
@@ -347,7 +347,7 @@ $effect(() => {
                   <AdminEditorIcon name="image" size={18} strokeWidth={2} />
                 </span>
                 <span class="admin-editor-image-insert__source-copy">
-                  <strong>当前图片</strong>
+                  <strong>Current image</strong>
                   <span>{editDraft.src}</span>
                 </span>
                 <button
@@ -356,7 +356,7 @@ $effect(() => {
                   disabled={disabled || busy}
                   onclick={requestFileSelection}
                 >
-                  替换
+                  Replace
                 </button>
               </div>
             {:else}
@@ -371,8 +371,8 @@ $effect(() => {
                   <AdminEditorIcon name="upload" size={18} strokeWidth={2} />
                 </span>
                 <span class="admin-editor-image-insert__source-copy">
-                  <strong>{selectedFile ? selectedFile.name : '选择本地图片'}</strong>
-                  <span>{selectedFile ? formatBytes(selectedFile.size) : '上传后保存到当前内容附件目录，并插入 Markdown'}</span>
+                  <strong>{selectedFile ? selectedFile.name : 'Choose a local image'}</strong>
+                  <span>{selectedFile ? formatBytes(selectedFile.size) : 'Uploads are saved to the current content attachment folder and inserted as Markdown'}</span>
                 </span>
               </button>
             {/if}
@@ -384,7 +384,7 @@ $effect(() => {
             {/if}
           {:else}
             <label class="admin-field admin-editor-image-insert__field">
-              <span class="admin-field__label">图床链接</span>
+              <span class="admin-field__label">Image URL</span>
               <input
                 bind:this={urlInputEl}
                 class="admin-field__control"
@@ -402,19 +402,19 @@ $effect(() => {
           {/if}
 
           <label class="admin-field admin-editor-image-insert__field">
-            <span class="admin-field__label">图片描述</span>
+            <span class="admin-field__label">Image description</span>
             <input
               class="admin-field__control"
               type="text"
               bind:value={altText}
               disabled={disabled || busy}
-              placeholder="写入 alt，可留空"
+              placeholder="Alt text, optional"
             />
           </label>
 
           <div class="admin-editor-image-insert__section">
-            <span class="admin-field__label">图片排版</span>
-            <div class="admin-editor-image-insert__option-group" role="group" aria-label="图片排版">
+            <span class="admin-field__label">Layout</span>
+            <div class="admin-editor-image-insert__option-group" role="group" aria-label="Image layout">
               <button
                 class="admin-editor-image-insert__option-button"
                 class:is-active={presentation === 'plain'}
@@ -426,7 +426,7 @@ $effect(() => {
                   errorText = '';
                 }}
               >
-                普通图片
+                Plain image
               </button>
               <button
                 class="admin-editor-image-insert__option-button"
@@ -439,27 +439,27 @@ $effect(() => {
                   errorText = '';
                 }}
               >
-                图注图片
+                Captioned image
               </button>
             </div>
           </div>
 
           {#if presentation === 'figure'}
             <label class="admin-field admin-editor-image-insert__field">
-              <span class="admin-field__label">图注</span>
+              <span class="admin-field__label">Caption</span>
               <input
                 class="admin-field__control"
                 type="text"
                 bind:value={captionText}
                 disabled={disabled || busy}
-                placeholder="显示在图片下方，可留空"
+                placeholder="Shown below the image, optional"
               />
             </label>
           {/if}
 
           <div class="admin-editor-image-insert__display-grid">
             <label class="admin-field admin-editor-image-insert__field">
-              <span class="admin-field__label">尺寸</span>
+              <span class="admin-field__label">Size</span>
               <select class="admin-field__control" bind:value={displaySize} disabled={disabled || busy}>
                 {#each IMAGE_DISPLAY_SIZE_OPTIONS as option}
                   <option value={option.value}>{option.label}</option>
@@ -468,8 +468,8 @@ $effect(() => {
             </label>
 
             <div class="admin-editor-image-insert__section">
-              <span class="admin-field__label">对齐</span>
-              <div class="admin-editor-image-insert__option-group" role="group" aria-label="图片对齐方式">
+              <span class="admin-field__label">Alignment</span>
+              <div class="admin-editor-image-insert__option-group" role="group" aria-label="Image alignment">
                 {#each IMAGE_ALIGNMENT_OPTIONS as option}
                   <button
                     class="admin-editor-image-insert__option-button"
@@ -494,7 +494,7 @@ $effect(() => {
         </div>
 
         <footer class="admin-modal__actions admin-editor-image-insert__actions">
-          <button class="admin-btn admin-btn--ghost admin-btn--compact" type="button" disabled={busy} onclick={closeDialog}>取消</button>
+          <button class="admin-btn admin-btn--ghost admin-btn--compact" type="button" disabled={busy} onclick={closeDialog}>Cancel</button>
           <button class="admin-btn admin-btn--primary admin-btn--compact" type="submit" disabled={disabled || busy}>
             {submitButtonText}
           </button>

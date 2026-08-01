@@ -77,7 +77,7 @@ export const uploadContentEditorImage = async ({
     if (!response.ok || !isPayloadOk(payload) || !result) {
       return {
         ok: false,
-        error: getPayloadErrors(payload)[0] ?? '图片上传失败'
+        error: getPayloadErrors(payload)[0] ?? 'Image upload failed'
       };
     }
 
@@ -85,7 +85,7 @@ export const uploadContentEditorImage = async ({
   } catch {
     return {
       ok: false,
-      error: '图片上传请求失败'
+      error: 'Image upload request failed'
     };
   }
 };

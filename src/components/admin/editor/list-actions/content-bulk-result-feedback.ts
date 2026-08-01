@@ -4,8 +4,8 @@ import {
 } from '../../../../lib/admin-console/content-bulk';
 import { isRecord } from '../../../../scripts/admin-content/entry-transport';
 
-// 批量写入成功后，结果提示会在内容列表刷新后恢复显示。
-// 用户关闭提示前保留快照，避免连续刷新导致结果丢失；过期快照会自动忽略。
+// After a bulk write succeeds, the result message is restored once the content list refreshes.
+// Keep a snapshot until the user closes the message, to avoid losing it on repeated refreshes; expired snapshots are ignored automatically.
 
 export type ContentBulkResultDialogKind = 'status' | 'delete' | 'export';
 
@@ -60,7 +60,7 @@ export const clearContentBulkResultDialog = (): void => {
   try {
     window.sessionStorage.removeItem(CONTENT_BULK_RESULT_DIALOG_STORAGE_KEY);
   } catch {
-    // 存储不可用时仅影响刷新后的结果提示。
+    // If storage is unavailable, only the post-refresh result message is affected.
   }
 };
 
@@ -91,6 +91,6 @@ export const storeContentBulkResultDialog = (dialog: ContentBulkResultDialog): v
       JSON.stringify(storedDialog)
     );
   } catch {
-    // 存储失败仅影响刷新后的结果提示，不影响已完成的批量写入。
+    // If storage fails, only the post-refresh result message is affected; the completed bulk write is unaffected.
   }
 };

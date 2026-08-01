@@ -46,12 +46,14 @@ const footerShowCurrentYear = settings.site.footer.showCurrentYear;
 const footerCopyright = settings.site.footer.copyright;
 const showCodeLineNumbers = settings.ui.codeBlock.showLineNumbers;
 const sidebarDividerVariant = settings.ui.layout.sidebarDivider;
-// 非默认字体角色以 <html> 内联自定义属性覆盖 global.css 的 :root tokens；默认态不输出，
-// 保持 global.css 为唯一默认来源（deferGlobalStyles 异步加载路径下行内属性也不受加载顺序影响）。
+// Non-default font roles override global.css's :root tokens via an inline custom attribute on <html>; nothing is
+// output in the default state, keeping global.css as the single default source (inline attributes are also unaffected
+// by load order on the deferGlobalStyles async-loading path).
 const typographyStyleOverride = getTypographyStyleOverride(settings.ui.typography);
-// 选中 astro-fonts-api 字体时渲染 <Font>（注入构建期生成的 @font-face 与 cssVariable）；默认态为空数组。
-// 只渲染 config 期实际注册的 cssVariable（快照来自 vite.define）：dev 下热改 ui.json 的未注册
-// 条目会让 <Font> 抛 FontFamilyNotFound 崩掉全站，此处跳过并提示重启。
+// When astro-fonts-api fonts are selected, render <Font> (injects the @font-face and cssVariable generated at build time);
+// defaults to an empty array. Only cssVariables actually registered at config time are rendered (snapshot from vite.define):
+// entries not registered when hot-editing ui.json in dev would make <Font> throw FontFamilyNotFound and crash the whole
+// site, so we skip those and prompt a restart.
 const registeredFontCssVariables = new Set(
   String(import.meta.env.ASTRO_WHONO_FONT_CSS_VARIABLES ?? '').split(',').filter(Boolean)
 );
@@ -61,7 +63,7 @@ const typographyApiFonts = selectedApiFonts.filter((font) =>
 );
 if (import.meta.env.DEV && typographyApiFonts.length !== selectedApiFonts.length) {
   console.warn(
-    '[fonts] ui.typography 选中的字体未注册于本次启动的 fonts 配置，已跳过 <Font> 渲染；重启 dev server 生效。'
+    '[fonts] A font selected in ui.typography is not registered in this startup\'s fonts config; skipped rendering <Font>. Restart the dev server to apply.'
   );
 }
 const canonical = (hasSiteUrl && Astro.site)
@@ -99,7 +101,7 @@ const adminUiPrefsScriptHref = isDevAdminPage
   <head>
     <script is:inline>
       (() => {
-        // 与 src/scripts/sidebar-theme.ts 保持同一主题偏好契约，避免首屏与运行时状态漂移。
+        // Keeps the same theme preference contract as src/scripts/sidebar-theme.ts, to avoid drift between first paint and runtime state.
         const themeKey = 'theme';
         const modeKey = 'theme-mode';
         let storedMode = null;
@@ -207,7 +209,7 @@ const adminUiPrefsScriptHref = isDevAdminPage
     data-dev-ui={isDev ? 'true' : undefined}
     data-admin-dev={adminDevState}
   >
-    <a class="skip-link" href="#content">跳到内容</a>
+    <a class="skip-link" href="#content">Skip to content</a>
     <div class="shell" data-sidebar-divider={sidebarDividerVariant}>
       <Sidebar
         siteTitle={brandTitle}
@@ -229,8 +231,8 @@ const adminUiPrefsScriptHref = isDevAdminPage
       <button
         type="button"
         class="icon-button float-action scroll-top"
-        aria-label="回到顶部"
-        title="回到顶部"
+        aria-label="Back to top"
+        title="Back to top"
         aria-hidden="true"
         tabindex="-1"
       >
