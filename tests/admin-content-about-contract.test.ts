@@ -46,7 +46,7 @@ describe('admin about content contract', () => {
     expect(createAdminAboutEditorValues()).toEqual({});
     expect(isAdminAboutFrontmatterIssuePath()).toBe(false);
     expect(isAdminAboutFrontmatterIssuePath('legacyNote' as never)).toBe(false);
-    expect(getAdminAboutWriteFieldLabel('body')).toBe('正文');
+    expect(getAdminAboutWriteFieldLabel('body')).toBe('Body');
     expect(getAdminAboutWriteFieldLabel('unknown')).toBe('unknown');
   });
 

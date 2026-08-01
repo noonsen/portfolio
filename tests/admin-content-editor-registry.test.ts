@@ -130,7 +130,7 @@ describe('admin content editor page registry', () => {
     })).toBe('/base/admin/content/');
     expect(essay.infoTrigger).toEqual({
       attribute: 'data-admin-article-info-trigger',
-      label: '修改信息',
+      label: 'Edit metadata',
       panelId: 'admin-editor-frontmatter-panel'
     });
     expect(essay.usesImagePicker).toBe(false);

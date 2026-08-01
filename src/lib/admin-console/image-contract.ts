@@ -5,13 +5,13 @@ export type AdminImageScopeKey = 'recent';
 export const ADMIN_IMAGE_DEFAULT_LIST_LIMIT = 20;
 
 export const ADMIN_IMAGE_BROWSE_GROUP_LABELS = {
-  all: '全部',
-  essay: '随笔',
+  all: 'All',
+  essay: 'Essays',
   bits: 'Bits',
   memo: 'Memo',
-  assets: '配置素材',
-  pages: '页面插图',
-  uncategorized: '未归类'
+  assets: 'Config assets',
+  pages: 'Page illustrations',
+  uncategorized: 'Uncategorized'
 } as const satisfies Record<AdminImageBrowseGroup, string>;
 
 export const ADMIN_IMAGE_BROWSE_GROUP_ORDER = [
@@ -25,7 +25,7 @@ export const ADMIN_IMAGE_BROWSE_GROUP_ORDER = [
 ] as const satisfies readonly AdminImageBrowseGroup[];
 
 export const ADMIN_IMAGE_SCOPE_LABELS = {
-  recent: '最新修改'
+  recent: 'Recently modified'
 } as const satisfies Record<AdminImageScopeKey, string>;
 
 export const isAdminImageOrigin = (value: unknown): value is AdminImageOrigin =>

@@ -75,8 +75,8 @@ const isFrontmatterWriteCollection = (collection: string): collection is 'essay'
 const extractWriteInput = (body: unknown): WriteInput => {
   if (!isRecord(body)) {
     return {
-      errors: ['请求体必须是 JSON 对象'],
-      issues: [{ path: 'body', message: '请求体必须是 JSON 对象' }]
+      errors: ['Request body must be a JSON object'],
+      issues: [{ path: 'body', message: 'Request body must be a JSON object' }]
     };
   }
 
@@ -90,15 +90,15 @@ const extractWriteInput = (body: unknown): WriteInput => {
   const hasBody = hasOwn(body, 'body');
 
   if (!rawCollection) {
-    const message = '请求体缺少 collection';
+    const message = 'Request body is missing collection';
     errors.push(message);
     issues.push({ path: 'collection', message });
   } else if (!isAdminContentCollectionKey(rawCollection)) {
-    const message = `不支持的 content collection：${rawCollection}；仅支持 ${ADMIN_CONTENT_COLLECTION_KEYS.join(' / ')}`;
+    const message = `Unsupported content collection: ${rawCollection}; only ${ADMIN_CONTENT_COLLECTION_KEYS.join(' / ')} are supported`;
     errors.push(message);
     issues.push({ path: 'collection', message });
   } else if (!isAdminContentEntryWriteCollectionKey(rawCollection)) {
-    const message = getAdminContentReadOnlyReason(rawCollection) ?? `当前 collection 暂不支持写盘：${rawCollection}`;
+    const message = getAdminContentReadOnlyReason(rawCollection) ?? `This collection does not currently support writing: ${rawCollection}`;
     errors.push(message);
     issues.push({ path: 'collection', message });
   } else {
@@ -106,41 +106,41 @@ const extractWriteInput = (body: unknown): WriteInput => {
   }
 
   if (!entryId) {
-    const message = '请求体缺少 entryId';
+    const message = 'Request body is missing entryId';
     errors.push(message);
     issues.push({ path: 'entryId', message });
   }
 
   if (!revision) {
-    const message = '请求体缺少 revision';
+    const message = 'Request body is missing revision';
     errors.push(message);
     issues.push({ path: 'revision', message });
   }
 
   if (rawCollection === 'about' && !hasBody) {
-    const message = 'about 保存请求缺少 body 字段';
+    const message = 'about save request is missing the body field';
     errors.push(message);
     issues.push({ path: 'body', message });
   }
 
   if (rawCollection === 'memo' && !hasBody) {
-    const message = 'memo 保存请求缺少 body 字段';
+    const message = 'memo save request is missing the body field';
     errors.push(message);
     issues.push({ path: 'body', message });
   }
 
   if (isFrontmatterWriteCollection(rawCollection) && !hasFrontmatter) {
-    const message = '请求体缺少 frontmatter 字段';
+    const message = 'Request body is missing the frontmatter field';
     errors.push(message);
     issues.push({ path: 'frontmatter', message });
   } else if (isFrontmatterWriteCollection(rawCollection) && !isRecord(body.frontmatter)) {
-    const message = 'frontmatter 必须是对象';
+    const message = 'frontmatter must be an object';
     errors.push(message);
     issues.push({ path: 'frontmatter', message });
   }
 
   if (hasBody && typeof body.body !== 'string') {
-    const message = 'body 必须是 Markdown 字符串';
+    const message = 'body must be a Markdown string';
     errors.push(message);
     issues.push({ path: 'body', message });
   }
@@ -182,7 +182,7 @@ const createRevisionConflictResponse = (
     JSON.stringify(
       {
         ok: false,
-        errors: ['检测到内容文件已在外部更新，已拒绝覆盖，请刷新当前条目后再保存'],
+        errors: ['Detected the content file was updated externally — overwrite refused; refresh the current entry before saving again'],
         payload
       },
       null,
@@ -200,19 +200,19 @@ export const GET: APIRoute = async ({ url }) => {
   const entryId = url.searchParams.get('entryId')?.trim() ?? '';
 
   if (!collection) {
-    return createJsonErrorResponse(400, ['查询参数缺少 collection'], [{ path: 'collection', message: '查询参数缺少 collection' }]);
+    return createJsonErrorResponse(400, ['Query parameter is missing collection'], [{ path: 'collection', message: 'Query parameter is missing collection' }]);
   }
 
   if (!isAdminContentCollectionKey(collection)) {
     return createJsonErrorResponse(
       400,
-      [`不支持的 content collection：${collection}；仅支持 ${ADMIN_CONTENT_COLLECTION_KEYS.join(' / ')}`],
-      [{ path: 'collection', message: `不支持的 content collection：${collection}` }]
+      [`Unsupported content collection: ${collection}; only ${ADMIN_CONTENT_COLLECTION_KEYS.join(' / ')} are supported`],
+      [{ path: 'collection', message: `Unsupported content collection: ${collection}` }]
     );
   }
 
   if (!isAdminContentEntryWriteCollectionKey(collection)) {
-    const message = getAdminContentReadOnlyReason(collection) ?? `当前 collection 暂不支持写盘：${collection}`;
+    const message = getAdminContentReadOnlyReason(collection) ?? `This collection does not currently support writing: ${collection}`;
     return createJsonErrorResponse(
       400,
       [message],
@@ -221,7 +221,7 @@ export const GET: APIRoute = async ({ url }) => {
   }
 
   if (!entryId) {
-    return createJsonErrorResponse(400, ['查询参数缺少 entryId'], [{ path: 'entryId', message: '查询参数缺少 entryId' }]);
+    return createJsonErrorResponse(400, ['Query parameter is missing entryId'], [{ path: 'entryId', message: 'Query parameter is missing entryId' }]);
   }
 
   try {
@@ -247,7 +247,7 @@ export const POST: APIRoute = async ({ request, url }) => {
   }
 
   const bodyResult = await readAdminJsonRequestBody(request, {
-    emptyBodyError: '请求体为空，请确认已发送 JSON 字符串'
+    emptyBodyError: 'Request body is empty — make sure a JSON string was sent'
   });
   if (!bodyResult.ok) {
     return createJsonErrorResponse(bodyResult.status, [bodyResult.error]);
@@ -351,7 +351,7 @@ export const POST: APIRoute = async ({ request, url }) => {
         JSON.stringify(
           {
             ok: false,
-            errors: ['写入内容文件失败，请检查本地文件权限或日志'],
+            errors: ['Failed to write the content file — check local file permissions or logs'],
             result
           },
           null,

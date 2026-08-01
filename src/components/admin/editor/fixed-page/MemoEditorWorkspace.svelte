@@ -306,30 +306,30 @@ const requestContentWrite = async () => {
         if (saveOutcome.revision) currentRevision = saveOutcome.revision;
         errors = [
           ...nextErrors,
-          '已载入磁盘最新版本作为冲突基线，当前编辑内容仍保留。请核对后再次保存，或通过“还原更改”载入磁盘版本。'
+          'Loaded the latest version on disk as the conflict baseline; your current edits are preserved. Review and save again, or use "Revert changes" to load the on-disk version.'
         ];
-        setStatus('warn', '检测到外部更新，草稿已保留');
+        setStatus('warn', 'Detected an external update — draft preserved');
         return;
       }
 
       errors = nextErrors;
-      setStatus(saveOutcome.status === 409 ? 'warn' : 'error', saveOutcome.status === 409 ? '检测到外部更新' : '保存失败');
+      setStatus(saveOutcome.status === 409 ? 'warn' : 'error', saveOutcome.status === 409 ? 'Detected an external update' : 'Save failed');
       return;
     }
 
     const result = saveOutcome.result;
     if (!result) {
-      errors = ['响应体缺少 result 字段，请检查开发日志'];
-      setStatus('error', '写入响应异常');
+      errors = ['Response body is missing the result field — check the dev logs'];
+      setStatus('error', 'Unexpected write response');
       return;
     }
 
     writeResult = result;
     commitLatestBody(saveOutcome.latestBody);
-    setStatus(result.changed ? 'ok' : 'ready', result.changed ? FIXED_PAGE_EDITOR_COPY.saved : '当前没有变更');
+    setStatus(result.changed ? 'ok' : 'ready', result.changed ? FIXED_PAGE_EDITOR_COPY.saved : 'No changes');
   } catch {
-    errors = ['保存请求失败，请稍后重试'];
-    setStatus('error', '保存请求失败');
+    errors = ['Save request failed — try again later'];
+    setStatus('error', 'Save request failed');
   } finally {
     busy = false;
   }
@@ -355,7 +355,7 @@ const requestPreview = async (sourceSnapshot: string) => {
 
     const previewResult = previewOutcome.result;
     if (!previewOutcome.responseOk || !previewOutcome.payloadOk || !previewResult) {
-      previewError = previewOutcome.errors[0] ?? '预览生成失败，请检查响应与控制台日志';
+      previewError = previewOutcome.errors[0] ?? 'Failed to generate preview — check the response and console logs';
       return;
     }
 
@@ -363,7 +363,7 @@ const requestPreview = async (sourceSnapshot: string) => {
     previewWarnings = previewResult.warnings;
   } catch {
     if (previewRequest.signal.aborted || !previewRequest.isCurrent()) return;
-    previewError = '预览请求失败，请稍后重试';
+    previewError = 'Preview request failed — try again later';
   } finally {
     if (previewRequest.isCurrent()) {
       previewBusy = false;
@@ -387,7 +387,7 @@ $effect(() => {
       isDirty: () => dirty,
       message: FIXED_PAGE_EDITOR_COPY.leaveConfirm,
       onBlocked: () => {
-        setStatus('warn', '请先保存或还原');
+        setStatus('warn', 'Save or revert first');
       }
     }
   });
@@ -535,7 +535,7 @@ $effect(() => {
     actionLabel={FIXED_PAGE_EDITOR_COPY.actionLabel}
     moreLabel={FIXED_PAGE_EDITOR_COPY.moreLabel}
     saveLabel={FIXED_PAGE_EDITOR_COPY.saveLabel}
-    downloadLabel="下载源文件"
+    downloadLabel="Download source file"
     showDelete={editorAdapter.capabilities.delete}
     onSave={requestContentWrite}
     onReset={handleActionMenuReset}
@@ -577,7 +577,7 @@ $effect(() => {
     outlineListEnabled={false}
     outlineHeadingsTabLabel={FIXED_PAGE_EDITOR_COPY.outlineHeadingsTabLabel}
     outlineHeadingsTabIcon="square-chart-gantt"
-    outlineHeadingsEmptyText="暂无 H2/H3 标题"
+    outlineHeadingsEmptyText="No H2/H3 headings yet"
     outlinePanelLabel={FIXED_PAGE_EDITOR_COPY.outlinePanelLabel}
     onBodyScrollElementChange={setBodyScrollElement}
     onBodyOutlineJump={handleBodyOutlineJump}

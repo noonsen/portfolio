@@ -225,7 +225,7 @@ const createEditorExtensions = (): Extension[] => [
   EditorView.lineWrapping,
   lineNumbersCompartment.of(lineNumbersEnabled ? lineNumbers() : []),
   EditorView.contentAttributes.of({
-    'aria-label': 'Markdown 正文',
+    'aria-label': 'Markdown body',
     spellcheck: 'false'
   }),
   keymap.of([
@@ -345,7 +345,7 @@ $effect(() => {
 
 <section class="admin-editor-body" aria-label="Markdown body editor">
   <div class="admin-field admin-editor-body__field">
-    <span class="admin-sr-only">Markdown 正文</span>
+    <span class="admin-sr-only">Markdown body</span>
     <div
       class="admin-editor-body__codemirror"
       bind:this={editorHostEl}

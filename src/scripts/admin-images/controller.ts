@@ -152,8 +152,8 @@ export const initAdminImagesConsole = () => {
   const bootstrap = parseBootstrap(bootstrapEl.textContent ?? '');
   if (!bootstrap) {
     statusEl.dataset.state = 'error';
-    statusEl.textContent = '图库初始化失败';
-    statusLiveEl.textContent = '图库初始化失败';
+    statusEl.textContent = 'Image library failed to initialize';
+    statusLiveEl.textContent = 'Image library failed to initialize';
     return;
   }
 
@@ -338,7 +338,7 @@ export const initAdminImagesConsole = () => {
     filterToggleBtn.dataset.active = filterVisible ? 'true' : 'false';
     filterToggleBtn.dataset.filtered = filtered ? 'true' : 'false';
     filterToggleBtn.setAttribute('aria-expanded', filterVisible ? 'true' : 'false');
-    filterToggleBtn.setAttribute('aria-label', filterVisible ? '收起图片筛选' : '展开图片筛选');
+    filterToggleBtn.setAttribute('aria-label', filterVisible ? 'Collapse image filters' : 'Expand image filters');
     filtersPanelEl.hidden = !filterVisible;
     filtersPanelEl.dataset.open = filterVisible ? 'true' : 'false';
     filtersPanelEl.setAttribute('aria-hidden', filterVisible ? 'false' : 'true');
@@ -348,7 +348,7 @@ export const initAdminImagesConsole = () => {
     searchToggleBtn.dataset.active = searchVisible ? 'true' : 'false';
     searchToggleBtn.setAttribute('aria-expanded', searchVisible ? 'true' : 'false');
     recentBtn.disabled = busy;
-    recentBtn.textContent = currentState.scope === 'recent' ? '返回分类' : ADMIN_IMAGE_SCOPE_LABELS.recent;
+    recentBtn.textContent = currentState.scope === 'recent' ? 'Back to Categories' : ADMIN_IMAGE_SCOPE_LABELS.recent;
     recentBtn.setAttribute('aria-pressed', currentState.scope === 'recent' ? 'true' : 'false');
     refreshBtn.disabled = busy;
     listViewBtn.disabled = busy;
@@ -469,7 +469,7 @@ export const initAdminImagesConsole = () => {
       detailMetaCache.set(assetPath, meta);
       detailMetaErrors.delete(assetPath);
     } catch (error) {
-      const message = error instanceof Error ? error.message : '图片信息读取失败';
+      const message = error instanceof Error ? error.message : 'Failed to read image information';
       detailMetaErrors.set(assetPath, message);
       if (syncUi && selectedPath === assetPath) {
         setStatus('warn', message);
@@ -549,7 +549,7 @@ export const initAdminImagesConsole = () => {
     if (shouldPrefetch) {
       busy = true;
       syncControls();
-      setStatus('loading', '正在读取当前页图片信息...', false);
+      setStatus('loading', 'Reading image information for the current page...', false);
       await Promise.all(prefetchPaths.map((assetPath) => loadDetailMeta(assetPath, { syncUi: false })));
     }
 
@@ -598,7 +598,7 @@ export const initAdminImagesConsole = () => {
       totalCount: browsePage.totalCount,
       totalPages: browsePage.totalPages,
       updateLocation,
-      successMessage: browsePage.totalCount > 0 ? `已匹配 ${browsePage.totalCount} 张图片` : '没有找到符合条件的图片'
+      successMessage: browsePage.totalCount > 0 ? `Matched ${browsePage.totalCount} image(s)` : 'No images found matching the criteria'
     });
   };
 
@@ -620,17 +620,17 @@ export const initAdminImagesConsole = () => {
     const token = ++requestToken;
     busy = true;
     syncControls();
-    setStatus('loading', '正在加载图片...', false);
+    setStatus('loading', 'Loading images...', false);
 
     try {
       const result = await fetchList(bootstrap.listEndpoint, currentState, getCurrentPageSize());
       if (token !== requestToken) return;
 
       applyListResult(result, { updateLocation });
-      setStatus('ok', result.totalCount > 0 ? `已加载 ${result.totalCount} 张图片` : '没有找到符合条件的图片', false);
+      setStatus('ok', result.totalCount > 0 ? `Loaded ${result.totalCount} image(s)` : 'No images found matching the criteria', false);
     } catch (error) {
       if (token !== requestToken) return;
-      clearLoadFailure(error instanceof Error ? error.message : '图片列表读取失败');
+      clearLoadFailure(error instanceof Error ? error.message : 'Failed to read the image list');
     } finally {
       if (token === requestToken) {
         busy = false;
@@ -709,15 +709,15 @@ export const initAdminImagesConsole = () => {
     }
 
     button.dataset.state = 'copied';
-    button.setAttribute('aria-label', `已复制${copyLabel}`);
-    button.setAttribute('title', `已复制${copyLabel}`);
+    button.setAttribute('aria-label', `Copied ${copyLabel}`);
+    button.setAttribute('title', `Copied ${copyLabel}`);
 
     const timer = window.setTimeout(() => {
       if (!button.isConnected) return;
       delete button.dataset.state;
       delete button.dataset.feedbackTimer;
-      button.setAttribute('aria-label', `复制${copyLabel}`);
-      button.setAttribute('title', '点击复制');
+      button.setAttribute('aria-label', `Copy ${copyLabel}`);
+      button.setAttribute('title', 'Click to copy');
     }, 1100);
 
     button.dataset.feedbackTimer = String(timer);
@@ -835,20 +835,20 @@ export const initAdminImagesConsole = () => {
     if (!(target instanceof HTMLButtonElement)) return;
 
     const copyValue = target.dataset.copyValue ?? '';
-    const copyLabel = target.dataset.copyLabel?.trim() ?? '内容';
+    const copyLabel = target.dataset.copyLabel?.trim() ?? 'content';
     if (!copyValue) {
-      setStatus('error', `${copyLabel}为空，无法复制`);
+      setStatus('error', `${copyLabel} is empty, cannot copy`);
       return;
     }
 
     try {
       await copyText(copyValue);
-      setStatus('ok', `已复制${copyLabel}`);
+      setStatus('ok', `${copyLabel} copied`);
       if (target.dataset.inlineFeedback === 'true') {
         triggerInlineCopyFeedback(target, copyLabel);
       }
     } catch (error) {
-      setStatus('error', error instanceof Error ? error.message : `复制${copyLabel}失败`);
+      setStatus('error', error instanceof Error ? error.message : `Failed to copy ${copyLabel}`);
     }
   });
 
@@ -885,8 +885,8 @@ export const initAdminImagesConsole = () => {
       setStatus(
         'ok',
         resetToDefaultView
-          ? (currentTotalCount > 0 ? `图库已刷新，已返回全部资源（共 ${currentTotalCount} 张图片）` : '图库已刷新，已返回全部资源')
-          : (currentTotalCount > 0 ? `图库已刷新，当前共 ${currentTotalCount} 张图片` : '图库已刷新')
+          ? (currentTotalCount > 0 ? `Image library refreshed, returned to all resources (${currentTotalCount} image(s) total)` : 'Image library refreshed, returned to all resources')
+          : (currentTotalCount > 0 ? `Image library refreshed, ${currentTotalCount} image(s) total` : 'Image library refreshed')
       );
     }
   } else {

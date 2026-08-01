@@ -48,7 +48,7 @@ let {
   showEntryId = false,
   slugPlaceholder = '',
   bitsDefaultAuthor = {},
-  ariaLabel = '内容字段',
+  ariaLabel = 'Content fields',
   fieldScope = 'all',
   onEntryIdInput = () => {},
   onDirty = () => {}
@@ -115,7 +115,7 @@ const getEffectivePublishDateResult = (date: string, publishedAt: string) =>
 
 const getPublishedAtInputIssue = (value: string): string =>
   value.trim() && !getPublishedAtResult(value)
-    ? '需填写带时区的合法 ISO 日期时间'
+    ? 'Please enter a valid ISO date-time with timezone'
     : '';
 
 const getUpdatedAtInputIssue = (value: string, date: string, publishedAt: string): string => {
@@ -124,12 +124,12 @@ const getUpdatedAtInputIssue = (value: string, date: string, publishedAt: string
 
   const result = parseEssayDateInput(trimmed);
   if (!result) {
-    return '需填写 YYYY-MM-DD 或带时区的合法 ISO 日期时间';
+    return 'Please enter YYYY-MM-DD or a valid ISO date-time with timezone';
   }
 
   const publishDateResult = getEffectivePublishDateResult(date, publishedAt);
   return publishDateResult && result.date.valueOf() < publishDateResult.date.valueOf()
-    ? '更新日期不能早于发布日期'
+    ? 'Update date cannot be earlier than the publish date'
     : '';
 };
 
@@ -138,7 +138,7 @@ const publishedAtSyncDate = $derived(
 );
 const publishedAtSyncMessage = $derived(
   isEssayEditorValues(value) && publishedAtSyncDate && value.date !== publishedAtSyncDate
-    ? `发布日期与详细时间不一致，保存后将自动更新发布日期为 ${publishedAtSyncDate}`
+    ? `Publish date does not match the detailed time; the publish date will be updated to ${publishedAtSyncDate} on save`
     : ''
 );
 const publishedAtIssue = $derived(
@@ -166,7 +166,7 @@ const bitsImagesIssue = $derived(getIssue('imagesText') || getIssueByPrefix('ima
 const bitsAuthorIssue = $derived(getIssue('authorName') || getIssue('authorAvatar'));
 const bitsAuthorNameText = $derived(
   isBitsEditorValues(value)
-    ? value.authorName.trim() || bitsDefaultAuthor.name?.trim() || '未设置'
+    ? value.authorName.trim() || bitsDefaultAuthor.name?.trim() || 'Not set'
     : ''
 );
 const bitsAuthorAvatarText = $derived(
@@ -188,7 +188,7 @@ const bitsAuthorAvatarFallback = $derived(
   <div class="admin-editor-frontmatter__fields">
     {#if collection === 'essay' && isEssayEditorValues(value)}
       <label class="admin-field admin-content-editor__field" class:is-invalid={Boolean(getIssue('title'))}>
-        <span class="admin-field__label">文章标题</span>
+        <span class="admin-field__label">Article Title</span>
         <input
           class="admin-field__control"
           name="title"
@@ -203,7 +203,7 @@ const bitsAuthorAvatarFallback = $derived(
 
       {#if showEntryId}
         <label class="admin-field admin-content-editor__field" class:is-invalid={Boolean(getIssue('entryId'))}>
-          <span class="admin-field__label">源文件名</span>
+          <span class="admin-field__label">Source Filename</span>
           <input
             class="admin-field__control"
             name="entryId"
@@ -221,7 +221,7 @@ const bitsAuthorAvatarFallback = $derived(
 
       <div class="admin-editor-frontmatter__datetime-grid">
         <div class="admin-field admin-content-editor__field" class:is-invalid={Boolean(getIssue('date'))}>
-          <label class="admin-field__label" for="admin-essay-date">发布日期</label>
+          <label class="admin-field__label" for="admin-essay-date">Publish Date</label>
           <input
             id="admin-essay-date"
             class="admin-field__control"
@@ -238,17 +238,17 @@ const bitsAuthorAvatarFallback = $derived(
         <div class="admin-field admin-content-editor__field" class:is-invalid={Boolean(publishedAtIssue)}>
           <div class="admin-editor-frontmatter__label-row admin-editor-frontmatter__label-row--with-action">
             <span class="admin-editor-frontmatter__label-help">
-              <label class="admin-field__label" for="admin-essay-published-at">详细时间（可选）</label>
+              <label class="admin-field__label" for="admin-essay-published-at">Detailed Time (optional)</label>
               <button
                 class="admin-editor-frontmatter__hint-trigger"
                 type="button"
-                aria-label="详细时间说明"
+                aria-label="Detailed time info"
                 aria-describedby="admin-essay-published-at-tip"
               >
                 <AdminEditorIcon name="info" size={13} strokeWidth={2} />
               </button>
               <span id="admin-essay-published-at-tip" class="admin-editor-frontmatter__tooltip" role="tooltip">
-                按 ISO 日期时间填写，需包含时区，日期需与发布日期一致；留空时仅使用发布日期。
+                Enter as an ISO date-time including timezone; the date must match the publish date. Leave blank to use only the publish date.
               </span>
             </span>
             <button
@@ -257,7 +257,7 @@ const bitsAuthorAvatarFallback = $derived(
               onclick={setPublishedAtNow}
               disabled={disabled}
             >
-              设为当前
+              Set to Now
             </button>
           </div>
           <input
@@ -299,17 +299,17 @@ const bitsAuthorAvatarFallback = $derived(
         <div class="admin-field admin-content-editor__field" class:is-invalid={Boolean(updatedAtIssue)}>
           <div class="admin-editor-frontmatter__label-row admin-editor-frontmatter__label-row--with-action">
             <span class="admin-editor-frontmatter__label-help">
-              <label class="admin-field__label" for="admin-essay-updated-at">更新日期（可选）</label>
+              <label class="admin-field__label" for="admin-essay-updated-at">Update Date (optional)</label>
               <button
                 class="admin-editor-frontmatter__hint-trigger"
                 type="button"
-                aria-label="更新日期说明"
+                aria-label="Update date info"
                 aria-describedby="admin-essay-updated-at-tip"
               >
                 <AdminEditorIcon name="info" size={13} strokeWidth={2} />
               </button>
               <span id="admin-essay-updated-at-tip" class="admin-editor-frontmatter__tooltip" role="tooltip">
-                支持 YYYY-MM-DD 或 ISO 日期时间，需包含时区；填写后文章日期显示为“更新于：YYYY-MM-DD”。
+                Supports YYYY-MM-DD or an ISO date-time with timezone; once set, the article date displays as "Updated: YYYY-MM-DD".
               </span>
             </span>
             <button
@@ -318,7 +318,7 @@ const bitsAuthorAvatarFallback = $derived(
               onclick={setUpdatedAtToday}
               disabled={disabled}
             >
-              设为今日
+              Set to Today
             </button>
           </div>
           <input
@@ -340,7 +340,7 @@ const bitsAuthorAvatarFallback = $derived(
       </div>
 
       <label class="admin-field admin-content-editor__field" class:is-invalid={Boolean(getIssue('description'))}>
-        <span class="admin-field__label">摘要</span>
+        <span class="admin-field__label">Summary</span>
         <textarea
           class="admin-field__control"
           name="description"
@@ -354,7 +354,7 @@ const bitsAuthorAvatarFallback = $derived(
       </label>
 
       <div class="admin-field admin-content-editor__field" class:is-invalid={Boolean(getIssue('slug'))}>
-        <label class="admin-field__label" for="admin-essay-slug">公开 URL 别名（可选）</label>
+        <label class="admin-field__label" for="admin-essay-slug">Public URL Slug (optional)</label>
         <input
           id="admin-essay-slug"
           class="admin-field__control"
@@ -371,7 +371,7 @@ const bitsAuthorAvatarFallback = $derived(
       </div>
 
       <label class="admin-field admin-content-editor__field" class:is-invalid={Boolean(getIssue('cover'))}>
-        <span class="admin-field__label">封面图</span>
+        <span class="admin-field__label">Cover Image</span>
         <input
           class="admin-field__control"
           name="cover"
@@ -386,7 +386,7 @@ const bitsAuthorAvatarFallback = $derived(
       </label>
 
       <div class="admin-field admin-content-editor__field" class:is-invalid={Boolean(getIssue('tags'))}>
-        <label class="admin-field__label" for="admin-essay-tags">标签</label>
+        <label class="admin-field__label" for="admin-essay-tags">Tags</label>
         <FrontmatterTagsInput
           id="admin-essay-tags"
           bind:value={value.tagsText}
@@ -399,7 +399,7 @@ const bitsAuthorAvatarFallback = $derived(
       </div>
     {:else if collection === 'bits' && isBitsEditorValues(value)}
       <label class="admin-field admin-content-editor__field" class:is-invalid={Boolean(getIssue('title'))}>
-        <span class="admin-field__label">标题（可选）</span>
+        <span class="admin-field__label">Title (optional)</span>
         <input
           class="admin-field__control"
           name="title"
@@ -415,7 +415,7 @@ const bitsAuthorAvatarFallback = $derived(
 
       {#if fieldScope !== 'bits-summary'}
         <label class="admin-field admin-content-editor__field" class:is-invalid={Boolean(getIssue('date'))}>
-          <span class="admin-field__label">发布时间</span>
+          <span class="admin-field__label">Publish Time</span>
           <input
             class="admin-field__control"
             name="date"
@@ -431,7 +431,7 @@ const bitsAuthorAvatarFallback = $derived(
 
       {#if fieldScope !== 'bits-summary' || bitsAuthorIssue}
         <label class="admin-field admin-content-editor__field" class:is-invalid={Boolean(getIssue('authorName'))}>
-          <span class="admin-field__label">作者名（单条覆盖）</span>
+          <span class="admin-field__label">Author Name (per-entry override)</span>
           <input
             class="admin-field__control"
             name="authorName"
@@ -446,7 +446,7 @@ const bitsAuthorAvatarFallback = $derived(
         </label>
 
         <label class="admin-field admin-content-editor__field" class:is-invalid={Boolean(getIssue('authorAvatar'))}>
-          <span class="admin-field__label">作者头像（单条覆盖）</span>
+          <span class="admin-field__label">Author Avatar (per-entry override)</span>
           <input
             class="admin-field__control"
             name="authorAvatar"
@@ -464,7 +464,7 @@ const bitsAuthorAvatarFallback = $derived(
       {/if}
 
       <label class="admin-field admin-content-editor__field" class:is-invalid={Boolean(getIssue('description'))}>
-        <span class="admin-field__label">摘要</span>
+        <span class="admin-field__label">Summary</span>
         <textarea
           class="admin-field__control"
           name="description"
@@ -480,8 +480,8 @@ const bitsAuthorAvatarFallback = $derived(
 
       {#if fieldScope === 'bits-summary' && !bitsAuthorIssue}
         <div class="admin-field admin-content-editor__field">
-          <span class="admin-field__label">作者（只读）</span>
-          <div class="admin-editor-frontmatter__readonly-author" role="group" aria-label="作者（只读）">
+          <span class="admin-field__label">Author (read-only)</span>
+          <div class="admin-editor-frontmatter__readonly-author" role="group" aria-label="Author (read-only)">
             <span class="admin-editor-frontmatter__readonly-author-avatar" aria-hidden="true">
               {#if bitsAuthorAvatarPreviewSrc}
                 <img src={bitsAuthorAvatarPreviewSrc} alt="" loading="lazy" decoding="async" />
@@ -491,8 +491,8 @@ const bitsAuthorAvatarFallback = $derived(
             </span>
             <div class="admin-editor-frontmatter__readonly-author-copy">
               <strong class="admin-editor-frontmatter__readonly-author-name">{bitsAuthorNameText}</strong>
-              <code class="admin-editor-frontmatter__readonly-author-path" title={bitsAuthorAvatarText || '未设置'}>
-                {bitsAuthorAvatarText || '未设置'}
+              <code class="admin-editor-frontmatter__readonly-author-path" title={bitsAuthorAvatarText || 'Not set'}>
+                {bitsAuthorAvatarText || 'Not set'}
               </code>
             </div>
           </div>
@@ -501,7 +501,7 @@ const bitsAuthorAvatarFallback = $derived(
 
       {#if fieldScope !== 'bits-summary'}
         <div class="admin-field admin-content-editor__field" class:is-invalid={Boolean(getIssue('tags'))}>
-          <label class="admin-field__label" for="admin-bits-tags">标签</label>
+          <label class="admin-field__label" for="admin-bits-tags">Tags</label>
           <FrontmatterTagsInput
             id="admin-bits-tags"
             bind:value={value.tagsText}
@@ -514,7 +514,7 @@ const bitsAuthorAvatarFallback = $derived(
         </div>
 
         <label class="admin-field admin-content-editor__field" class:is-invalid={Boolean(bitsImagesIssue)}>
-          <span class="admin-field__label">图片 JSON</span>
+          <span class="admin-field__label">Images JSON</span>
           <textarea
             class="admin-field__control"
             name="imagesText"

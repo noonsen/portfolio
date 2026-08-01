@@ -1,12 +1,12 @@
 ---
-title: 代码高亮测试
-description: 测试不同编程语言的语法高亮效果
+title: Code Highlighting Test
+description: Testing syntax highlighting for different programming languages
 date: 2026-01-05
-tags: ["代码", "测试"]
+tags: ["Code", "Testing"]
 draft: false
 ---
 
-本文测试主题对各种编程语言的代码高亮支持。
+This post tests the theme's syntax highlighting support for various programming languages.
 
 ## TypeScript
 
@@ -100,4 +100,4 @@ site:
       url: https://github.com/johndoe
 ```
 
-代码高亮使用 Shiki，支持 100+ 种编程语言。
+Code highlighting uses Shiki, supporting 100+ programming languages.

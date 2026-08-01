@@ -280,7 +280,7 @@ describe('admin editor recovery', () => {
     documentRoot.elements.reloadButton.click();
 
     expect(writeText).toHaveBeenCalledWith('npm run dev:clean');
-    expect(documentRoot.elements.status.textContent).toBe('已复制');
+    expect(documentRoot.elements.status.textContent).toBe('Copied');
     expect(windowRef.location.reload).toHaveBeenCalledTimes(1);
   });
 

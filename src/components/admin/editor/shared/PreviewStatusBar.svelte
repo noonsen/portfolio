@@ -40,22 +40,22 @@ let {
 }: Props = $props();
 </script>
 
-<div class="admin-editor-shell__preview-bar" aria-label="正文统计与预览状态">
+<div class="admin-editor-shell__preview-bar" aria-label="Body stats and preview status">
   <div class="admin-editor-shell__preview-bar-counts">
-    <div class="admin-editor-shell__preview-stats" aria-label="正文统计">
-      <span class="admin-editor-shell__preview-stat">行数: {bodyLineCount}</span>
+    <div class="admin-editor-shell__preview-stats" aria-label="Body stats">
+      <span class="admin-editor-shell__preview-stat">Lines: {bodyLineCount}</span>
       <span class="admin-editor-shell__preview-separator" aria-hidden="true">|</span>
-      <span class="admin-editor-shell__preview-stat">字数: {bodyCharCount}</span>
+      <span class="admin-editor-shell__preview-stat">Chars: {bodyCharCount}</span>
     </div>
 
     {#if errors.length > 0}
       <details class="admin-editor-shell__preview-detail admin-editor-shell__preview-detail--error">
         <summary class="admin-editor-shell__preview-detail-trigger">
           <AdminEditorIcon name="triangle-alert" size={13} strokeWidth={2} class="admin-icon" />
-          <span>保存失败 {errors.length}</span>
+          <span>Save failed {errors.length}</span>
         </summary>
-        <div class="admin-editor-shell__preview-detail-panel" role="group" aria-label="保存错误详情">
-          <p class="admin-editor-shell__preview-detail-label">保存失败</p>
+        <div class="admin-editor-shell__preview-detail-panel" role="group" aria-label="Save error details">
+          <p class="admin-editor-shell__preview-detail-label">Save failed</p>
           <ul class="admin-editor-shell__preview-detail-list">
             {#each errors as error}
               <li>{error}</li>
@@ -69,10 +69,10 @@ let {
       <details class="admin-editor-shell__preview-detail admin-editor-shell__preview-detail--warning">
         <summary class="admin-editor-shell__preview-detail-trigger">
           <AdminEditorIcon name="triangle-alert" size={13} strokeWidth={2} class="admin-icon" />
-          <span>字段 {issues.length}</span>
+          <span>Fields {issues.length}</span>
         </summary>
-        <div class="admin-editor-shell__preview-detail-panel" role="group" aria-label="字段问题详情">
-          <p class="admin-editor-shell__preview-detail-label">字段问题</p>
+        <div class="admin-editor-shell__preview-detail-panel" role="group" aria-label="Field issue details">
+          <p class="admin-editor-shell__preview-detail-label">Field issues</p>
           <ul class="admin-editor-shell__preview-detail-list">
             {#each issues as issue}
               <li>
@@ -89,10 +89,10 @@ let {
       <details class="admin-editor-shell__preview-detail admin-editor-shell__preview-detail--error">
         <summary class="admin-editor-shell__preview-detail-trigger">
           <AdminEditorIcon name="triangle-alert" size={13} strokeWidth={2} class="admin-icon" />
-          <span>预览失败</span>
+          <span>Preview failed</span>
         </summary>
-        <div class="admin-editor-shell__preview-detail-panel" role="group" aria-label="预览错误详情">
-          <p class="admin-editor-shell__preview-detail-label">预览失败</p>
+        <div class="admin-editor-shell__preview-detail-panel" role="group" aria-label="Preview error details">
+          <p class="admin-editor-shell__preview-detail-label">Preview failed</p>
           <p class="admin-editor-shell__preview-detail-copy">{previewError}</p>
         </div>
       </details>
@@ -102,10 +102,10 @@ let {
       <details class="admin-editor-shell__preview-detail admin-editor-shell__preview-detail--warning">
         <summary class="admin-editor-shell__preview-detail-trigger">
           <AdminEditorIcon name="triangle-alert" size={13} strokeWidth={2} class="admin-icon" />
-          <span>预览 {previewWarnings.length}</span>
+          <span>Preview {previewWarnings.length}</span>
         </summary>
-        <div class="admin-editor-shell__preview-detail-panel" role="group" aria-label="预览警告详情">
-          <p class="admin-editor-shell__preview-detail-label">预览警告</p>
+        <div class="admin-editor-shell__preview-detail-panel" role="group" aria-label="Preview warning details">
+          <p class="admin-editor-shell__preview-detail-label">Preview warnings</p>
           <ul class="admin-editor-shell__preview-detail-list">
             {#each previewWarnings as warning}
               <li>{warning}</li>
@@ -120,14 +120,14 @@ let {
       <details class="admin-editor-shell__preview-detail admin-editor-shell__preview-detail--ok">
         <summary class="admin-editor-shell__preview-detail-trigger">
           <AdminEditorIcon name="check" size={13} strokeWidth={2} class="admin-icon" />
-          <span>{result.changed ? `写入 ${result.changedFields.length}` : '无改动'}</span>
+          <span>{result.changed ? `Written ${result.changedFields.length}` : 'No changes'}</span>
         </summary>
-        <div class="admin-editor-shell__preview-detail-panel" role="group" aria-label="写入结果详情">
-          <p class="admin-editor-shell__preview-detail-label">写入结果</p>
+        <div class="admin-editor-shell__preview-detail-panel" role="group" aria-label="Write result details">
+          <p class="admin-editor-shell__preview-detail-label">Write result</p>
           <p class="admin-editor-shell__preview-detail-copy">
             {result.changed
-              ? `${result.relativePath || '当前条目'} 已更新，本次更新 ${result.changedFields.length} 个字段。`
-              : '当前内容无改动。'}
+              ? `${result.relativePath || 'Current entry'} was updated; ${result.changedFields.length} field(s) changed this time.`
+              : 'No changes to the current content.'}
           </p>
           {#if result.changedFields.length > 0}
             <ul class="admin-editor-shell__preview-detail-list">
@@ -140,7 +140,7 @@ let {
       </details>
     {/if}
   </div>
-  <div class="admin-editor-shell__preview-bar-actions" aria-label="预览滚动控制">
+  <div class="admin-editor-shell__preview-bar-actions" aria-label="Preview scroll controls">
     <button
       class="admin-btn admin-btn--ghost admin-btn--compact admin-editor-shell__preview-action"
       type="button"
@@ -151,18 +151,18 @@ let {
       onclick={onToggleScrollSync}
     >
       <AdminEditorIcon name={syncScrollEnabled ? 'lock' : 'lock-open'} size={14} strokeWidth={2} />
-      <span>同步滚动</span>
+      <span>Sync scroll</span>
     </button>
     <span class="admin-editor-shell__preview-separator" aria-hidden="true">|</span>
     <button
       class="admin-btn admin-btn--ghost admin-btn--compact admin-editor-shell__preview-action"
       type="button"
-      aria-label="回到顶部"
+      aria-label="Scroll to top"
       disabled={scrollTopControlDisabled}
       onclick={onScrollToTop}
     >
       <AdminEditorIcon name="arrow-up-to-line" size={14} strokeWidth={2} />
-      <span>回到顶部</span>
+      <span>Scroll to top</span>
     </button>
   </div>
 </div>

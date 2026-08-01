@@ -15,10 +15,10 @@ type SidebarNavElements = {
 type Cleanup = () => void;
 
 const ADMIN_RAIL_VIEWPORT_QUERY = '(max-width: 900px)';
-const NAV_SWITCH_LABEL = '后台导航';
+const NAV_SWITCH_LABEL = 'Admin navigation';
 
 const getNavSwitchTitle = (mode: AdminSidebarNavMode): string =>
-  mode === ADMIN_SIDEBAR_NAV_ADMIN ? '切换到前台导航' : '切换到后台导航';
+  mode === ADMIN_SIDEBAR_NAV_ADMIN ? 'Switch to public navigation' : 'Switch to admin navigation';
 
 const readStoredMode = (): AdminSidebarNavMode | null => {
   try {

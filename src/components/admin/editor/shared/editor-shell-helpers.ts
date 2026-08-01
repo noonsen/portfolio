@@ -74,19 +74,19 @@ export const DEFAULT_EDITOR_DISPLAY_PREFERENCE: EditorDisplayPreference = {
   lineNumbers: false,
   markdownHighlightTheme: DEFAULT_MARKDOWN_HIGHLIGHT_THEME
 };
-// 无编辑器默认项或显式偏好时优先 split，窄容器视觉回退由 effective view 派生。
+// When there is no editor default or explicit preference, prefer split; the narrow-container visual fallback is derived from the effective view.
 export const DEFAULT_EDITOR_LAYOUT_INTENT: EditorLayoutMode = 'split';
-// 940px 是双 pane 与工具按钮保持可读后的最低稳定宽度；CSS 只消费 data-effective-view。
+// 940px is the minimum stable width where both panes and toolbar buttons stay readable; CSS only consumes data-effective-view.
 export const EDITOR_SPLIT_MIN_INLINE_SIZE = 940;
 export const EDITOR_OUTLINE_VISIBLE_MIN_INLINE_SIZE = {
-  // 目录是辅助导航；split + both 下允许主工作区轻微压缩，低于视觉验收线再收起。
+  // The outline is secondary navigation; under split + both, allow the main workspace to compress slightly before collapsing below the visual threshold.
   splitBoth: 996,
-  // 单区/stacked 只有一个主要内容面板，可以比双栏模式更晚收起目录。
+  // Single-pane/stacked has only one primary content pane, so the outline can collapse later than in the two-column layout.
   linear: 900
 } as const;
 export const EDITOR_SCROLLBAR_VISIBILITY_TIMEOUT_MS = 800;
 export const EDITOR_OUTLINE_TARGET_SCROLL_OFFSET_RATIO = 0.18;
-export const EDITOR_SINGLE_VIEW_RETURN_LABEL = '返回编辑与预览双区视图';
+export const EDITOR_SINGLE_VIEW_RETURN_LABEL = 'Return to split edit/preview view';
 export const DEFAULT_EDITOR_SIDE_PANEL_STACKED_RATIO = 45;
 export const EDITOR_SIDE_PANEL_STACKED_RATIO_STEP = 5;
 export const EDITOR_SIDE_PANEL_OUTLINE_MIN_BLOCK_SIZE = 120;
@@ -211,12 +211,12 @@ export const getEditorLayoutToggleLabel = ({
   editorLayout: EditorLayoutMode;
 }): string =>
   splitBothIsCompact
-    ? '展开上下双区'
+    ? 'Expand to stacked dual panes'
     : stackedCanReturnToCompact
-      ? '返回单区视图'
+      ? 'Return to single-pane view'
       : editorLayout === 'split'
-        ? '切换到上下布局'
-        : '切换到左右布局';
+        ? 'Switch to stacked layout'
+        : 'Switch to side-by-side layout';
 
 export const getEditorLayoutToggleIcon = ({
   stackedCanReturnToCompact,
@@ -235,19 +235,19 @@ export const getEditorEditViewToggleLabel = ({
   splitBothIsCompact: boolean;
 }): string =>
   editorViewMode === 'edit'
-    ? '取消仅编辑视图'
+    ? 'Cancel edit-only view'
     : splitBothIsCompact
-      ? '当前宽度显示编辑区；点击固定为仅编辑'
-      : '仅显示编辑区';
+      ? 'Currently showing the edit pane at this width; click to pin to edit-only'
+      : 'Show edit pane only';
 
 export const getEditorPreviewViewToggleLabel = (editorViewMode: EditorViewMode): string =>
-  editorViewMode === 'preview' ? '取消仅预览视图' : '仅显示预览区';
+  editorViewMode === 'preview' ? 'Cancel preview-only view' : 'Show preview pane only';
 
 export const getEditorCompactPaneToggleText = (compactPaneMode: EditorPaneMode): string =>
-  compactPaneMode === 'edit' ? '预览' : '编辑';
+  compactPaneMode === 'edit' ? 'Preview' : 'Edit';
 
 export const getEditorCompactPaneToggleLabel = (compactPaneMode: EditorPaneMode): string =>
-  compactPaneMode === 'edit' ? '显示预览区' : '显示编辑区';
+  compactPaneMode === 'edit' ? 'Show preview pane' : 'Show edit pane';
 
 export const getEditorScrollSyncToggleLabel = ({
   available,
@@ -256,7 +256,7 @@ export const getEditorScrollSyncToggleLabel = ({
   available: boolean;
   enabled: boolean;
 }): string =>
-  available ? (enabled ? '关闭同步滚动' : '开启同步滚动') : '单视图下不可同步滚动';
+  available ? (enabled ? 'Turn off scroll sync' : 'Turn on scroll sync') : 'Scroll sync unavailable in single-pane view';
 
 const roundEditorSidePanelRatio = (value: number): number => Math.round(value * 10) / 10;
 
@@ -391,7 +391,7 @@ export const storeEditorLayout = (storageKey: string, layoutMode: EditorLayoutMo
   try {
     window.localStorage.setItem(storageKey, layoutMode);
   } catch {
-    // 布局偏好只改善体验，不影响编辑主流程。
+    // The layout preference only improves the experience and doesn't affect the main editing flow.
   }
 };
 
@@ -484,7 +484,7 @@ export const storeEditorDisplayPreference = (storageKey: string, state: EditorDi
   try {
     window.localStorage.setItem(storageKey, JSON.stringify(state));
   } catch {
-    // 显示偏好只改善编辑体验，不影响正文编辑主流程。
+    // The display preference only improves the editing experience and doesn't affect the main body-editing flow.
   }
 };
 
@@ -493,7 +493,7 @@ export const storeEditorSidePanelPreference = (storageKey: string, state: Editor
   try {
     window.localStorage.setItem(storageKey, JSON.stringify(state));
   } catch {
-    // 右侧辅助面板偏好只改善跨文章体验，不影响编辑主流程。
+    // The side-panel preference only improves the cross-article experience and doesn't affect the main editing flow.
   }
 };
 
@@ -502,7 +502,7 @@ export const clearStoredWriteFeedback = (storageKey: string) => {
   try {
     window.sessionStorage.removeItem(storageKey);
   } catch {
-    // 部分浏览器环境可能禁用 sessionStorage。
+    // Some browser environments may disable sessionStorage.
   }
 };
 
@@ -541,6 +541,6 @@ export const storeWriteFeedback = (
     };
     window.sessionStorage.setItem(storageKey, JSON.stringify(feedback));
   } catch {
-    // 反馈保留只改善刷新后的可见性，不应影响保存主流程。
+    // Retaining feedback only improves visibility after a refresh and shouldn't affect the main save flow.
   }
 };

@@ -5,11 +5,11 @@ const refreshButton = document.querySelector<HTMLButtonElement>('[data-admin-che
 const statusLiveEl = document.querySelector<HTMLElement>('[data-admin-checks-status-live]');
 
 const FEEDBACK_KEY = 'admin-checks:refresh-feedback';
-const LOADING_LABEL = '检测中...';
-const SUCCESS_LABEL = '✅ 已重新检测';
+const LOADING_LABEL = 'Checking...';
+const SUCCESS_LABEL = '✅ Rechecked';
 const SUCCESS_TIMEOUT_MS = 2000;
 
-const getDefaultLabel = (): string => refreshButton?.dataset.defaultLabel?.trim() || '重新检测';
+const getDefaultLabel = (): string => refreshButton?.dataset.defaultLabel?.trim() || 'Recheck';
 
 const getCurrentFeedbackPath = (): string => {
   const query = new URLSearchParams(window.location.search).toString();
@@ -49,14 +49,14 @@ const setButtonState = (state: 'idle' | 'loading' | 'done', announce = false) =>
     return;
   }
 
-  setLiveStatus(state, state === 'loading' ? '正在重新检测' : '已重新检测', announce);
+  setLiveStatus(state, state === 'loading' ? 'Rechecking' : 'Rechecked', announce);
 };
 
 const markRefreshPending = () => {
   try {
     window.sessionStorage.setItem(FEEDBACK_KEY, getCurrentFeedbackPath());
   } catch {
-    // sessionStorage 不可用时，静默退化为无完成反馈。
+    // When sessionStorage is unavailable, silently degrade to no completion feedback.
   }
 };
 
@@ -72,7 +72,7 @@ const consumeRefreshPending = (): boolean => {
 };
 
 if (refreshButton) {
-  refreshButton.dataset.defaultLabel = refreshButton.textContent?.trim() || '重新检测';
+  refreshButton.dataset.defaultLabel = refreshButton.textContent?.trim() || 'Recheck';
   setButtonState('idle', false);
 }
 

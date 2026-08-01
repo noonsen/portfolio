@@ -155,12 +155,12 @@ const getCreateSlugPlaceholderPreview = (): string => {
 };
 
 const getCreateSlugPlaceholder = (): string =>
-  `留空自动生成：${getCreateSlugPlaceholderPreview()}`;
+  `Leave blank to auto-generate: ${getCreateSlugPlaceholderPreview()}`;
 
 const getEditSlugPlaceholder = (): string => {
   const fallbackSlug = selectedEntryId ? flattenEntryIdToSlug(selectedEntryId) : '';
   const defaultSlug = selectedDefaultPublicSlug || fallbackSlug;
-  return defaultSlug ? `留空使用默认：${defaultSlug}` : '';
+  return defaultSlug ? `Leave blank to use default: ${defaultSlug}` : '';
 };
 
 const slugPlaceholder = $derived(
@@ -194,7 +194,7 @@ const syncCreateEntryIdFromTitle = () => {
 const updateCreateEntryId = (value: string) => {
   createEntryId = value;
   createEntryIdEdited = true;
-  setStatus('ready', '源文件名已修改', { autoClear: true });
+  setStatus('ready', 'Source filename modified', { autoClear: true });
 };
 
 const buildEntryEndpoint = (collection: AdminContentDeletableCollectionKey, entryId: string): string => {
@@ -222,7 +222,7 @@ const closeDialog = () => {
 const openCreateDialog = async (trigger: HTMLElement) => {
   if (busy) {
     errors = [];
-    setStatus('warn', '操作进行中');
+    setStatus('warn', 'Operation in progress');
     return;
   }
 
@@ -257,7 +257,7 @@ const resetToBaseline = () => {
   }
   issues = [];
   errors = [];
-  setStatus('ready', '已还原', { autoClear: true });
+  setStatus('ready', 'Reset', { autoClear: true });
 };
 
 const closeActionMenu = (trigger: HTMLElement) => {
@@ -275,7 +275,7 @@ const getRowCollectionLabel = (trigger: HTMLElement): string =>
     ?.querySelector<HTMLElement>('.admin-content-module__head h3 span')
     ?.textContent
     ?.trim()
-  || '该分类';
+  || 'this category';
 
 const getDeletePayload = (
   payload: unknown,
@@ -316,7 +316,7 @@ const openEditor = async (collection: ContentInfoCollection, entryId: string, tr
   frontmatter = createEmptyInfoFrontmatter(collection);
   issues = [];
   errors = [];
-  setStatus('loading', '正在加载');
+  setStatus('loading', 'Loading');
 
   await tick();
   if (requestId !== loadRequestId) return;
@@ -343,7 +343,7 @@ const openEditor = async (collection: ContentInfoCollection, entryId: string, tr
       loadingEntry = false;
       open = false;
       frontmatter = null;
-      setStatus('error', payloadErrors.length > 0 ? '加载失败' : '加载失败，可进入编辑页处理');
+      setStatus('error', payloadErrors.length > 0 ? 'Load failed' : 'Load failed, you can go to the edit page to resolve it');
       return;
     }
 
@@ -361,7 +361,7 @@ const openEditor = async (collection: ContentInfoCollection, entryId: string, tr
     loadingEntry = false;
     open = false;
     frontmatter = null;
-    setStatus('error', '加载失败，请稍后重试');
+    setStatus('error', 'Load failed, please try again later');
   } finally {
     if (requestId === loadRequestId) {
       loadingEntry = false;
@@ -377,7 +377,7 @@ const saveEditor = async () => {
   busy = true;
   issues = [];
   errors = [];
-  setStatus('loading', '正在保存');
+  setStatus('loading', 'Saving');
 
   try {
     let saveOutcome: Awaited<ReturnType<typeof saveContentEntry>> | null = null;
@@ -401,7 +401,7 @@ const saveEditor = async () => {
 
     if (!saveOutcome) {
       errors = [];
-      setStatus('error', '保存响应异常，请检查开发日志');
+      setStatus('error', 'Unexpected save response, please check dev logs');
       return;
     }
 
@@ -412,8 +412,8 @@ const saveEditor = async () => {
       const payloadErrors = saveOutcome.errors;
       errors = payloadErrors;
       const state = saveOutcome.status === 409 ? 'warn' : 'error';
-      const fallbackText = saveOutcome.status === 409 ? '检测到外部更新' : '保存失败，请检查当前表单与磁盘状态';
-      setStatus(state, payloadErrors.length > 0 ? (saveOutcome.status === 409 ? '检测到外部更新' : '保存失败') : fallbackText);
+      const fallbackText = saveOutcome.status === 409 ? 'External update detected' : 'Save failed, please check the current form and disk state';
+      setStatus(state, payloadErrors.length > 0 ? (saveOutcome.status === 409 ? 'External update detected' : 'Save failed') : fallbackText);
       return;
     }
 
@@ -428,7 +428,7 @@ const saveEditor = async () => {
 
     if (!result || !nextFrontmatter) {
       errors = [];
-      setStatus('error', '保存响应异常，请检查开发日志');
+      setStatus('error', 'Unexpected save response, please check dev logs');
       return;
     }
 
@@ -439,10 +439,10 @@ const saveEditor = async () => {
       reloadContentList(CONTENT_LIST_ACTION_FEEDBACK_SAVED);
       return;
     }
-    setStatus('ready', '没有变化', { autoClear: true });
+    setStatus('ready', 'No changes', { autoClear: true });
   } catch {
     errors = [];
-    setStatus('error', '保存请求失败，请稍后重试');
+    setStatus('error', 'Save request failed, please try again later');
   } finally {
     busy = false;
   }
@@ -456,7 +456,7 @@ const saveCreate = async () => {
   issues = [];
   errors = [];
   createFrontmatter.draft = true;
-  setStatus('loading', '正在创建');
+  setStatus('loading', 'Creating');
 
   try {
     const outcome = await createContentEntry({
@@ -469,15 +469,15 @@ const saveCreate = async () => {
     if (!outcome.responseOk || !outcome.payloadOk || !outcome.editHref) {
       issues = outcome.issues;
       errors = outcome.errors;
-      setStatus('error', outcome.errors.length > 0 ? '创建失败' : '创建响应异常，请检查开发日志');
+      setStatus('error', outcome.errors.length > 0 ? 'Creation failed' : 'Unexpected creation response, please check dev logs');
       return;
     }
 
-    setStatus('ok', '已创建，进入编辑页');
+    setStatus('ok', 'Created, opening editor');
     window.location.assign(withBase(outcome.editHref));
   } catch {
     errors = [];
-    setStatus('error', '创建请求失败，请稍后重试');
+    setStatus('error', 'Creation request failed, please try again later');
   } finally {
     busy = false;
   }
@@ -494,7 +494,7 @@ const saveDialog = () => {
 const deleteEntry = async (trigger: HTMLElement) => {
   if (busy) {
     errors = [];
-    setStatus('warn', '操作进行中');
+    setStatus('warn', 'Operation in progress');
     return;
   }
 
@@ -504,17 +504,17 @@ const deleteEntry = async (trigger: HTMLElement) => {
 
   if (!isAdminContentDeletableCollectionKey(rawCollection) || !entryId || !expectedRelativePath) {
     errors = [];
-    setStatus('error', '删除信息不完整，请刷新后重试');
+    setStatus('error', 'Delete info incomplete, please refresh and try again');
     return;
   }
 
   busy = true;
   errors = [];
   issues = [];
-  setStatus('loading', '正在确认删除');
+  setStatus('loading', 'Confirming deletion');
 
   try {
-    // 列表中的 revision 可能已经过期，确认前先读取一次最新文件状态。
+    // The revision in the list may be stale; fetch the latest file state before confirming.
     const loadResponse = await fetch(buildEntryEndpoint(rawCollection, entryId), {
       method: 'GET',
       headers: {
@@ -529,32 +529,32 @@ const deleteEntry = async (trigger: HTMLElement) => {
       const payloadErrors = getPayloadErrors(loadPayload);
       errors = payloadErrors;
       issues = getPayloadIssues(loadPayload);
-      setStatus('error', payloadErrors.length > 0 ? '删除确认失败' : '删除确认失败，请刷新后重试');
+      setStatus('error', payloadErrors.length > 0 ? 'Delete confirmation failed' : 'Delete confirmation failed, please refresh and try again');
       return;
     }
 
     if (entryPayload.relativePath !== expectedRelativePath) {
       errors = [];
-      setStatus('warn', '列表已过期，请刷新后再删除');
+      setStatus('warn', 'The list is stale, please refresh before deleting');
       return;
     }
 
     const title = getRowTitle(trigger, entryId);
     const confirmed = window.confirm([
-      `确认删除《${title}》？`,
+      `Confirm deletion of "${title}"?`,
       '',
-      `类型：${getRowCollectionLabel(trigger)}`,
-      `源文件：${entryPayload.relativePath}`,
+      `Type: ${getRowCollectionLabel(trigger)}`,
+      `Source file: ${entryPayload.relativePath}`,
       '',
-      '文件会移到 .trash/content/，之后可从回收站手动恢复。'
+      'Files will be moved to .trash/content/, and can be manually restored from the trash afterward.'
     ].join('\n'));
 
     if (!confirmed) {
-      setStatus('ready', '已取消删除', { autoClear: true });
+      setStatus('ready', 'Deletion cancelled', { autoClear: true });
       return;
     }
 
-    setStatus('loading', '正在删除');
+    setStatus('loading', 'Deleting');
     const deleteResponse = await fetch(deleteEndpoint, {
       method: 'POST',
       headers: {
@@ -576,22 +576,22 @@ const deleteEntry = async (trigger: HTMLElement) => {
       errors = payloadErrors;
       issues = getPayloadIssues(deletePayload);
       const state = deleteResponse.status === 409 ? 'warn' : 'error';
-      const fallbackText = deleteResponse.status === 409 ? '检测到外部更新' : '删除失败，请检查控制台日志';
-      setStatus(state, payloadErrors.length > 0 ? (deleteResponse.status === 409 ? '检测到外部更新' : '删除失败') : fallbackText);
+      const fallbackText = deleteResponse.status === 409 ? 'External update detected' : 'Delete failed, please check the console logs';
+      setStatus(state, payloadErrors.length > 0 ? (deleteResponse.status === 409 ? 'External update detected' : 'Delete failed') : fallbackText);
       return;
     }
 
     const result = getPayloadDeleteResult(deletePayload);
     if (!result || !result.deleted || !result.trashedPath) {
       errors = [];
-      setStatus('error', '删除响应异常，请检查开发日志');
+      setStatus('error', 'Unexpected delete response, please check dev logs');
       return;
     }
 
     reloadContentList(CONTENT_LIST_ACTION_FEEDBACK_DELETED);
   } catch {
     errors = [];
-    setStatus('error', '删除请求失败，请稍后重试');
+    setStatus('error', 'Delete request failed, please try again later');
   } finally {
     busy = false;
   }
@@ -630,9 +630,9 @@ const handleClick = (event: MouseEvent) => {
 onMount(() => {
   const feedback = takeContentListActionFeedback();
   if (feedback === CONTENT_LIST_ACTION_FEEDBACK_SAVED) {
-    setStatus('ok', '已保存', { autoClear: true });
+    setStatus('ok', 'Saved', { autoClear: true });
   } else if (feedback === CONTENT_LIST_ACTION_FEEDBACK_DELETED) {
-    setStatus('ok', '已移到回收站', { autoClear: true });
+    setStatus('ok', 'Moved to trash', { autoClear: true });
   }
 });
 
@@ -677,13 +677,13 @@ $effect(() => {
     entryId={dialogMode === 'create' ? createEntryId : selectedEntryId}
     showEntryId={dialogMode === 'create'}
     {slugPlaceholder}
-    dialogTitle={dialogMode === 'create' ? '新建文章' : selectedCollection === 'bits' ? '修改信息' : '文章信息'}
-    fieldsAriaLabel={selectedCollection === 'bits' ? '标题、摘要与作者' : '随笔字段'}
+    dialogTitle={dialogMode === 'create' ? 'New Article' : selectedCollection === 'bits' ? 'Edit Info' : 'Article Info'}
+    fieldsAriaLabel={selectedCollection === 'bits' ? 'Title, summary and author' : 'Essay fields'}
     {bitsDefaultAuthor}
     fieldScope={selectedCollection === 'bits' ? 'bits-summary' : 'all'}
     draftLocked={dialogMode === 'create'}
-    draftLockHelp={dialogMode === 'create' ? '默认草稿，完善正文后发布。' : ''}
-    saveLabel={dialogMode === 'create' ? '创建' : '保存'}
+    draftLockHelp={dialogMode === 'create' ? 'Draft by default; publish after completing the content.' : ''}
+    saveLabel={dialogMode === 'create' ? 'Create' : 'Save'}
     onEntryIdInput={updateCreateEntryId}
     onClose={closeDialog}
     onReset={resetToBaseline}

@@ -12,7 +12,7 @@ export const ADMIN_CONTENT_COLLECTIONS = ADMIN_CONTENT_COLLECTION_KEYS.filter((c
 ) as readonly AdminContentCollectionKey[];
 
 export const ADMIN_CONTENT_SCOPE_OPTIONS = [
-  { value: 'all', label: '全部内容' },
+  { value: 'all', label: 'All content' },
   ...ADMIN_CONTENT_COLLECTIONS.map((collection) => ({
     value: collection,
     label: getAdminContentCollectionCapability(collection).label
@@ -48,7 +48,7 @@ export const getAdminContentEntryListHref = (
   collection: AdminContentCollectionKey,
   options: { entryId?: string | null } = {}
 ): string => {
-  // 列表定位使用 query 参数承载源文件身份，避免和已移除的 collection 列表路由重新绑定。
+  // List navigation carries the source file identity via a query parameter, avoiding re-binding to the removed collection list route.
   const params = new URLSearchParams({ collection });
   const entryId = options.entryId?.trim() ?? '';
   if (entryId) params.set('entryId', entryId);

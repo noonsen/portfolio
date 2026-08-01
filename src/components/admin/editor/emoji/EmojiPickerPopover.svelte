@@ -142,7 +142,7 @@ $effect(() => {
       pickerState = 'ready';
     } catch (error) {
       if (cancelled) return;
-      pickerErrorMessage = error instanceof Error ? error.message : '加载失败';
+      pickerErrorMessage = error instanceof Error ? error.message : 'Failed to load';
       pickerState = 'error';
     }
   })();
@@ -165,16 +165,16 @@ $effect(() => {
   class="admin-editor-emoji-picker-popover"
   bind:this={popoverEl}
   id="admin-editor-emoji-picker-menu"
-  aria-label="插入表情"
+  aria-label="Insert emoji"
   role="dialog"
   tabindex="-1"
   style={`top:${popoverTop}px;left:${popoverLeft}px;max-height:${popoverMaxHeight}px;--admin-editor-emoji-picker-max-height:${popoverMaxHeight}px;visibility:${popoverPositioned ? 'visible' : 'hidden'};`}
 >
   {#if pickerState === 'loading'}
-    <div class="admin-editor-emoji-picker-popover__placeholder">加载中...</div>
+    <div class="admin-editor-emoji-picker-popover__placeholder">Loading...</div>
   {:else if pickerState === 'error'}
     <div class="admin-editor-emoji-picker-popover__placeholder">
-      加载失败：{pickerErrorMessage ?? '未知错误'}
+      Failed to load: {pickerErrorMessage ?? 'Unknown error'}
     </div>
   {/if}
   <div class="admin-editor-emoji-picker-popover__host" bind:this={pickerHost}></div>

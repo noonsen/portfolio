@@ -30,13 +30,13 @@ import type {
 type LayoutIconName = 'columns-2' | 'rows-2' | 'undo-2';
 
 const toolbarIconSize = 17;
-const headingTool = { label: '标题', icon: 'heading' } as const;
-const calloutTool = { label: '提示块', icon: 'message-square-text' } as const;
+const headingTool = { label: 'Heading', icon: 'heading' } as const;
+const calloutTool = { label: 'Callout', icon: 'message-square-text' } as const;
 const headingLevelItems: readonly { level: MarkdownHeadingLevel; label: string; description: string }[] = [
-  { level: 2, label: 'H2', description: '小节标题' },
-  { level: 3, label: 'H3', description: '三级标题' },
-  { level: 4, label: 'H4', description: '四级标题' },
-  { level: 5, label: 'H5', description: '五级标题' }
+  { level: 2, label: 'H2', description: 'Section heading' },
+  { level: 3, label: 'H3', description: 'Level 3 heading' },
+  { level: 4, label: 'H4', description: 'Level 4 heading' },
+  { level: 5, label: 'H5', description: 'Level 5 heading' }
 ];
 const calloutItems = [
   { type: 'note' },
@@ -44,43 +44,43 @@ const calloutItems = [
   { type: 'info' },
   { type: 'warning' }
 ] as const;
-const formulaTool = { label: '插入公式', icon: 'sigma' } as const;
-const emojiTool = { label: '表情', icon: 'smile' } as const;
-const insertTool = { label: '插入', icon: 'plus' } as const;
-const galleryTool = { label: '图片画廊', icon: 'images' } as const;
+const formulaTool = { label: 'Insert formula', icon: 'sigma' } as const;
+const emojiTool = { label: 'Emoji', icon: 'smile' } as const;
+const insertTool = { label: 'Insert', icon: 'plus' } as const;
+const galleryTool = { label: 'Image gallery', icon: 'images' } as const;
 const detailsTool = MARKDOWN_DETAILS_INSERT_TOOL;
 const moreSeparatorTool = MARKDOWN_MORE_SEPARATOR_INSERT_TOOL;
-const listTool = { label: '列表', icon: 'list' } as const;
+const listTool = { label: 'List', icon: 'list' } as const;
 
 const markdownTextTools = [
-  { id: 'bold', label: '加粗', icon: 'bold' },
-  { id: 'italic', label: '斜体', icon: 'italic' },
-  { id: 'strikethrough', label: '删除线', icon: 'strikethrough' }
+  { id: 'bold', label: 'Bold', icon: 'bold' },
+  { id: 'italic', label: 'Italic', icon: 'italic' },
+  { id: 'strikethrough', label: 'Strikethrough', icon: 'strikethrough' }
 ] as const;
 const markdownParagraphTools = [
-  { id: 'quote', label: '引用', icon: 'quote' }
+  { id: 'quote', label: 'Quote', icon: 'quote' }
 ] as const;
 const markdownInlineMediaTools = [
-  { id: 'link', label: '链接', icon: 'link' },
-  { id: 'code', label: '行内代码', icon: 'code' },
-  { id: 'image', label: '图片', icon: 'image' }
+  { id: 'link', label: 'Link', icon: 'link' },
+  { id: 'code', label: 'Inline code', icon: 'code' },
+  { id: 'image', label: 'Image', icon: 'image' }
 ] as const;
 const markdownBlockTools = [
-  { id: 'codeBlock', label: '代码块', icon: 'code-block' },
-  { id: 'table', label: '表格', icon: 'table' }
+  { id: 'codeBlock', label: 'Code block', icon: 'code-block' },
+  { id: 'table', label: 'Table', icon: 'table' }
 ] as const;
 const markdownListTools = [
-  { id: 'list', label: '无序列表', icon: 'list' },
-  { id: 'orderedList', label: '有序列表', icon: 'ordered-list' },
-  { id: 'taskList', label: '任务列表', icon: 'task-list' }
+  { id: 'list', label: 'Bulleted list', icon: 'list' },
+  { id: 'orderedList', label: 'Numbered list', icon: 'ordered-list' },
+  { id: 'taskList', label: 'Task list', icon: 'task-list' }
 ] as const;
 const bitsMarkdownTextTools = [
-  { id: 'bold', label: '加粗', icon: 'bold' },
-  { id: 'italic', label: '斜体', icon: 'italic' }
+  { id: 'bold', label: 'Bold', icon: 'bold' },
+  { id: 'italic', label: 'Italic', icon: 'italic' }
 ] as const;
 const bitsInlineTools = [
-  { id: 'link', label: '链接', icon: 'link' },
-  { id: 'code', label: '行内代码', icon: 'code' }
+  { id: 'link', label: 'Link', icon: 'link' },
+  { id: 'code', label: 'Inline code', icon: 'code' }
 ] as const;
 
 type Props = {
@@ -199,8 +199,8 @@ const inlineMediaTools = $derived(
     ? markdownInlineMediaTools
     : markdownInlineMediaTools.filter((tool) => tool.id !== 'image')
 );
-const displayMenuTooltipLabel = '编辑器外观';
-const displayMenuLabel = $derived(`编辑器外观：${lineNumbersEnabled ? '行号开' : '行号关'}，高亮 ${markdownHighlightThemeLabel}`);
+const displayMenuTooltipLabel = 'Editor appearance';
+const displayMenuLabel = $derived(`Editor appearance: line numbers ${lineNumbersEnabled ? 'on' : 'off'}, highlight ${markdownHighlightThemeLabel}`);
 const displayControlPressed = $derived(
   lineNumbersEnabled || markdownHighlightTheme !== DEFAULT_MARKDOWN_HIGHLIGHT_THEME ? 'true' : 'false'
 );
@@ -417,8 +417,8 @@ $effect(() => {
 </script>
 
 <div class="admin-editor-shell__format-row">
-  <div class="admin-editor-markdown-toolbar" role="toolbar" aria-label="Markdown 常用格式">
-    <div class="admin-editor-markdown-toolbar__group" role="group" aria-label="文本样式">
+  <div class="admin-editor-markdown-toolbar" role="toolbar" aria-label="Common Markdown formatting">
+    <div class="admin-editor-markdown-toolbar__group" role="group" aria-label="Text styles">
       {#each preset === 'bits' ? bitsMarkdownTextTools : markdownTextTools as tool}
         <button
           class="admin-btn admin-btn--tool admin-btn--compact admin-btn--icon admin-editor-markdown-toolbar__button"
@@ -433,7 +433,7 @@ $effect(() => {
       {/each}
     </div>
 
-    <div class="admin-editor-markdown-toolbar__group" role="group" aria-label="段落结构">
+    <div class="admin-editor-markdown-toolbar__group" role="group" aria-label="Paragraph structure">
       {#if preset === 'full'}
         <details
           class="admin-editor-markdown-toolbar__menu admin-editor-markdown-toolbar__menu--heading"
@@ -454,7 +454,7 @@ $effect(() => {
           <div
             class="admin-content-menu-panel admin-editor-heading-menu"
             id="admin-editor-heading-menu"
-            aria-label="标题级别"
+            aria-label="Heading level"
           >
             {#each headingLevelItems as item}
               <button
@@ -489,7 +489,7 @@ $effect(() => {
           <div
             class="admin-content-menu-panel admin-editor-list-menu"
             id="admin-editor-list-menu"
-            aria-label="列表类型"
+            aria-label="List type"
           >
             {#each markdownListTools as tool}
               <button
@@ -510,8 +510,8 @@ $effect(() => {
         <button
           class="admin-btn admin-btn--tool admin-btn--compact admin-btn--icon admin-editor-markdown-toolbar__button"
           type="button"
-          data-tooltip="无序列表"
-          aria-label="无序列表"
+          data-tooltip="Bulleted list"
+          aria-label="Bulleted list"
           disabled={busy}
           onclick={() => onApplyTool('list')}
         >
@@ -533,7 +533,7 @@ $effect(() => {
       {/each}
     </div>
 
-    <div class="admin-editor-markdown-toolbar__group" role="group" aria-label="链接与媒体">
+    <div class="admin-editor-markdown-toolbar__group" role="group" aria-label="Links & media">
       {#each preset === 'bits' ? bitsInlineTools : inlineMediaTools as tool}
         <button
           class="admin-btn admin-btn--tool admin-btn--compact admin-btn--icon admin-editor-markdown-toolbar__button"
@@ -561,7 +561,7 @@ $effect(() => {
     </div>
 
     {#if preset === 'bits'}
-      <div class="admin-editor-markdown-toolbar__group" role="group" aria-label="表情">
+      <div class="admin-editor-markdown-toolbar__group" role="group" aria-label="Emoji">
         <button
           class="admin-btn admin-btn--tool admin-btn--compact admin-btn--icon admin-editor-markdown-toolbar__button"
           type="button"
@@ -590,7 +590,7 @@ $effect(() => {
     {/if}
 
     {#if preset === 'full'}
-      <div class="admin-editor-markdown-toolbar__group" role="group" aria-label="文章结构">
+      <div class="admin-editor-markdown-toolbar__group" role="group" aria-label="Post structure">
       <button
         class="admin-btn admin-btn--tool admin-btn--compact admin-btn--icon admin-editor-markdown-toolbar__button admin-editor-markdown-toolbar__more-direct"
         type="button"
@@ -621,7 +621,7 @@ $effect(() => {
         <div
           class="admin-content-menu-panel admin-editor-callout-menu"
           id="admin-editor-callout-menu"
-          aria-label="提示块类型"
+          aria-label="Callout type"
         >
           {#each calloutItems as item}
             <button
@@ -650,7 +650,7 @@ $effect(() => {
       </button>
     </div>
 
-      <div class="admin-editor-markdown-toolbar__group" role="group" aria-label="内容块">
+      <div class="admin-editor-markdown-toolbar__group" role="group" aria-label="Content block">
       {#each markdownBlockTools as tool}
         <button
           class="admin-btn admin-btn--tool admin-btn--compact admin-btn--icon admin-editor-markdown-toolbar__button"
@@ -664,7 +664,7 @@ $effect(() => {
         </button>
       {/each}
 
-      <div class="admin-editor-markdown-toolbar__insert-direct" role="group" aria-label="扩展插入">
+      <div class="admin-editor-markdown-toolbar__insert-direct" role="group" aria-label="Extended insert">
         <details
           class="admin-editor-markdown-toolbar__menu admin-editor-markdown-toolbar__menu--formula"
           class:is-open={formulaMenuOpen}
@@ -684,7 +684,7 @@ $effect(() => {
           <div
             class="admin-content-menu-panel admin-editor-formula-menu"
             id="admin-editor-formula-menu"
-            aria-label="插入公式"
+            aria-label="Insert formula"
           >
             {#each MARKDOWN_MATH_INSERT_TOOLS as tool}
               <button
@@ -731,7 +731,7 @@ $effect(() => {
     </div>
 
       {#if aboutDirectiveToolsEnabled}
-        <div class="admin-editor-markdown-toolbar__group admin-editor-markdown-toolbar__about-direct" role="group" aria-label="关于页面内容">
+        <div class="admin-editor-markdown-toolbar__group admin-editor-markdown-toolbar__about-direct" role="group" aria-label="About page content">
           {#each MARKDOWN_ABOUT_DIRECTIVE_INSERT_TOOLS as tool}
             <button
               class="admin-btn admin-btn--tool admin-btn--compact admin-btn--icon admin-editor-markdown-toolbar__button"
@@ -767,11 +767,11 @@ $effect(() => {
       <div
         class="admin-content-menu-panel admin-editor-insert-menu"
         id="admin-editor-insert-menu"
-        aria-label="插入内容"
+        aria-label="Insert content"
       >
         {#if galleryToolEnabled}
-          <div class="admin-editor-insert-menu__group" role="group" aria-label="媒体">
-            <span class="admin-editor-insert-menu__group-label">媒体</span>
+          <div class="admin-editor-insert-menu__group" role="group" aria-label="Media">
+            <span class="admin-editor-insert-menu__group-label">Media</span>
             <button
               class="admin-content-menu-item admin-editor-insert-menu__item"
               type="button"
@@ -786,8 +786,8 @@ $effect(() => {
           </div>
         {/if}
 
-        <div class="admin-editor-insert-menu__group" role="group" aria-label="文章结构">
-          <span class="admin-editor-insert-menu__group-label">文章结构</span>
+        <div class="admin-editor-insert-menu__group" role="group" aria-label="Post structure">
+          <span class="admin-editor-insert-menu__group-label">Post structure</span>
           <button
             class="admin-content-menu-item admin-editor-insert-menu__item"
             type="button"
@@ -802,8 +802,8 @@ $effect(() => {
         </div>
 
         {#if aboutDirectiveToolsEnabled}
-          <div class="admin-editor-insert-menu__group" role="group" aria-label="关于页面内容">
-            <span class="admin-editor-insert-menu__group-label">关于页面</span>
+          <div class="admin-editor-insert-menu__group" role="group" aria-label="About page content">
+            <span class="admin-editor-insert-menu__group-label">About page</span>
             {#each MARKDOWN_ABOUT_DIRECTIVE_INSERT_TOOLS as tool}
               <button
                 class="admin-content-menu-item admin-editor-insert-menu__item"
@@ -820,8 +820,8 @@ $effect(() => {
           </div>
         {/if}
 
-        <div class="admin-editor-insert-menu__group" role="group" aria-label="内容块">
-          <span class="admin-editor-insert-menu__group-label">内容块</span>
+        <div class="admin-editor-insert-menu__group" role="group" aria-label="Content block">
+          <span class="admin-editor-insert-menu__group-label">Content block</span>
           <button
             class="admin-content-menu-item admin-editor-insert-menu__item"
             type="button"
@@ -835,8 +835,8 @@ $effect(() => {
           </button>
         </div>
 
-        <div class="admin-editor-insert-menu__group" role="group" aria-label="公式">
-          <span class="admin-editor-insert-menu__group-label">公式</span>
+        <div class="admin-editor-insert-menu__group" role="group" aria-label="Formula">
+          <span class="admin-editor-insert-menu__group-label">Formula</span>
           {#each MARKDOWN_MATH_INSERT_TOOLS as tool}
             <button
               class="admin-content-menu-item admin-editor-insert-menu__item"
@@ -852,8 +852,8 @@ $effect(() => {
           {/each}
         </div>
 
-        <div class="admin-editor-insert-menu__group" role="group" aria-label="列表">
-          <span class="admin-editor-insert-menu__group-label">列表</span>
+        <div class="admin-editor-insert-menu__group" role="group" aria-label="List">
+          <span class="admin-editor-insert-menu__group-label">List</span>
           {#each markdownListTools as tool}
             <button
               class="admin-content-menu-item admin-editor-insert-menu__item"
@@ -869,8 +869,8 @@ $effect(() => {
           {/each}
         </div>
 
-        <div class="admin-editor-insert-menu__group" role="group" aria-label="表情">
-          <span class="admin-editor-insert-menu__group-label">表情</span>
+        <div class="admin-editor-insert-menu__group" role="group" aria-label="Emoji">
+          <span class="admin-editor-insert-menu__group-label">Emoji</span>
           <button
             class="admin-content-menu-item admin-editor-insert-menu__item"
             type="button"
@@ -889,7 +889,7 @@ $effect(() => {
     {/if}
   </div>
 
-  <div class="admin-editor-shell__layout-controls" aria-label="编辑器显示、目录、布局与视图">
+  <div class="admin-editor-shell__layout-controls" aria-label="Editor display, outline, layout & view">
     <button
       class="admin-editor-markdown-toolbar__button admin-editor-layout-toggle"
       type="button"
@@ -919,7 +919,7 @@ $effect(() => {
       <div
         class="admin-content-menu-panel admin-editor-display-menu__panel"
         id="admin-editor-display-menu"
-        aria-label="编辑器显示"
+        aria-label="Editor display"
       >
         <button
           class="admin-content-menu-item admin-editor-display-menu__line-toggle"
@@ -934,9 +934,9 @@ $effect(() => {
         <div
           class="admin-editor-display-menu__group"
           role="radiogroup"
-          aria-label="Markdown 高亮主题"
+          aria-label="Markdown highlight theme"
         >
-          <span class="admin-editor-display-menu__group-label">Markdown 高亮主题</span>
+          <span class="admin-editor-display-menu__group-label">Markdown highlight theme</span>
           {#each MARKDOWN_HIGHLIGHT_THEME_OPTIONS as option}
             <label
               class="admin-content-menu-item admin-editor-highlight-menu__item"

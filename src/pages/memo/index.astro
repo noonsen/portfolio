@@ -19,8 +19,8 @@ import {
 } from '../../lib/markdown-math-styles';
 
 const prod = import.meta.env.PROD;
-const DEFAULT_MEMO_TITLE = '生活小记';
-const DEFAULT_MEMO_SUBTITLE = '整理一些值得留存的片刻与回忆。';
+const DEFAULT_MEMO_TITLE = 'Memo';
+const DEFAULT_MEMO_SUBTITLE = 'A collection of moments and memories worth keeping.';
 
 const entry = await getEntry('memo', 'index');
 if (!entry) {
@@ -66,7 +66,7 @@ const groups = buildMemoTocGroups(headings);
 
 <BaseLayout
   title={memoTitle}
-  description="整理一些值得留存的片刻与回忆。"
+  description="A collection of moments and memories worth keeping."
   bodyClass="memo-page immersive-page"
 >
   {hasMath ? (
@@ -86,8 +86,8 @@ const groups = buildMemoTocGroups(headings);
       id="reader-exit"
       class="icon-button reader-exit"
       type="button"
-      aria-label="退出阅读"
-      title="退出阅读"
+      aria-label="Exit reading mode"
+      title="Exit reading mode"
       aria-hidden="true"
       tabindex="-1"
     >
@@ -108,7 +108,7 @@ const groups = buildMemoTocGroups(headings);
     )}
   </div>
 
-  <nav class="memo-toc" aria-label="目录">
+  <nav class="memo-toc" aria-label="Table of contents">
     {groups.map((g) => (
       <details open>
         <summary>{g.title}</summary>
@@ -151,7 +151,7 @@ const groups = buildMemoTocGroups(headings);
 
   <Lightbox
     id="lightbox"
-    label="图片预览"
+    label="Image preview"
     enableZoom={false}
     enablePan={false}
     enableSwipeDownClose={false}

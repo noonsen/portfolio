@@ -19,15 +19,15 @@ let {
   onToggleMaximize
 }: Props = $props();
 
-const maximizeLabel = $derived(maximized ? '恢复上下布局' : '展开语法面板');
+const maximizeLabel = $derived(maximized ? 'Restore stacked layout' : 'Expand syntax panel');
 const maximizeIcon = $derived(maximized ? 'minimize-2' : 'maximize-2');
 </script>
 
-<aside class="admin-editor-syntax-panel" id={panelId} aria-label="Markdown 语法">
+<aside class="admin-editor-syntax-panel" id={panelId} aria-label="Markdown syntax">
   <header class="admin-editor-syntax-panel__header">
     <span class="admin-editor-syntax-panel__title">
       <AdminEditorIcon name="square-asterisk" size={14} strokeWidth={2} />
-      <span>Markdown 语法</span>
+      <span>Markdown syntax</span>
     </span>
     {#if showMaximizeControl}
       <button
@@ -44,7 +44,7 @@ const maximizeIcon = $derived(maximized ? 'minimize-2' : 'maximize-2');
   </header>
 
   <div class="admin-editor-syntax-panel__body">
-    <section class="admin-editor-syntax-panel__section" aria-label="Markdown 语法列表">
+    <section class="admin-editor-syntax-panel__section" aria-label="Markdown syntax list">
       <ol class="admin-editor-syntax-panel__list">
         {#each MARKDOWN_SYNTAX_EXAMPLES as example}
           <li class="admin-editor-syntax-panel__item">
@@ -65,7 +65,7 @@ const maximizeIcon = $derived(maximized ? 'minimize-2' : 'maximize-2');
     </section>
 
     <section class="admin-editor-syntax-panel__section" aria-labelledby={`${panelId}-shortcuts-title`}>
-      <h3 id={`${panelId}-shortcuts-title`} class="admin-editor-syntax-panel__section-title">快捷键</h3>
+      <h3 id={`${panelId}-shortcuts-title`} class="admin-editor-syntax-panel__section-title">Shortcuts</h3>
       <ol class="admin-editor-syntax-panel__list admin-editor-syntax-panel__list--shortcuts">
         {#each MARKDOWN_SHORTCUT_EXAMPLES as shortcut}
           <li class="admin-editor-syntax-panel__item">

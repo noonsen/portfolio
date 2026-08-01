@@ -38,7 +38,7 @@ $effect(() => {
 });
 </script>
 
-<section class="admin-bits-preview" aria-label="卡片预览">
+<section class="admin-bits-preview" aria-label="Card preview">
   <div
     class="admin-bits-preview__scroller"
     data-refreshing={previewBusy && previewHtml ? 'true' : undefined}
@@ -115,7 +115,7 @@ $effect(() => {
                   {#if index === maxVisible - 1 && hiddenImageCount > 0}
                     <span class="bit-media-more" aria-hidden="true">
                       <span class="bit-media-more-short">+ {hiddenImageCount}</span>
-                      <span class="bit-media-more-full">查看其余{hiddenImageCount}张</span>
+                      <span class="bit-media-more-full">View {hiddenImageCount} more</span>
                     </span>
                   {/if}
                 </div>

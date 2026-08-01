@@ -154,7 +154,7 @@ describe('admin content entry payload contract', () => {
       expect.arrayContaining([
         expect.objectContaining({
           path: 'entryId',
-          message: expect.stringContaining('memo 仅支持固定源文件')
+          message: expect.stringContaining('memo only supports a fixed source file')
         })
       ])
     );
@@ -191,7 +191,7 @@ describe('admin content entry payload contract', () => {
       expect.arrayContaining([
         expect.objectContaining({
           path: 'entryId',
-          message: expect.stringContaining('memo 仅支持固定源文件')
+          message: expect.stringContaining('memo only supports a fixed source file')
         })
       ])
     );
@@ -219,13 +219,13 @@ describe('admin content entry payload contract', () => {
         body: { collection: 'page', entryId: 'demo', revision: 'stale', frontmatter: {} },
         status: 400,
         issuePath: 'collection',
-        message: '不支持的 content collection'
+        message: 'Unsupported content collection'
       },
       {
         body: { collection: 'memo', entryId: 'index', revision: null, body: 'memo body' },
         status: 400,
         issuePath: 'revision',
-        message: '请求体缺少 revision'
+        message: 'Request body is missing revision'
       },
       {
         body: { collection: 'essay', entryId: '../secret', revision: 'stale', frontmatter: {} },
@@ -237,31 +237,31 @@ describe('admin content entry payload contract', () => {
         body: { collection: 'essay', entryId: 'missing', revision: 'stale', frontmatter: {} },
         status: 404,
         issuePath: 'entryId',
-        message: '未找到 content 源文件'
+        message: 'Content source file not found'
       },
       {
         body: { collection: 'essay', entryId: 'demo', revision: 'stale', frontmatter: [] },
         status: 400,
         issuePath: 'frontmatter',
-        message: 'frontmatter 必须是对象'
+        message: 'frontmatter must be an object'
       },
       {
         body: { collection: 'about', entryId: 'index', revision: 'stale' },
         status: 400,
         issuePath: 'body',
-        message: 'about 保存请求缺少 body 字段'
+        message: 'about save request is missing the body field'
       },
       {
         body: { collection: 'memo', entryId: 'index', revision: 'stale' },
         status: 400,
         issuePath: 'body',
-        message: 'memo 保存请求缺少 body 字段'
+        message: 'memo save request is missing the body field'
       },
       {
         body: { collection: 'essay', entryId: 'demo', revision: 'stale', frontmatter: {}, body: 42 },
         status: 400,
         issuePath: 'body',
-        message: 'body 必须是 Markdown 字符串'
+        message: 'body must be a Markdown string'
       }
     ];
 

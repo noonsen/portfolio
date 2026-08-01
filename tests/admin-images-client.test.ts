@@ -17,9 +17,9 @@ const listItem: AdminImageListItem = {
   owner: null,
   ownerLabel: null,
   browseGroup: 'pages',
-  browseGroupLabel: '页面插图',
+  browseGroupLabel: 'Page illustrations',
   browseSubgroup: 'archive',
-  browseSubgroupLabel: '归档',
+  browseSubgroupLabel: 'Archive',
   preferredValue: '/images/archive/cover.png',
   previewSrc: '/images/archive/cover.png',
   value: '/images/archive/cover.png',
@@ -119,7 +119,7 @@ describe('admin-images/data', () => {
     mockListFetch(payload);
 
     await expect(fetchList('/api/admin/images/list', createState({ scope: 'recent' }), 20))
-      .rejects.toThrow('图片列表响应格式无效');
+      .rejects.toThrow('Invalid image list response format');
   });
 
   it('rejects missing pagination fields from Images Console list responses', async () => {
@@ -128,7 +128,7 @@ describe('admin-images/data', () => {
     mockListFetch(payload);
 
     await expect(fetchList('/api/admin/images/list', createState({ scope: 'recent' }), 20))
-      .rejects.toThrow('图片列表响应格式无效');
+      .rejects.toThrow('Invalid image list response format');
   });
 
   it('rejects malformed Images Console filter options', async () => {
@@ -136,14 +136,14 @@ describe('admin-images/data', () => {
     payload.result.groupOptions = [
       {
         value: DEFAULT_GROUP,
-        label: '全部',
+        label: 'All',
         count: '1'
       }
     ] as unknown as typeof payload.result.groupOptions;
     mockListFetch(payload);
 
     await expect(fetchList('/api/admin/images/list', createState({ scope: 'recent' }), 20))
-      .rejects.toThrow('图片列表响应格式无效');
+      .rejects.toThrow('Invalid image list response format');
   });
 
   it('rejects malformed shared picker list and metadata responses', () => {
@@ -158,7 +158,7 @@ describe('admin-images/data', () => {
           }
         ]
       }
-    })).toThrow('图片列表响应格式无效');
+    })).toThrow('Invalid image list response format');
 
     expect(() => parseAdminImageMetaResponse({
       ok: true,
@@ -173,6 +173,6 @@ describe('admin-images/data', () => {
         mimeType: listItem.mimeType,
         previewSrc: listItem.previewSrc
       }
-    })).toThrow('图片元数据响应格式无效');
+    })).toThrow('Invalid image metadata response format');
   });
 });

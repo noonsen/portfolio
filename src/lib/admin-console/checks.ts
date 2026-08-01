@@ -81,22 +81,22 @@ const ADMIN_CHECKS_CATEGORIES = [
   {
     id: 'settings',
     label: 'Settings',
-    description: '检查 settings 文件是否缺字段或结构异常。'
+    description: 'Checks whether the settings file is missing fields or has structural issues.'
   },
   {
     id: 'essay-slug',
-    label: '随笔 Slug',
-    description: '检查 slug 格式、重复和保留路由冲突。'
+    label: 'Essay Slug',
+    description: 'Checks slug format, duplicates, and reserved route conflicts.'
   },
   {
     id: 'bits-images',
-    label: 'Bits 图片',
-    description: '检查头像和图片路径是否有效，引用文件是否存在。'
+    label: 'Bits Images',
+    description: 'Checks whether avatar and image paths are valid and referenced files exist.'
   },
   {
     id: 'tag',
     label: 'Tags',
-    description: '检查标签 key 是否可正常生成路由。'
+    description: 'Checks whether tag keys can generate routes normally.'
   }
 ] as const satisfies readonly {
   id: AdminChecksCategoryId;
@@ -105,8 +105,8 @@ const ADMIN_CHECKS_CATEGORIES = [
 }[];
 
 const CATEGORY_STATUS_LABELS: Record<AdminChecksCategoryStatus, string> = {
-  ready: '已通过',
-  blocked: '需处理'
+  ready: 'Passed',
+  blocked: 'Needs attention'
 };
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
@@ -118,7 +118,7 @@ const getProjectRoot = (): string =>
 const toRelativeProjectPath = (filePath: string): string =>
   path.relative(getProjectRoot(), filePath).replace(/\\/g, '/');
 
-// Checks 只生成轻量定位 URL，不依赖 Content Console 的重数据层。
+// Checks only generates lightweight locator URLs; it does not depend on Content Console's heavy data layer.
 const resolveContentHref = (collection: AdminContentCollectionKey, entryId: string): string =>
   getAdminContentEntryListHref(collection, { entryId });
 
@@ -190,7 +190,7 @@ const createSettingsIssues = (): AdminChecksIssue[] => {
     return diagnostics.map((diagnostic) =>
       createIssue(
         'settings',
-        'settings JSON 结构错误',
+        'settings JSON structure error',
         diagnostic.message,
         {
           relativePath: diagnostic.path,
@@ -203,7 +203,7 @@ const createSettingsIssues = (): AdminChecksIssue[] => {
   }
 
   return editableState.errors.map((error, index) =>
-    createIssue('settings', 'settings 当前不可写', error, {
+    createIssue('settings', 'settings is currently not writable', error, {
       fieldPath: `settings-${index + 1}`,
       href: '/admin/theme/'
     })
@@ -211,7 +211,7 @@ const createSettingsIssues = (): AdminChecksIssue[] => {
 };
 
 const createSourceReadIssue = (category: AdminChecksCategoryId, source: AdminContentSourceRecord): AdminChecksIssue =>
-  createIssue(category, 'frontmatter 解析失败', '当前文件 frontmatter 无法解析，后台未执行该项检查。', {
+  createIssue(category, 'frontmatter parsing failed', 'The frontmatter of this file could not be parsed, so this check was not run.', {
     relativePath: source.relativePath,
     collection: source.collection,
     entryId: source.entryId,
@@ -241,10 +241,10 @@ const createEssaySlugIssues = (sources: readonly AdminContentSourceRecord[]): Ad
       issues.push(
         createIssue(
           'essay-slug',
-          'essay public slug 非法',
+          'essay public slug is invalid',
           explicitSlug
-            ? `frontmatter.slug "${explicitSlug}" 不是合法的小写 kebab-case。`
-            : `由内容源路径得到的默认公开 slug "${publicSlug}" 不合法，请调整路径或显式设置 slug。`,
+            ? `frontmatter.slug "${explicitSlug}" is not valid lowercase kebab-case.`
+            : `The default public slug "${publicSlug}" derived from the content source path is invalid; please adjust the path or set an explicit slug.`,
           {
             relativePath: source.relativePath,
             fieldPath: 'slug',
@@ -261,8 +261,8 @@ const createEssaySlugIssues = (sources: readonly AdminContentSourceRecord[]): Ad
       issues.push(
         createIssue(
           'essay-slug',
-          'essay public slug 命中保留路由',
-          `公开 slug "${publicSlug}" 会与 /archive 或 /essay 下的保留路由冲突。`,
+          'essay public slug matches a reserved route',
+          `Public slug "${publicSlug}" would conflict with a reserved route under /archive or /essay.`,
           {
             relativePath: source.relativePath,
             fieldPath: 'slug',
@@ -291,8 +291,8 @@ const createEssaySlugIssues = (sources: readonly AdminContentSourceRecord[]): Ad
       issues.push(
         createIssue(
           'essay-slug',
-          'essay public slug 冲突',
-          `公开 slug "${publicSlug}" 已被其他 essay 占用：${otherEntryIds.join(', ')}。`,
+          'essay public slug conflict',
+          `Public slug "${publicSlug}" is already used by another essay: ${otherEntryIds.join(', ')}.`,
           {
             relativePath: source.relativePath,
             fieldPath: 'slug',
@@ -325,15 +325,15 @@ const createBitsImagesIssues = (sources: readonly AdminContentSourceRecord[]): A
         issues.push(
           createIssue(
             'bits-images',
-            'bits.author.avatar 路径非法',
-            'author.avatar 只允许相对图片路径，不要带 public/、/、URL、..、? 或 #。',
+            'bits.author.avatar path is invalid',
+            'author.avatar only allows a relative image path, without public/, a leading /, a URL, .., ? or #.',
             {
               relativePath: source.relativePath,
               fieldPath: 'author.avatar',
               collection: source.collection,
               entryId: source.entryId,
               href: resolveContentHref(source.collection, source.entryId),
-              detail: `当前值：${rawAvatar}`
+              detail: `Current value: ${rawAvatar}`
             }
           )
         );
@@ -343,8 +343,8 @@ const createBitsImagesIssues = (sources: readonly AdminContentSourceRecord[]): A
           issues.push(
             createIssue(
               'bits-images',
-              'bits.author.avatar 指向的文件不存在',
-              `author.avatar 指向的本地文件不存在：${avatarFilePath}`,
+              'bits.author.avatar points to a file that does not exist',
+              `The local file referenced by author.avatar does not exist: ${avatarFilePath}`,
               {
                 relativePath: source.relativePath,
                 fieldPath: 'author.avatar',
@@ -368,15 +368,15 @@ const createBitsImagesIssues = (sources: readonly AdminContentSourceRecord[]): A
         issues.push(
           createIssue(
             'bits-images',
-            'bits.images[*].src 路径非法',
-            'bits.images[*].src 只允许 public/** 下的相对图片路径或 https:// 远程 URL。',
+            'bits.images[*].src path is invalid',
+            'bits.images[*].src only allows a relative image path under public/** or a remote https:// URL.',
             {
               relativePath: source.relativePath,
               fieldPath,
               collection: source.collection,
               entryId: source.entryId,
               href: resolveContentHref(source.collection, source.entryId),
-              detail: `当前值：${image.src}`
+              detail: `Current value: ${image.src}`
             }
           )
         );
@@ -389,8 +389,8 @@ const createBitsImagesIssues = (sources: readonly AdminContentSourceRecord[]): A
           issues.push(
             createIssue(
               'bits-images',
-              'bits.images[*].src 指向的文件不存在',
-              `bits.images[*].src 指向的本地文件不存在：${imageFilePath}`,
+              'bits.images[*].src points to a file that does not exist',
+              `The local file referenced by bits.images[*].src does not exist: ${imageFilePath}`,
               {
                 relativePath: source.relativePath,
                 fieldPath,
@@ -428,15 +428,15 @@ const createTagIssues = (sources: readonly AdminContentSourceRecord[]): AdminChe
       issues.push(
         createIssue(
           'tag',
-          'tag 路由键不可用',
-          `tag "${tag}" 规范化后得到的路由键 ${key ? `"${key}"` : '(empty)'} 不可用于 archive tag 路由。`,
+          'tag route key is unusable',
+          `The route key ${key ? `"${key}"` : '(empty)'} normalized from tag "${tag}" cannot be used for an archive tag route.`,
           {
             relativePath: source.relativePath,
             fieldPath: `tags[${index}]`,
             collection: source.collection,
             entryId: source.entryId,
             href: resolveContentHref(source.collection, source.entryId),
-            detail: `标准化标签：${normalizedLabel || '(empty)'}`
+            detail: `Normalized tag: ${normalizedLabel || '(empty)'}`
           }
         )
       );

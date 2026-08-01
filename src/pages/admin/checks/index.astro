@@ -56,7 +56,7 @@ const buildChecksHref = (category: AdminChecksFilterValue): string => {
   <AdminShell
     currentRoute="checks"
     title="Checks Console"
-    subtitle="后台诊断"
+    subtitle="Backend Diagnostics"
     showNav={isDev}
   >
     {isDev ? (
@@ -76,13 +76,13 @@ const buildChecksHref = (category: AdminChecksFilterValue): string => {
             <div class="admin-checks-toolbar__head">
               <div class="admin-checks-toolbar__lead">
                 <div class="admin-checks-toolbar__heading">
-                  <h2 id="admin-checks-title" class="admin-overview-card__title admin-checks-toolbar__title">诊断概览</h2>
+                  <h2 id="admin-checks-title" class="admin-overview-card__title admin-checks-toolbar__title">Diagnostics Overview</h2>
                 </div>
 
                 <div class="admin-checks-toolbar__filters-wrap">
                   <span class="admin-checks-toolbar__separator" aria-hidden="true">｜</span>
 
-                  <nav class="admin-checks-toolbar__filters" aria-label="检查分类筛选">
+                  <nav class="admin-checks-toolbar__filters" aria-label="Filter check categories">
                     <a
                       href={buildChecksHref('all')}
                       class:list={[
@@ -91,7 +91,7 @@ const buildChecksHref = (category: AdminChecksFilterValue): string => {
                       ]}
                       aria-current={selectedCategory === 'all' ? 'page' : undefined}
                     >
-                      <span class="admin-checks-filter__label">全部</span>
+                      <span class="admin-checks-filter__label">All</span>
                       <span class="admin-checks-filter__count">{checksDevState.checks.totalIssueCount}</span>
                     </a>
                     {
@@ -125,7 +125,7 @@ const buildChecksHref = (category: AdminChecksFilterValue): string => {
                   type="submit"
                   data-admin-checks-refresh-button
                 >
-                  重新检测
+                  Re-run checks
                 </button>
               </form>
             </div>
@@ -134,15 +134,15 @@ const buildChecksHref = (category: AdminChecksFilterValue): string => {
               <p class="admin-checks-toolbar__body">
                 {
                   checksDevState.checks.totalIssueCount > 0
-                    ? `当前共发现 ${checksDevState.checks.totalIssueCount} 个问题，分布在 ${checksDevState.checks.blockedCategoryCount} 个分类，涉及 ${checksDevState.checks.affectedPathCount} 个文件。`
-                    : '当前检查范围内未发现问题'
+                    ? `Found ${checksDevState.checks.totalIssueCount} issue(s) across ${checksDevState.checks.blockedCategoryCount} categor${checksDevState.checks.blockedCategoryCount === 1 ? 'y' : 'ies'}, affecting ${checksDevState.checks.affectedPathCount} file(s).`
+                    : 'No issues found within the current check scope'
                 }
               </p>
 
             </div>
 
             <p class="admin-checks-toolbar__hint">
-              注：提交前仍建议执行 <code>npm run verify</code>。
+              Note: running <code>npm run verify</code> before submitting is still recommended.
             </p>
           </header>
 
@@ -169,7 +169,7 @@ const buildChecksHref = (category: AdminChecksFilterValue): string => {
                       category.issueCount > 0 ? 'admin-badge--danger' : 'admin-badge--success'
                     ]}
                   >
-                    {category.issueCount > 0 ? `${category.issueCount} 个问题` : '正常'}
+                    {category.issueCount > 0 ? `${category.issueCount} issue(s)` : 'OK'}
                   </span>
                 </div>
 
@@ -196,7 +196,7 @@ const buildChecksHref = (category: AdminChecksFilterValue): string => {
                                 </div>
                                 {
                                   issue.href ? (
-                                    <a class="admin-checks-issue__link" href={withBase(issue.href)}>查看详情</a>
+                                    <a class="admin-checks-issue__link" href={withBase(issue.href)}>View details</a>
                                   ) : null
                                 }
                               </div>
@@ -245,7 +245,7 @@ const buildChecksHref = (category: AdminChecksFilterValue): string => {
                       <span class="admin-checks-empty__icon" aria-hidden="true">
                         <AdminIcon name="check" class="admin-checks-empty__icon-mark" size={18} strokeWidth={2.6} />
                       </span>
-                      <span>当前分类未发现问题</span>
+                      <span>No issues found in this category</span>
                     </p>
                   )
                 }
@@ -255,7 +255,7 @@ const buildChecksHref = (category: AdminChecksFilterValue): string => {
         </section>
       ) : (
         <AdminReadonlyNotice>
-          若需运行后台诊断，请在本地运行 <code translate="no">npm run dev</code>；发布前仍以终端检查为准。
+          To run backend diagnostics, run <code translate="no">npm run dev</code> locally; terminal checks remain authoritative before publishing.
         </AdminReadonlyNotice>
       )
     }

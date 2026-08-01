@@ -31,12 +31,12 @@ let {
   listItems,
   headingsEnabled = true,
   listEnabled = true,
-  headingsTabLabel = '文章目录',
+  headingsTabLabel = 'Outline',
   headingsTabIcon = undefined,
-  listTabLabel = '文章列表',
-  headingsEmptyText = '暂无 H2/H3 标题',
-  listEmptyText = '暂无文章',
-  panelLabel = '编辑器目录',
+  listTabLabel = 'Posts',
+  headingsEmptyText = 'No H2/H3 headings',
+  listEmptyText = 'No posts',
+  panelLabel = 'Editor outline',
   onTabChange,
   onHeadingSelect
 }: Props = $props();
@@ -103,7 +103,7 @@ const handleTabKeydown = (event: KeyboardEvent, tab: EditorOutlineTab) => {
     class="admin-editor-outline-panel__tabs"
     data-single={tabs.length === 1 ? 'true' : undefined}
     role="tablist"
-    aria-label="目录面板"
+    aria-label="Outline panel"
   >
     {#each tabs as tab}
       <button
@@ -182,7 +182,7 @@ const handleTabKeydown = (event: KeyboardEvent, tab: EditorOutlineTab) => {
                   title={item.title}
                 >
                   <span class="admin-editor-outline-panel__essay-title">{item.title}</span>
-                  <span class="admin-editor-outline-panel__essay-meta">{item.sourceError ? '异常' : item.dateLabel}</span>
+                  <span class="admin-editor-outline-panel__essay-meta">{item.sourceError ? 'Error' : item.dateLabel}</span>
                 </span>
               {:else}
                 <a
@@ -191,7 +191,7 @@ const handleTabKeydown = (event: KeyboardEvent, tab: EditorOutlineTab) => {
                   title={item.title}
                 >
                   <span class="admin-editor-outline-panel__essay-title">{item.title}</span>
-                  <span class="admin-editor-outline-panel__essay-meta">{item.sourceError ? '异常' : item.dateLabel}</span>
+                  <span class="admin-editor-outline-panel__essay-meta">{item.sourceError ? 'Error' : item.dateLabel}</span>
                 </a>
               {/if}
             </li>

@@ -81,7 +81,7 @@ const getRequiredStringField = (
 ): string => {
   const value = input[field];
   if (typeof value === 'string') return value;
-  issues.push(createIssue(field, `frontmatter.${field} 必须是字符串`));
+  issues.push(createIssue(field, `frontmatter.${field} must be a string`));
   return '';
 };
 
@@ -92,7 +92,7 @@ const getRequiredBooleanField = (
 ): boolean => {
   const value = input[field];
   if (typeof value === 'boolean') return value;
-  issues.push(createIssue(field, `frontmatter.${field} 必须是布尔值`));
+  issues.push(createIssue(field, `frontmatter.${field} must be a boolean`));
   return false;
 };
 
@@ -127,7 +127,7 @@ const parseAdminBitsEditorInput = (
 ): { values?: AdminBitsEditorValues; issues: AdminContentValidationIssue[] } => {
   if (!isRecord(input)) {
     return {
-      issues: [createIssue('frontmatter', 'frontmatter 必须是对象')]
+      issues: [createIssue('frontmatter', 'frontmatter must be an object')]
     };
   }
 
@@ -157,13 +157,13 @@ const parseBitsImages = (value: string): { images?: AdminBitsImage[]; issues: Ad
     parsed = JSON.parse(trimmed);
   } catch {
     return {
-      issues: [createIssue('imagesText', 'images 必须是合法 JSON 数组')]
+      issues: [createIssue('imagesText', 'images must be a valid JSON array')]
     };
   }
 
   if (!Array.isArray(parsed)) {
     return {
-      issues: [createIssue('imagesText', 'images 必须是 JSON 数组')]
+      issues: [createIssue('imagesText', 'images must be a JSON array')]
     };
   }
 
@@ -172,14 +172,14 @@ const parseBitsImages = (value: string): { images?: AdminBitsImage[]; issues: Ad
 
   parsed.forEach((item, index) => {
     if (!isRecord(item)) {
-      issues.push(createIssue(`images[${index}]`, `images[${index}] 必须是对象`));
+      issues.push(createIssue(`images[${index}]`, `images[${index}] must be an object`));
       return;
     }
 
     const src = normalizeOptionalText(item.src);
     const normalizedSrc = normalizeAdminBitsImageSource(src);
     if (!normalizedSrc) {
-      issues.push(createIssue(`images[${index}].src`, `images[${index}].src 只允许 https:// 远程路径或仓库内相对图片路径`));
+      issues.push(createIssue(`images[${index}].src`, `images[${index}].src only allows https:// remote paths or in-repo relative image paths`));
     }
 
     const width = parseOptionalPositiveInteger(item.width);
@@ -188,10 +188,10 @@ const parseBitsImages = (value: string): { images?: AdminBitsImage[]; issues: Ad
     const hasInvalidHeight = !isPositiveInteger(height);
 
     if (hasInvalidWidth) {
-      issues.push(createIssue(`images[${index}].width`, `images[${index}].width 必须是正整数`));
+      issues.push(createIssue(`images[${index}].width`, `images[${index}].width must be a positive integer`));
     }
     if (hasInvalidHeight) {
-      issues.push(createIssue(`images[${index}].height`, `images[${index}].height 必须是正整数`));
+      issues.push(createIssue(`images[${index}].height`, `images[${index}].height must be a positive integer`));
     }
 
     if (
@@ -221,9 +221,9 @@ export const buildBitsFrontmatterFromValues = (
   const date = values.date.trim();
 
   if (!date) {
-    issues.push(createIssue('date', 'bits.date 不能为空'));
+    issues.push(createIssue('date', 'bits.date cannot be empty'));
   } else if (Number.isNaN(new Date(date).valueOf())) {
-    issues.push(createIssue('date', 'bits.date 不是合法日期时间'));
+    issues.push(createIssue('date', 'bits.date is not a valid date/time'));
   }
 
   const authorName = values.authorName.trim();
@@ -233,7 +233,7 @@ export const buildBitsFrontmatterFromValues = (
     issues.push(
       createIssue(
         'authorAvatar',
-        'author.avatar 只允许相对图片路径（例如 author/avatar.webp），不要带 public/、不要以 / 开头，也不要使用 URL、..、?、#'
+        'author.avatar only allows a relative image path (e.g. author/avatar.webp) — do not include public/, do not start with /, and do not use a URL, .., ?, or #'
       )
     );
   }
@@ -467,7 +467,7 @@ const buildEssayWritePlan = async (
     if (missingImageReferences.length > 0) {
       return {
         issues: missingImageReferences.map((reference) =>
-          createIssue('body', `正文引用的本地图片不存在：${reference.relativePath}`)
+          createIssue('body', `Local image referenced in the body does not exist: ${reference.relativePath}`)
         ),
         changedFields: [],
         patches: []
@@ -550,7 +550,7 @@ const buildMemoWritePlan = (
     if (missingImageReferences.length > 0) {
       return {
         issues: missingImageReferences.map((reference) =>
-          createIssue('body', `正文引用的本地图片不存在：${reference.relativePath}`)
+          createIssue('body', `Local image referenced in the body does not exist: ${reference.relativePath}`)
         ),
         changedFields: [],
         patches: []
@@ -580,7 +580,7 @@ export const buildAdminContentWritePlanFromState = async (
   if (!getAdminContentCollectionCapability(collection).entryWritable) {
     throw new AdminContentEntryResolutionError(
       'invalid-entry-id',
-      getAdminContentReadOnlyReason(collection) ?? `当前 collection 暂不支持写盘：${collection}`
+      getAdminContentReadOnlyReason(collection) ?? `This collection does not currently support writing to disk: ${collection}`
     );
   }
 

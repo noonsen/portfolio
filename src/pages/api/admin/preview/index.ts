@@ -63,8 +63,8 @@ const createJsonErrorResponse = (
 const extractPreviewInput = (body: unknown): PreviewInput => {
   if (!isRecord(body)) {
     return {
-      errors: ['请求体必须是 JSON 对象'],
-      issues: [{ path: 'body', message: '请求体必须是 JSON 对象' }]
+      errors: ['Request body must be a JSON object'],
+      issues: [{ path: 'body', message: 'Request body must be a JSON object' }]
     };
   }
 
@@ -76,15 +76,15 @@ const extractPreviewInput = (body: unknown): PreviewInput => {
   let source: string | undefined;
 
   if (!rawCollection) {
-    const message = '请求体缺少 collection';
+    const message = 'Request body is missing collection';
     errors.push(message);
     issues.push({ path: 'collection', message });
   } else if (!isAdminContentCollectionKey(rawCollection)) {
-    const message = `不支持的 content collection：${rawCollection}；仅支持 ${ADMIN_CONTENT_COLLECTION_KEYS.join(' / ')}`;
+    const message = `Unsupported content collection: ${rawCollection}; only ${ADMIN_CONTENT_COLLECTION_KEYS.join(' / ')} are supported`;
     errors.push(message);
     issues.push({ path: 'collection', message });
   } else if (!isAdminContentWriteCollectionKey(rawCollection)) {
-    const message = getAdminContentReadOnlyReason(rawCollection) ?? `当前 collection 暂不支持预览：${rawCollection}`;
+    const message = getAdminContentReadOnlyReason(rawCollection) ?? `This collection does not currently support preview: ${rawCollection}`;
     errors.push(message);
     issues.push({ path: 'collection', message });
   } else {
@@ -92,7 +92,7 @@ const extractPreviewInput = (body: unknown): PreviewInput => {
   }
 
   if (typeof body.source !== 'string') {
-    const message = 'source 必须是 Markdown 字符串';
+    const message = 'source must be a Markdown string';
     errors.push(message);
     issues.push({ path: 'source', message });
   } else {
@@ -101,7 +101,7 @@ const extractPreviewInput = (body: unknown): PreviewInput => {
 
   if ('entryId' in body && typeof body.entryId !== 'undefined') {
     if (typeof body.entryId !== 'string' || !body.entryId.trim()) {
-      const message = 'entryId 必须是非空字符串';
+      const message = 'entryId must be a non-empty string';
       errors.push(message);
       issues.push({ path: 'entryId', message });
     } else {
@@ -111,11 +111,11 @@ const extractPreviewInput = (body: unknown): PreviewInput => {
 
   if (rawCollection === 'about') {
     if (!entryId) {
-      const message = 'about 预览必须提供固定 entryId：index';
+      const message = 'about preview requires a fixed entryId: index';
       errors.push(message);
       issues.push({ path: 'entryId', message });
     } else if (entryId !== 'index') {
-      const message = 'about 预览仅支持固定 entryId：index';
+      const message = 'about preview only supports a fixed entryId: index';
       errors.push(message);
       issues.push({ path: 'entryId', message });
     }
@@ -143,13 +143,13 @@ export const POST: APIRoute = async ({ request, url }) => {
     return DEV_ONLY_NOT_FOUND_RESPONSE.clone();
   }
 
-  const requestError = validateAdminJsonWriteRequest(request, url, 'Content Console', '预览');
+  const requestError = validateAdminJsonWriteRequest(request, url, 'Content Console', 'preview');
   if (requestError) {
     return createJsonErrorResponse(requestError.status, [requestError.error]);
   }
 
   const bodyResult = await readAdminJsonRequestBody(request, {
-    emptyBodyError: '请求体为空，请确认已发送 JSON 字符串'
+    emptyBodyError: 'Request body is empty — make sure a JSON string was sent'
   });
   if (!bodyResult.ok) {
     return createJsonErrorResponse(bodyResult.status, [bodyResult.error]);
@@ -179,6 +179,6 @@ export const POST: APIRoute = async ({ request, url }) => {
     }
 
     console.error('[astro-whono] Failed to render admin content preview:', error);
-    return createJsonErrorResponse(500, ['预览渲染失败，请检查 Markdown 内容或查看本地日志']);
+    return createJsonErrorResponse(500, ['Failed to render the preview — check the Markdown content or local logs']);
   }
 };

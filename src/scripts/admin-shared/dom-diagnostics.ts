@@ -1,4 +1,4 @@
-export const ADMIN_DOM_SETUP_ERROR_STATUS = '初始化失败，请查看控制台';
+export const ADMIN_DOM_SETUP_ERROR_STATUS = 'Initialization failed — check the console';
 
 type AdminDomControlMap<TControls> = {
   [Key in keyof TControls]: Element | null;
@@ -43,7 +43,7 @@ export const queryAdminDomControls = <TControls extends AdminDomControlMap<TCont
 
 export const reportAdminDomSetupError = ({
   prefix,
-  message = '页面缺少必要控件，客户端脚本已停止初始化。',
+  message = 'The page is missing required controls — the client script has stopped initializing.',
   missing,
   statusEl,
   statusLiveEl,
@@ -56,7 +56,7 @@ export const reportAdminDomSetupError = ({
   statusLiveEl?: HTMLElement | null;
   statusText?: string;
 }) => {
-  console.error(`${prefix} 初始化失败: ${message}`, { missing });
+  console.error(`${prefix} initialization failed: ${message}`, { missing });
 
   if (statusEl) {
     statusEl.dataset.state = 'error';

@@ -31,9 +31,9 @@ type Props = {
 };
 
 const GALLERY_COLUMN_OPTIONS: Array<{ value: GalleryColumnMode; label: string }> = [
-  { value: 'default', label: '自适应' },
-  { value: 'cols-2', label: '两列' },
-  { value: 'cols-3', label: '三列' }
+  { value: 'default', label: 'Auto' },
+  { value: 'cols-2', label: '2 columns' },
+  { value: 'cols-3', label: '3 columns' }
 ];
 
 let {
@@ -60,12 +60,12 @@ let errorText = $state('');
 let appliedEditDraftKey = $state('');
 
 const busy = $derived(uploadingItemId !== null);
-const dialogTitle = $derived(editDraft ? '编辑画廊' : '插入画廊');
-const submitButtonText = $derived(busy ? '上传中…' : editDraft ? '保存画廊' : '插入画廊');
+const dialogTitle = $derived(editDraft ? 'Edit gallery' : 'Insert gallery');
+const submitButtonText = $derived(busy ? 'Uploading…' : editDraft ? 'Save gallery' : 'Insert gallery');
 const removeGalleryConfirmMessage = [
-  '确认移除整个画廊？',
+  'Remove the entire gallery?',
   '',
-  '此操作只会从正文中移除该画廊，不会删除图片文件。'
+  'This only removes the gallery from the content — it will not delete the image files.'
 ].join('\n');
 
 const createGalleryItem = (): GalleryItem => {
@@ -208,7 +208,7 @@ const getPreparedItems = (): GalleryImageDraft[] | null => {
 
     const source = normalizeGalleryImageSource(item.source);
     if (!source) {
-      errorText = `第 ${index + 1} 张图片来源无效：${GALLERY_IMAGE_SOURCE_ERROR}`;
+      errorText = `Image ${index + 1} has an invalid source: ${GALLERY_IMAGE_SOURCE_ERROR}`;
       return null;
     }
 
@@ -220,7 +220,7 @@ const getPreparedItems = (): GalleryImageDraft[] | null => {
   }
 
   if (prepared.length === 0) {
-    errorText = '至少填写一张图片';
+    errorText = 'Add at least one image';
     return null;
   }
 
@@ -288,7 +288,7 @@ $effect(() => {
     <button
       class="admin-modal__backdrop admin-editor-gallery-insert__backdrop"
       type="button"
-      aria-label={`关闭${dialogTitle}`}
+      aria-label={`Close ${dialogTitle}`}
       onclick={closeDialog}
     ></button>
     <div
@@ -322,13 +322,13 @@ $effect(() => {
               onclick={addItem}
             >
               <AdminEditorIcon name="plus" size={14} strokeWidth={2} />
-              <span>添加图片</span>
+              <span>Add image</span>
             </button>
             <button
               bind:this={closeButtonEl}
               class="admin-btn admin-btn--ghost admin-btn--compact admin-btn--icon admin-editor-gallery-insert__close"
               type="button"
-              aria-label={`关闭${dialogTitle}`}
+              aria-label={`Close ${dialogTitle}`}
               disabled={busy}
               onclick={closeDialog}
             >
@@ -347,21 +347,21 @@ $effect(() => {
             onchange={() => void handleFileChange()}
           />
 
-          <div class="admin-editor-gallery-insert__items" aria-label="画廊图片">
+          <div class="admin-editor-gallery-insert__items" aria-label="Gallery images">
             {#each items as item, index (item.id)}
-              <section class="admin-editor-gallery-insert__item" aria-label={`第 ${index + 1} 张图片`}>
+              <section class="admin-editor-gallery-insert__item" aria-label={`Image ${index + 1}`}>
                 <div class="admin-field admin-editor-gallery-insert__field">
                   <div class="admin-editor-gallery-insert__item-head">
                     <label class="admin-field__label admin-editor-gallery-insert__source-label" for={`admin-editor-gallery-source-${item.id}`}>
                       <span class="admin-editor-gallery-insert__item-index">#{index + 1}</span>
-                      <span>图片</span>
+                      <span>Image</span>
                     </label>
-                    <div class="admin-editor-gallery-insert__sort-actions" role="group" aria-label={`调整第 ${index + 1} 张图片顺序`}>
+                    <div class="admin-editor-gallery-insert__sort-actions" role="group" aria-label={`Reorder image ${index + 1}`}>
                       <button
                         class="admin-btn admin-btn--ghost admin-btn--compact admin-btn--icon admin-editor-gallery-insert__item-action"
                         type="button"
-                        title="上移"
-                        aria-label={`上移第 ${index + 1} 张图片`}
+                        title="Move up"
+                        aria-label={`Move image ${index + 1} up`}
                         disabled={disabled || busy || index === 0}
                         onclick={() => moveItem(item.id, -1)}
                       >
@@ -370,8 +370,8 @@ $effect(() => {
                       <button
                         class="admin-btn admin-btn--ghost admin-btn--compact admin-btn--icon admin-editor-gallery-insert__item-action"
                         type="button"
-                        title="下移"
-                        aria-label={`下移第 ${index + 1} 张图片`}
+                        title="Move down"
+                        aria-label={`Move image ${index + 1} down`}
                         disabled={disabled || busy || index === items.length - 1}
                         onclick={() => moveItem(item.id, 1)}
                       >
@@ -380,12 +380,12 @@ $effect(() => {
                     </div>
                   </div>
                   <div class="admin-editor-gallery-insert__source-control" class:is-disabled={disabled || busy}>
-                    <div class="admin-editor-gallery-insert__source-actions admin-editor-gallery-insert__source-actions--leading" role="group" aria-label={`第 ${index + 1} 张图片上传操作`}>
+                    <div class="admin-editor-gallery-insert__source-actions admin-editor-gallery-insert__source-actions--leading" role="group" aria-label={`Upload actions for image ${index + 1}`}>
                       <button
                         class="admin-btn admin-btn--ghost admin-btn--compact admin-btn--icon admin-editor-gallery-insert__source-action"
                         type="button"
-                        title={uploadingItemId === item.id ? '上传中…' : '上传'}
-                        aria-label={uploadingItemId === item.id ? `第 ${index + 1} 张图片上传中` : `上传第 ${index + 1} 张图片`}
+                        title={uploadingItemId === item.id ? 'Uploading…' : 'Upload'}
+                        aria-label={uploadingItemId === item.id ? `Uploading image ${index + 1}` : `Upload image ${index + 1}`}
                         aria-busy={uploadingItemId === item.id}
                         disabled={disabled || busy}
                         onclick={() => requestUpload(item.id)}
@@ -402,15 +402,15 @@ $effect(() => {
                       autocomplete="off"
                       value={item.source}
                       disabled={disabled || busy}
-                      placeholder="请上传图片或输入图片链接"
+                      placeholder="Upload an image or enter an image link"
                       oninput={(event) => updateItem(item.id, { source: event.currentTarget.value })}
                     />
-                    <div class="admin-editor-gallery-insert__source-actions admin-editor-gallery-insert__source-actions--trailing" role="group" aria-label={`第 ${index + 1} 张图片删除操作`}>
+                    <div class="admin-editor-gallery-insert__source-actions admin-editor-gallery-insert__source-actions--trailing" role="group" aria-label={`Delete actions for image ${index + 1}`}>
                       <button
                         class="admin-btn admin-btn--ghost admin-btn--compact admin-btn--icon admin-editor-gallery-insert__source-action admin-editor-gallery-insert__source-action--danger"
                         type="button"
-                        title="删除"
-                        aria-label={`删除第 ${index + 1} 张图片`}
+                        title="Delete"
+                        aria-label={`Delete image ${index + 1}`}
                         disabled={disabled || busy || items.length <= 1}
                         onclick={() => removeItem(item.id)}
                       >
@@ -422,25 +422,25 @@ $effect(() => {
 
                 <div class="admin-editor-gallery-insert__meta-grid">
                   <label class="admin-field admin-editor-gallery-insert__field">
-                    <span class="admin-field__label">图片描述</span>
+                    <span class="admin-field__label">Image description</span>
                     <input
                       class="admin-field__control"
                       type="text"
                       value={item.alt}
                       disabled={disabled || busy}
-                      placeholder="写入 alt，可留空"
+                      placeholder="Alt text, optional"
                       oninput={(event) => updateItem(item.id, { alt: event.currentTarget.value })}
                     />
                   </label>
 
                   <label class="admin-field admin-editor-gallery-insert__field">
-                    <span class="admin-field__label">图注</span>
+                    <span class="admin-field__label">Caption</span>
                     <input
                       class="admin-field__control"
                       type="text"
                       value={item.caption}
                       disabled={disabled || busy}
-                      placeholder="显示在图片下方，可留空"
+                      placeholder="Shown below the image, optional"
                       oninput={(event) => updateItem(item.id, { caption: event.currentTarget.value })}
                     />
                   </label>
@@ -456,7 +456,7 @@ $effect(() => {
 
         <footer class="admin-modal__actions admin-editor-gallery-insert__actions">
           <div class="admin-editor-gallery-insert__left-actions">
-            <div class="admin-editor-gallery-insert__columns" role="group" aria-label="画廊列数">
+            <div class="admin-editor-gallery-insert__columns" role="group" aria-label="Gallery columns">
               {#each GALLERY_COLUMN_OPTIONS as option}
                 <button
                   class="admin-editor-gallery-insert__option-button"
@@ -483,10 +483,10 @@ $effect(() => {
                 onclick={removeGallery}
               >
                 <AdminEditorIcon name="trash" size={14} strokeWidth={2} />
-                <span>移除画廊</span>
+                <span>Remove gallery</span>
               </button>
             {/if}
-            <button class="admin-btn admin-btn--ghost admin-btn--compact" type="button" disabled={busy} onclick={closeDialog}>取消</button>
+            <button class="admin-btn admin-btn--ghost admin-btn--compact" type="button" disabled={busy} onclick={closeDialog}>Cancel</button>
             <button class="admin-btn admin-btn--primary admin-btn--compact" type="submit" disabled={disabled || busy}>
               {submitButtonText}
             </button>

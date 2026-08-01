@@ -67,7 +67,7 @@ describe('about directives markdown transform', () => {
 
     expect(html.match(/<ul class="friend-list">/g)).toHaveLength(1);
     expect(html.match(/<li>/g)).toHaveLength(2);
-    expect(html.match(/<div class="qa-list" aria-label="常见问题">/g)).toHaveLength(1);
+    expect(html.match(/<div class="qa-list" aria-label="FAQ">/g)).toHaveLength(1);
     expect(html.match(/<details class="qa-item">/g)).toHaveLength(2);
   });
 
@@ -80,37 +80,37 @@ describe('about directives markdown transform', () => {
   it('renders site-info as a semantic card with generated copy text', async () => {
     const html = await renderAboutMarkdown(
       [
-        '::site-info{name="Whono" url="https://astro.whono.me/" description="一个极简的双栏 Astro 主题" avatar="author/avatar.webp"}'
+        '::site-info{name="Whono" url="https://astro.whono.me/" description="A minimal two-column Astro theme" avatar="author/avatar.webp"}'
       ].join('\n'),
       { base: '/blog/' }
     );
 
     expect(html).toContain('<div class="about-site-info">');
-    expect(html).not.toContain('aria-label="本站友链信息"');
+    expect(html).not.toContain('aria-label="Site friend link info"');
     expect(html).not.toContain('about-site-info__avatar');
     expect(html).not.toContain('about-site-info__eyebrow');
     expect(html).not.toContain('src="/blog/author/avatar.webp"');
-    expect(html).toContain('<dt class="about-site-info__field-label">名称</dt>');
+    expect(html).toContain('<dt class="about-site-info__field-label">Name</dt>');
     expect(html).toContain('<dd class="about-site-info__field-value">Whono</dd>');
     expect(html).toContain('href="https://astro.whono.me/"');
     expect(html).toContain('data-about-site-info-copy');
     expect(html).toContain('name: Whono');
-    expect(html).toContain('description: 一个极简的双栏 Astro 主题');
+    expect(html).toContain('description: A minimal two-column Astro theme');
     expect(html).toContain('avatar: author/avatar.webp');
   });
 
   it('supports site-info leaf directive inside FAQ', async () => {
     const html = await renderAboutMarkdown(
       [
-        ':::faq{question="如何交换友链？"}',
-        '请附上站点名称、链接、简介和头像。',
+        ':::faq{question="How do I exchange friend links?"}',
+        'Please include your site name, link, description, and avatar.',
         '',
         '::site-info{name="Whono" url="https://astro.whono.me/" description="一个极简的双栏 Astro 主题" avatar="https://astro.whono.me/author/avatar.webp"}',
         ':::'
       ].join('\n')
     );
 
-    expect(html).toContain('<div class="qa-list" aria-label="常见问题">');
+    expect(html).toContain('<div class="qa-list" aria-label="FAQ">');
     expect(html).toContain('class="about-site-info"');
     expect(html).not.toContain('<p>:::</p>');
   });

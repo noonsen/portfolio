@@ -52,12 +52,12 @@ $effect(() => {
       </article>
     {:else if loading}
       <div class="admin-editor-preview__empty" role="status" aria-live="polite">
-        正在生成预览…
+        Generating preview…
       </div>
     {:else if error}
       <div class="admin-editor-preview__error" role="alert">{error}</div>
     {:else}
-      <div class="admin-editor-preview__empty">预览将在正文载入后自动生成。</div>
+      <div class="admin-editor-preview__empty">The preview will generate automatically once the body loads.</div>
     {/if}
   </div>
 

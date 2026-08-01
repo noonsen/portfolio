@@ -64,7 +64,7 @@ const showAdminEntry = !hidePublicSidebarActionsInDevAdmin
 const isPageScopedAdminSidebar = isAdminContext && adminSidebarScope === 'page';
 const showAdminRouteRail = isAdminContext && isDev;
 const showAdminNavPanels = isDev && !isPageScopedAdminSidebar;
-const siteTitleLabel = `${siteTitle} 首页`;
+const siteTitleLabel = `${siteTitle} Home`;
 const adminOverviewRoute = getAdminRoute('overview');
 const adminRailTitleLabel = adminOverviewRoute.description;
 const isAdminOverviewActive = pathname === adminOverviewHref;
@@ -120,7 +120,7 @@ const adminSidebarRoutes = ADMIN_ROUTES.map((route) => {
   )}
 
   {showAdminRouteRail ? (
-    <nav class="admin-rail-routes" aria-label="后台页面">
+    <nav class="admin-rail-routes" aria-label="Admin pages">
       {adminRailRoutes.map((route) => {
         const href = withBase(route.href);
         const isActive = isAdminRouteRailPathActive(pathname, href);

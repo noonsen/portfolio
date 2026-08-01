@@ -25,7 +25,7 @@ export const GET: APIRoute = async ({ url }) => {
     });
   } catch (error) {
     const status = error instanceof AdminImageError ? error.status : 500;
-    const message = error instanceof Error ? error.message : '图片列表读取失败';
+    const message = error instanceof Error ? error.message : 'Failed to read the image list';
     return new Response(JSON.stringify({ ok: false, errors: [message] }, null, 2), {
       status,
       headers: JSON_HEADERS

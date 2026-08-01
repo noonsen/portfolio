@@ -17,10 +17,10 @@ let {
   id,
   value = $bindable(''),
   inputName = 'tagDraft',
-  placeholder = '输入后回车',
+  placeholder = 'Type then press Enter',
   disabled = false,
   invalid = false,
-  ariaLabel = '标签',
+  ariaLabel = 'Tags',
   ariaDescribedby,
   onDirty
 }: Props = $props();
@@ -129,7 +129,7 @@ $effect(() => {
       <button
         class="admin-frontmatter-tags-input__remove"
         type="button"
-        aria-label={`删除标签 ${tag}`}
+        aria-label={`Remove tag ${tag}`}
         disabled={disabled}
         onclick={(event) => {
           event.stopPropagation();

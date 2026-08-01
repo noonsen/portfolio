@@ -45,7 +45,7 @@ const base = import.meta.env.BASE_URL ?? '/';
 const withBase = createWithBase(base);
 const { settings } = getThemeSettings();
 const bitsDefaultAuthor = settings.page.bits.defaultAuthor;
-const DEFAULT_MEMO_TITLE = '生活小记';
+const DEFAULT_MEMO_TITLE = 'Life Notes';
 const resolveMemoDisplayText = (settingValue: string | null, frontmatterValue: string, fallback: string): string =>
   settingValue ?? (frontmatterValue || fallback);
 const { default: adminShellStylesHref } = await import('../../styles/components/admin/shell.css?url');
@@ -102,13 +102,13 @@ const editorIslandProps = workspaceEditorPayload && contentEditDevState
     })
   : null;
 const contentConsoleSubtitle = selectedEntryEditorPayload
-  ? `${selectedEntryEditorPayload.collection} · 内容编辑`
-  : '内容编辑';
+  ? `${selectedEntryEditorPayload.collection} · Content edit`
+  : 'Content edit';
 const selectedEntryTitle = selectedEntryEditorPayload
   ? selectedEntryEditorPayload.collection === 'memo'
     ? memoPublicTitle
     : selectedEntryEditorPayload.collection === 'about'
-      ? '关于'
+      ? 'About'
       : selectedEntryEditorPayload.values.title
   : '';
 const selectedEntryDescription = selectedEntryEditorPayload && 'description' in selectedEntryEditorPayload.values
@@ -117,7 +117,7 @@ const selectedEntryDescription = selectedEntryEditorPayload && 'description' in 
 const editTitle = selectedEntryEditorPayload
   ? selectedEntryTitle || selectedEntryDescription || selectedEntryEditorPayload.entryId
   : entryId;
-const getReadonlyValue = (value: string): string => value || '(未设置)';
+const getReadonlyValue = (value: string): string => value || '(not set)';
 const memoReadonlyRows = workspaceEditorPayload?.collection === 'memo'
   ? [
       { label: 'memo.title', value: getReadonlyValue(workspaceEditorPayload.values.title) },
@@ -194,7 +194,7 @@ const infoTrigger = shouldUseEditorPageLayout ? editorRegistration?.infoTrigger 
                             aria-expanded="false"
                             hidden
                           >
-                            Dev 缓存异常
+                            Dev cache issue
                           </button>
                         </span>
                       ) : null
@@ -226,12 +226,12 @@ const infoTrigger = shouldUseEditorPageLayout ? editorRegistration?.infoTrigger 
                     href={editorReturnHref}
                     data-admin-editor-page-actions-fallback
                   >
-                    返回
+                    Back
                   </a>
                 ) : (
                   <>
-                    <a class="admin-btn admin-btn--ghost" href={collectionHref}>返回列表</a>
-                    <a class="admin-btn admin-btn--ghost" href={withBase('/admin/content/')}>Content 总入口</a>
+                    <a class="admin-btn admin-btn--ghost" href={collectionHref}>Back to list</a>
+                    <a class="admin-btn admin-btn--ghost" href={withBase('/admin/content/')}>Content home</a>
                   </>
                 )
               }
@@ -253,28 +253,28 @@ const infoTrigger = shouldUseEditorPageLayout ? editorRegistration?.infoTrigger 
                   type="button"
                   class="admin-modal__backdrop"
                   data-admin-editor-recovery-close="restore"
-                  aria-label="关闭"
+                  aria-label="Close"
                 ></button>
                 <section class="admin-modal__panel admin-editor-recovery-modal__panel">
                   <header class="admin-modal__head">
-                    <h3 class="admin-modal__title" id="admin-editor-recovery-title">本地依赖缓存已过期</h3>
+                    <h3 class="admin-modal__title" id="admin-editor-recovery-title">Local dependency cache has expired</h3>
                     <button
                       class="admin-btn admin-btn--ghost admin-btn--compact"
                       type="button"
                       data-admin-editor-recovery-close="restore"
                     >
-                      关闭
+                      Close
                     </button>
                   </header>
                   <div class="admin-modal__body admin-editor-recovery-modal__body">
                     <p class="admin-content-copy">
-                      本地开发缓存可能已过期，编辑器未能加载。
+                      The local dev cache may have expired, and the editor failed to load.
                     </p>
                     <p class="admin-content-copy">
-                      请先停止开发服务，重新运行 <code>npm run dev</code>，然后刷新本页。
+                      Stop the dev server, run <code>npm run dev</code> again, then refresh this page.
                     </p>
                     <p class="admin-content-copy">
-                      如果仍无法加载，请停止开发服务并运行：
+                      If it still fails to load, stop the dev server and run:
                     </p>
                     <code class="admin-editor-recovery-modal__command" data-admin-editor-recovery-command>npm run dev:clean</code>
                     <p class="admin-content-muted" data-admin-editor-recovery-status aria-live="polite" hidden></p>
@@ -285,14 +285,14 @@ const infoTrigger = shouldUseEditorPageLayout ? editorRegistration?.infoTrigger 
                       type="button"
                       data-admin-editor-recovery-copy
                     >
-                      复制命令
+                      Copy command
                     </button>
                     <button
                       class="admin-btn admin-btn--ghost admin-btn--compact"
                       type="button"
                       data-admin-editor-recovery-reload
                     >
-                      刷新页面
+                      Reload page
                     </button>
                   </footer>
                 </section>
@@ -316,7 +316,7 @@ const infoTrigger = shouldUseEditorPageLayout ? editorRegistration?.infoTrigger 
                 <div class="admin-content-section-head">
                   <div>
                     <p class="admin-content-kicker">Readonly</p>
-                    <h3 class="admin-content-section-title">当前 collection 保持只读</h3>
+                    <h3 class="admin-content-section-title">This collection stays read-only</h3>
                     <p class="admin-content-copy">{selectedEntryEditorPayload.readonlyReason}</p>
                   </div>
                 </div>
@@ -336,7 +336,7 @@ const infoTrigger = shouldUseEditorPageLayout ? editorRegistration?.infoTrigger 
         </section>
       ) : (
         <AdminReadonlyNotice>
-          若需查看或编辑内容索引，请在本地运行 <code translate="no">npm run dev</code> 后从此入口进入。
+          To view or edit the content index, run <code translate="no">npm run dev</code> locally and access it from this entry point.
         </AdminReadonlyNotice>
       )
     }

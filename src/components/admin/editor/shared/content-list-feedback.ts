@@ -14,7 +14,7 @@ export const storeContentListActionFeedback = (value: ContentListActionFeedback)
   try {
     window.sessionStorage.setItem(CONTENT_LIST_ACTION_FEEDBACK_STORAGE_KEY, value);
   } catch {
-    // 仅用于刷新后的成功提示；写入失败不影响已经完成的保存/删除。
+    // Used only for the success message after a refresh; a write failure doesn't affect a save/delete that already completed.
   }
 };
 

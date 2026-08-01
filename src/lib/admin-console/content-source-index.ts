@@ -32,14 +32,14 @@ import {
   splitMarkdownFrontmatter
 } from './frontmatter';
 
-// Admin Content 列表跟随 src/content.config.ts 当前 glob 边界：仅索引 .md。
+// The Admin Content list follows the current glob boundary in src/content.config.ts: only .md is indexed.
 const ADMIN_CONTENT_SOURCE_INDEX_EXT_RE = /\.md$/i;
-// 故意不与公开模块共享：Admin 与公开搜索语义未来可能分化。
+// Deliberately not shared with the public module: admin and public search semantics may diverge in the future.
 const MAX_SEARCH_INDEX_TEXT = 600;
 const ESSAY_EXCERPT_LIMIT = 120;
 const BITS_EXCERPT_LIMIT = 180;
-const UNTITLED_VALUE = '(未设置)';
-const SOURCE_ERROR_DATE_LABEL = '源文件异常';
+const UNTITLED_VALUE = '(not set)';
+const SOURCE_ERROR_DATE_LABEL = 'Source file error';
 
 export type AdminContentSourceManifest = Record<AdminContentCollectionKey, string[]>;
 export type AdminContentSourceCountMap = Record<AdminContentCollectionKey, number>;
@@ -131,7 +131,7 @@ const parseDateTimeInput = (value: unknown): Date | null => {
 };
 
 const getUnsetSourceDateMeta = (): SourceDateMeta => ({
-  label: '未设置日期',
+  label: 'No date set',
   year: null
 });
 
@@ -213,8 +213,8 @@ const getSourceRecordErrorMessage = (error: unknown): string => {
     : '';
 
   return ['ENOENT', 'EACCES', 'EPERM'].includes(code)
-    ? `源文件读取失败：${message}`
-    : `frontmatter 解析失败：${message}`;
+    ? `Failed to read source file: ${message}`
+    : `Failed to parse frontmatter: ${message}`;
 };
 
 const getBodyDerived = (record: SourceRecord): AdminContentSourceBodyDerived | null =>
@@ -245,8 +245,8 @@ const createEssaySourceIndexItem: FrontmatterAdapter = (record) => {
   const bodyDerived = getBodyDerived(record);
   const sourceError = mergeSourceError(
     record.sourceError,
-    !hasSourceError && !normalizeOptionalText(frontmatter.title) ? 'essay.title 缺失或不是字符串' : null,
-    !hasSourceError && !dateResult ? 'essay.date 缺失或格式无效' : null
+    !hasSourceError && !normalizeOptionalText(frontmatter.title) ? 'essay.title is missing or not a string' : null,
+    !hasSourceError && !dateResult ? 'essay.date is missing or has an invalid format' : null
   );
 
   return createBaseItem(record, {
@@ -290,7 +290,7 @@ const createBitsSourceIndexItem: FrontmatterAdapter = (record, context) => {
   const authorAvatar = normalizeOptionalText(author?.avatar);
   const sourceError = mergeSourceError(
     record.sourceError,
-    !hasSourceError && !date ? 'bits.date 缺失或格式无效' : null
+    !hasSourceError && !date ? 'bits.date is missing or has an invalid format' : null
   );
 
   return createBaseItem(record, {
@@ -360,7 +360,7 @@ const createAboutSourceIndexItem: FrontmatterAdapter = (record) => {
   const hasSourceError = record.sourceError !== null;
 
   return createBaseItem(record, {
-    title: '关于',
+    title: 'About',
     slug: 'about',
     publicHref: '/about/',
     isDraft: false,
@@ -370,7 +370,7 @@ const createAboutSourceIndexItem: FrontmatterAdapter = (record) => {
     year: null,
     tags: [],
     searchHaystack: buildSearchHaystack([
-      '关于',
+      'About',
       record.entryId,
       record.publicEntryId,
       'about',
@@ -388,7 +388,7 @@ const FRONTMATTER_ADAPTERS: Record<AdminContentCollectionKey, FrontmatterAdapter
   about: createAboutSourceIndexItem
 };
 
-// Manifest 排序不决定最终列表顺序，仅保证不同系统上的请求快照顺序稳定。
+// Manifest ordering does not determine the final list order; it only keeps request snapshot ordering stable across systems.
 const orderSourceFiles = (files: readonly string[]): string[] =>
   files.slice().sort((left, right) =>
     toAdminContentRelativeProjectPath(left).localeCompare(toAdminContentRelativeProjectPath(right), 'en')

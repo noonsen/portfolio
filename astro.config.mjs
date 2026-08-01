@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url';
 import { defineConfig, fontProviders } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import svelte from '@astrojs/svelte';
-import { createPublicMarkdownConfig } from './src/plugins/markdown-pipeline.mjs';
+import { createPublicSatteriMarkdownConfig } from './src/plugins/markdown-pipeline.mjs';
 import {
   getSelectedAstroApiFonts,
   resolveTypographyFromRawUiSettings
@@ -152,5 +152,5 @@ export default defineConfig({
       ]
     }
   },
-  markdown: createPublicMarkdownConfig({ base: deploymentBase })
+  markdown: await createPublicSatteriMarkdownConfig({ base: deploymentBase })
 });

@@ -1,6 +1,7 @@
 /**
- * 初始化 Admin rail 模式下的公开导航浮层。
- * 公开页面会通过 Admin body class 与 rail DOM 双重判断快速退出。
+ * Initializes the public nav popover for Admin rail mode.
+ * Public pages bail out quickly via a double check on the Admin body class
+ * and the rail DOM.
  */
 export function initPublicNavPopover() {
   if (!document.body.classList.contains('admin-page')) return;

@@ -41,21 +41,21 @@ const FIELD_CONFIGS: readonly ThemeImageFieldConfig[] = [
     field: 'home.heroImageSrc',
     inputId: 'home-hero-image-src',
     buttonSelector: '[data-admin-images-open="home.heroImageSrc"]',
-    pickerTitle: '更换 Hero 图片',
+    pickerTitle: 'Change Hero Image',
     pickerDescription: '',
-    pickerResetLabel: '恢复默认',
-    pickerResetStatus: '已恢复 Hero 默认图',
+    pickerResetLabel: 'Restore Default',
+    pickerResetStatus: 'Hero default image restored',
     pickerFallbackCurrentValue: 'src/assets/hero.png',
-    pickerFallbackCurrentLabel: '默认图片'
+    pickerFallbackCurrentLabel: 'Default Image'
   },
   {
     field: 'page.bits.defaultAuthor.avatar',
     inputId: 'page-bits-author-avatar',
     buttonSelector: '[data-admin-images-open="page.bits.defaultAuthor.avatar"]',
-    pickerTitle: '更换 Bits 作者头像',
-    pickerDescription: '仅列出可直接写入 page.bits.defaultAuthor.avatar 的本地 public/** 资源。',
-    pickerResetLabel: '清空头像',
-    pickerResetStatus: '已清空 Bits 默认头像'
+    pickerTitle: 'Change Bits Author Avatar',
+    pickerDescription: 'Only lists local public/** assets that can be written directly to page.bits.defaultAuthor.avatar.',
+    pickerResetLabel: 'Clear Avatar',
+    pickerResetStatus: 'Bits default avatar cleared'
   }
 ];
 
@@ -111,8 +111,8 @@ const setPreview = (
       return;
     }
 
-    // DOM sink 前的最后一道边界：用 URL 构造器重新解析，切断来自输入文本的污点数据流。
-    // 这里与上游校验是纵深防御，也让 CodeQL js/xss-through-dom 能识别该 sanitizer。
+    // Last line of defense before the DOM sink: re-parse with the URL constructor to cut off the tainted data flow coming from input text.
+    // This is defense-in-depth alongside upstream validation, and also lets CodeQL js/xss-through-dom recognize this sanitizer.
     let reparsedPreviewSrc: string | null = null;
     try {
       if (safePreviewSrc.startsWith('https://')) {
@@ -240,7 +240,7 @@ export const createAdminThemeImageFields = ({
     );
 
     if (!picker) {
-      setMetaText(binding.metaEl, '当前页面未挂载 image picker');
+      setMetaText(binding.metaEl, 'The image picker is not mounted on the current page');
       return;
     }
 
@@ -267,7 +267,7 @@ export const createAdminThemeImageFields = ({
         binding.previewPlaceholder,
         { kind: 'hidden' }
       );
-      setMetaText(binding.metaEl, error instanceof Error ? error.message : '路径暂时无法读取');
+      setMetaText(binding.metaEl, error instanceof Error ? error.message : 'The path could not be read at this time');
     }
   };
 
@@ -294,7 +294,7 @@ export const createAdminThemeImageFields = ({
     };
 
     binding.input.addEventListener('input', () => {
-      setMetaText(binding.metaEl, '等待确认路径并读取元数据');
+      setMetaText(binding.metaEl, 'Waiting to confirm the path and read metadata');
       setPreview(
         binding.previewWrap,
         binding.previewImg,
@@ -310,7 +310,7 @@ export const createAdminThemeImageFields = ({
     binding.button?.addEventListener('click', () => {
       if (getFieldState(binding.config.field).enabled === false) return;
       if (!picker) {
-        setStatus('warn', '当前页面未挂载 image picker');
+        setStatus('warn', 'The image picker is not mounted on the current page');
         return;
       }
 
@@ -335,7 +335,7 @@ export const createAdminThemeImageFields = ({
           binding.input.value = item.value;
           binding.input.dispatchEvent(new Event('input', { bubbles: true }));
           binding.input.dispatchEvent(new Event('change', { bubbles: true }));
-          setStatus('ok', `已选择本地图片：${item.value}`);
+          setStatus('ok', `Local image selected: ${item.value}`);
         }
       };
 

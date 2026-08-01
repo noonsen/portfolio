@@ -41,19 +41,19 @@ const {
   }
 } = getThemeSettings();
 
-const pageTitleText = page.bits.title || '絮语';
-const pageTitleParts = [pageTitleText, currentPage > 1 ? `第 ${currentPage} 页` : null].filter(Boolean);
+const pageTitleText = page.bits.title || 'Bits';
+const pageTitleParts = [pageTitleText, currentPage > 1 ? `Page ${currentPage}` : null].filter(Boolean);
 const pageTitle = pageTitleParts.join(' · ');
 const subtitleText = joinPageSubtitleText(
   page.bits.subtitle,
-  totalPages > 1 ? `第 ${currentPage} / ${totalPages} 页` : null
+  totalPages > 1 ? `Page ${currentPage} / ${totalPages}` : null
 );
 const pageDescription = joinPageSubtitleText(
-  `${pageTitleText}列表`,
+  `${pageTitleText} list`,
   page.bits.subtitle,
-  `共 ${resultCount} 条絮语`,
-  totalPages > 1 ? `第 ${currentPage} / ${totalPages} 页` : null
-) ?? `${pageTitleText}列表`;
+  `${resultCount} bits`,
+  totalPages > 1 ? `Page ${currentPage} / ${totalPages}` : null
+) ?? `${pageTitleText} list`;
 
 const primaryYearOptions = yearOptions.slice(0, MAX_PRIMARY_BITS_FILTER_YEARS);
 const overflowYearOptions = yearOptions.slice(MAX_PRIMARY_BITS_FILTER_YEARS);
@@ -99,7 +99,7 @@ const katexStylesheetAttrs = { [MARKDOWN_MATH_STYLESHEET_DATA_ATTR]: 'true' };
           data-bits-year-filter
           data-bits-client-control
           role="group"
-          aria-label="按年份筛选絮语"
+          aria-label="Filter bits by year"
         >
           <span class="bits-year-filter__cursor" data-bits-year-cursor aria-hidden="true"></span>
           <button
@@ -107,10 +107,10 @@ const katexStylesheetAttrs = { [MARKDOWN_MATH_STYLESHEET_DATA_ATTR]: 'true' };
             type="button"
             data-bits-year-item
             data-bits-year=""
-            aria-label="显示全部絮语"
+            aria-label="Show all bits"
             aria-pressed="true"
           >
-            全部
+            All
           </button>
           {primaryYearOptions.map((option) => (
             <button
@@ -118,7 +118,7 @@ const katexStylesheetAttrs = { [MARKDOWN_MATH_STYLESHEET_DATA_ATTR]: 'true' };
               type="button"
               data-bits-year-item
               data-bits-year={option.value}
-              aria-label={`筛选 ${option.value} 年絮语，共 ${option.count} 条`}
+              aria-label={`Filter bits from ${option.value}, ${option.count} total`}
               aria-pressed="false"
             >
               {option.value}
@@ -130,11 +130,11 @@ const katexStylesheetAttrs = { [MARKDOWN_MATH_STYLESHEET_DATA_ATTR]: 'true' };
                 class="bits-year-filter__item bits-year-filter__item--more"
                 type="button"
                 data-bits-year-more-trigger
-                aria-label="打开更多年份筛选"
+                aria-label="Open more year filters"
                 aria-expanded="false"
                 aria-controls="bits-year-more-menu"
               >
-                <span data-bits-year-more-label>更多</span>
+                <span data-bits-year-more-label>More</span>
                 <span class="bits-year-filter__caret" aria-hidden="true"></span>
               </button>
               <div
@@ -142,7 +142,7 @@ const katexStylesheetAttrs = { [MARKDOWN_MATH_STYLESHEET_DATA_ATTR]: 'true' };
                 id="bits-year-more-menu"
                 data-bits-year-menu
                 hidden
-                aria-label="更多年份筛选"
+                aria-label="More year filters"
               >
                 <div class="bits-year-menu__list">
                   {overflowYearOptions.map((option) => (
@@ -151,11 +151,11 @@ const katexStylesheetAttrs = { [MARKDOWN_MATH_STYLESHEET_DATA_ATTR]: 'true' };
                       type="button"
                       data-bits-year-menu-item
                       data-bits-year={option.value}
-                      aria-label={`筛选 ${option.value} 年絮语，共 ${option.count} 条`}
+                      aria-label={`Filter bits from ${option.value}, ${option.count} total`}
                       aria-pressed="false"
                     >
                       <span class="bits-year-menu__item-label">{option.value}</span>
-                      <span class="bits-year-menu__item-count">{option.count} 条</span>
+                      <span class="bits-year-menu__item-count">{option.count}</span>
                     </button>
                   ))}
                 </div>
@@ -168,29 +168,29 @@ const katexStylesheetAttrs = { [MARKDOWN_MATH_STYLESHEET_DATA_ATTR]: 'true' };
       <div class="bits-controls__actions">
         <div class="bits-controls__search-cluster" data-has-year-filter={yearOptions.length > 0 ? 'true' : 'false'}>
           <form class="bits-search" role="search" data-bits-search-form data-bits-client-control>
-            <label class="sr-only" for="bits-search">搜索絮语</label>
+            <label class="sr-only" for="bits-search">Search bits</label>
             <input
               id="bits-search"
               type="search"
-              placeholder="搜索：关键词 / 标签"
+              placeholder="Search: keyword / tag"
               autocomplete="off"
               enterkeyhint="search"
               aria-controls="bits-search-results-panel"
             />
             <button class="bits-search-btn" id="bits-search-btn" type="submit" aria-controls="bits-search-results-panel">
-              搜索
+              Search
             </button>
           </form>
           {yearOptions.length > 0 ? (
             <div class="bits-year-select-wrap" data-bits-client-control>
-              <label class="sr-only" for="bits-year-select">按年份筛选絮语</label>
+              <label class="sr-only" for="bits-year-select">Filter bits by year</label>
               <select
                 class="bits-year-select"
                 id="bits-year-select"
                 data-bits-year-select
-                aria-label="按年份筛选絮语"
+                aria-label="Filter bits by year"
               >
-                <option value="">全部</option>
+                <option value="">All</option>
                 {yearOptions.map((option) => (
                   <option value={option.value}>{option.value}</option>
                 ))}
@@ -205,12 +205,12 @@ const katexStylesheetAttrs = { [MARKDOWN_MATH_STYLESHEET_DATA_ATTR]: 'true' };
           data-new-bit
           data-bits-client-control
           data-bits-draft-url="bits/draft-dialog/"
-          aria-label="碎碎念"
+          aria-label="New bit"
           aria-haspopup="dialog"
           aria-controls="bits-draft-dialog"
         >
           <span class="new-icon" aria-hidden="true">✍</span>
-          <span class="new-label">碎碎念</span>
+          <span class="new-label">New bit</span>
         </button>
       </div>
     </div>
@@ -227,11 +227,11 @@ const katexStylesheetAttrs = { [MARKDOWN_MATH_STYLESHEET_DATA_ATTR]: 'true' };
     </div>
 
     {totalPages > 1 ? (
-      <nav class="pagination" aria-label={`${pageTitleText}分页`}>
+      <nav class="pagination" aria-label={`${pageTitleText} pagination`}>
         <div class="pagination__inner">
-          {prevPath ? <a class="pagination__link" rel="prev" href={withBase(prevPath)}>上一页</a> : null}
+          {prevPath ? <a class="pagination__link" rel="prev" href={withBase(prevPath)}>Previous</a> : null}
           {nextPath ? (
-            <a class="pagination__link pagination__link--next" rel="next" href={withBase(nextPath)}>下一页</a>
+            <a class="pagination__link pagination__link--next" rel="next" href={withBase(nextPath)}>Next</a>
           ) : null}
         </div>
       </nav>
@@ -243,11 +243,11 @@ const katexStylesheetAttrs = { [MARKDOWN_MATH_STYLESHEET_DATA_ATTR]: 'true' };
     class="bits-search-results"
     data-bits-search-results
     hidden
-    aria-label="搜索结果"
+    aria-label="Search results"
   >
     <div class="bits-search-results__header">
-      <p class="bits-search-results__summary" data-bits-search-results-summary role="status" aria-live="polite">搜索结果</p>
-      <button class="bits-search-results__clear" type="button" data-bits-search-clear>重置筛选</button>
+      <p class="bits-search-results__summary" data-bits-search-results-summary role="status" aria-live="polite">Search results</p>
+      <button class="bits-search-results__clear" type="button" data-bits-search-clear>Reset filters</button>
     </div>
     <div class="bits-search-results__list" data-bits-search-results-list></div>
   </section>
@@ -258,13 +258,13 @@ const katexStylesheetAttrs = { [MARKDOWN_MATH_STYLESHEET_DATA_ATTR]: 'true' };
         display: none !important;
       }
     </style>
-    <p class="bits-noscript-note">搜索、年份筛选与草稿生成功能需要 JavaScript，当前仅保留列表浏览。</p>
+    <p class="bits-noscript-note">Search, year filtering, and draft generation require JavaScript; only the list view is available.</p>
   </noscript>
 
   <div id="bits-draft-root"></div>
   <Lightbox
     id="lightbox"
-    label="图片预览"
+    label="Image preview"
     enableZoom={true}
     enablePan={true}
     enableSwipeDownClose={true}
@@ -284,7 +284,7 @@ const katexStylesheetAttrs = { [MARKDOWN_MATH_STYLESHEET_DATA_ATTR]: 'true' };
     const base = import.meta.env.BASE_URL ?? '/';
     const withBase = createWithBase(base);
     const fragmentPath = openBtn?.dataset.bitsDraftUrl ?? 'bits/draft-dialog/';
-    const defaultLabel = labelEl?.textContent?.trim() || '碎碎念';
+    const defaultLabel = labelEl?.textContent?.trim() || 'New bit';
 
     let fragmentPromise: Promise<void> | null = null;
     let controllerPromise: Promise<{ open: (options?: { opener?: HTMLElement | null }) => void }> | null = null;
@@ -305,7 +305,7 @@ const katexStylesheetAttrs = { [MARKDOWN_MATH_STYLESHEET_DATA_ATTR]: 'true' };
       openBtn.toggleAttribute('data-loading', loading);
       openBtn.setAttribute('aria-busy', String(loading));
       if (labelEl) {
-        labelEl.textContent = loading ? '加载中…' : defaultLabel;
+        labelEl.textContent = loading ? 'Loading…' : defaultLabel;
       }
     };
 
@@ -353,13 +353,13 @@ const katexStylesheetAttrs = { [MARKDOWN_MATH_STYLESHEET_DATA_ATTR]: 'true' };
       event.preventDefault();
       if (openBtn.disabled) return;
       setLoading(true);
-      setLoadStatus('正在加载碎碎念工具…');
+      setLoadStatus('Loading the bit composer…');
       try {
         const controller = await loadDraftController();
         setLoadStatus('');
         controller.open({ opener: openBtn });
       } catch {
-        setLoadStatus('碎碎念工具加载失败，请重试。', 'error');
+        setLoadStatus('Failed to load the bit composer. Please try again.', 'error');
       } finally {
         setLoading(false);
       }

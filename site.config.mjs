@@ -21,7 +21,7 @@ export const site = {
   brandTitle: 'Whono',
   author: 'Whono',
   authorAvatar: 'author/avatar.webp',
-  description: '一个 Astro 主题的展示站：轻量、可维护、可复用。'
+  description: 'A showcase site for an Astro theme: lightweight, maintainable, and reusable.'
 };
 
 export const PAGE_SIZE_ARCHIVE = 12;

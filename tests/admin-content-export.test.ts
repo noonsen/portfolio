@@ -134,18 +134,18 @@ describe('admin content source export', () => {
       url: new URL('http://127.0.0.1:4321/api/admin/content/export/?collection=page&entryId=demo')
     } as never);
     expect(invalidCollectionResponse.status).toBe(400);
-    expect(JSON.parse(await invalidCollectionResponse.text()).errors[0]).toContain('不支持的 content collection');
+    expect(JSON.parse(await invalidCollectionResponse.text()).errors[0]).toContain('Unsupported content collection');
 
     const invalidEntryResponse = await GET({
       url: new URL('http://127.0.0.1:4321/api/admin/content/export/?collection=essay&entryId=../secret')
     } as never);
     expect(invalidEntryResponse.status).toBe(400);
-    expect(JSON.parse(await invalidEntryResponse.text()).errors[0]).toContain('不支持的 content entryId');
+    expect(JSON.parse(await invalidEntryResponse.text()).errors[0]).toContain('Unsupported content entryId');
 
     const missingEntryResponse = await GET({
       url: new URL('http://127.0.0.1:4321/api/admin/content/export/?collection=essay&entryId=missing')
     } as never);
     expect(missingEntryResponse.status).toBe(404);
-    expect(JSON.parse(await missingEntryResponse.text()).errors[0]).toContain('未找到 content 源文件');
+    expect(JSON.parse(await missingEntryResponse.text()).errors[0]).toContain('Content source file not found');
   });
 });

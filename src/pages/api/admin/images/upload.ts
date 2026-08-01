@@ -76,7 +76,7 @@ export const POST: APIRoute = async ({ request, url }) => {
   } catch {
     return createJsonResponse(400, {
       ok: false,
-      errors: ['上传请求不是合法 multipart/form-data']
+      errors: ['Upload request is not valid multipart/form-data']
     });
   }
 
@@ -86,13 +86,13 @@ export const POST: APIRoute = async ({ request, url }) => {
   const errors: string[] = [];
 
   if (!isAdminContentImageUploadCollectionKey(collection)) {
-    errors.push('当前仅支持随笔正文图片、小记正文图片或絮语配图上传');
+    errors.push('Only essay body images, memo body images, or bits attachment images are currently supported for upload');
   }
   if (!entryId) {
-    errors.push('上传请求缺少 entryId');
+    errors.push('Upload request is missing entryId');
   }
   if (!file) {
-    errors.push('上传请求缺少 image 文件');
+    errors.push('Upload request is missing the image file');
   }
 
   if (errors.length > 0 || !file || !isAdminContentImageUploadCollectionKey(collection)) {
@@ -120,7 +120,7 @@ export const POST: APIRoute = async ({ request, url }) => {
       console.error('[astro-whono] Failed to upload admin image:', error);
       return createJsonResponse(500, {
         ok: false,
-        errors: ['图片上传失败，请检查本地文件权限或日志']
+        errors: ['Failed to upload the image — check local file permissions or logs']
       });
     }
   });

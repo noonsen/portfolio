@@ -47,11 +47,11 @@ const loadThemeDevState = async () => {
   const settingsEndpoint = withBase(ADMIN_SETTINGS_API_PATH);
   const navIdOrder = ADMIN_NAV_IDS;
   const navLabelFallback = {
-    essay: '随笔',
-    bits: '絮语',
-    memo: '小记',
-    archive: '归档',
-    about: '关于'
+    essay: 'Essays',
+    bits: 'Bits',
+    memo: 'Memo',
+    archive: 'Archive',
+    about: 'About'
   } as const;
   const footerStartYearMin = ADMIN_FOOTER_START_YEAR_MIN;
   const footerStartYearMax = getAdminFooterStartYearMax();
@@ -128,13 +128,13 @@ const AdminImagePicker = adminDevState?.AdminImagePicker;
   <AdminShell
     currentRoute="theme"
     title="Theme Console"
-    subtitle="主题设置"
+    subtitle="Theme Settings"
     showNav={isDev}
   >
     {isDev ? (
       <div slot="status" class="admin-status-slot">
         <p id="admin-status-live" class="admin-sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
-        <p id="admin-status" class="admin-status" data-state="idle">等待加载</p>
+        <p id="admin-status" class="admin-status" data-state="idle">Waiting to load</p>
       </div>
     ) : null}
     {
@@ -154,7 +154,7 @@ const AdminImagePicker = adminDevState?.AdminImagePicker;
         />
       ) : (
         <AdminReadonlyNotice>
-          若需修改主题配置，请在本地运行 <code translate="no">npm run dev</code> 后从此入口进入。
+          To modify theme configuration, run <code translate="no">npm run dev</code> locally and access it from this entry point.
         </AdminReadonlyNotice>
       )
     }

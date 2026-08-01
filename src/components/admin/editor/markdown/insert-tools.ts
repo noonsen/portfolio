@@ -35,8 +35,8 @@ export type MarkdownAboutDirectiveInsertTool = {
   placement: Extract<MarkdownInsertPlacement, 'block'>;
 };
 
-export const MARKDOWN_DETAILS_SUMMARY_PLACEHOLDER = '标题';
-export const MARKDOWN_DETAILS_BODY_PLACEHOLDER = '内容';
+export const MARKDOWN_DETAILS_SUMMARY_PLACEHOLDER = 'Title';
+export const MARKDOWN_DETAILS_BODY_PLACEHOLDER = 'Content';
 
 export const buildMarkdownDetailsText = (
   body: string = MARKDOWN_DETAILS_BODY_PLACEHOLDER
@@ -50,14 +50,14 @@ export const buildMarkdownDetailsText = (
   ].join('\n');
 
 export const MARKDOWN_MATH_INSERT_TOOLS: readonly MarkdownMathInsertTool[] = [
-  { type: 'math', id: 'inlineMath', label: '行内公式', icon: 'sigma' },
-  { type: 'math', id: 'blockMath', label: '块级公式', icon: 'square-sigma' }
+  { type: 'math', id: 'inlineMath', label: 'Inline formula', icon: 'sigma' },
+  { type: 'math', id: 'blockMath', label: 'Block formula', icon: 'square-sigma' }
 ] as const;
 
 export const MARKDOWN_DETAILS_INSERT_TOOL: MarkdownDetailsInsertTool = {
   type: 'details',
   id: 'details',
-  label: '折叠内容',
+  label: 'Collapsible content',
   icon: 'list-collapse',
   text: buildMarkdownDetailsText(),
   placement: 'block'
@@ -65,7 +65,7 @@ export const MARKDOWN_DETAILS_INSERT_TOOL: MarkdownDetailsInsertTool = {
 
 export const MARKDOWN_MORE_SEPARATOR_INSERT_TOOL: MarkdownMoreSeparatorInsertTool = {
   type: 'moreSeparator',
-  label: '摘要分隔',
+  label: 'Excerpt separator',
   icon: 'separator-horizontal',
   text: MARKDOWN_MORE_SEPARATOR_TEXT,
   placement: 'block'
@@ -75,11 +75,11 @@ export const MARKDOWN_ABOUT_DIRECTIVE_INSERT_TOOLS: readonly MarkdownAboutDirect
   {
     type: 'aboutDirective',
     id: 'friend',
-    label: '插入友链',
+    label: 'Insert friend link',
     icon: 'square-user-round',
     text: [
-      ':::friend{name="站点名称" url="https://example.com" avatar="https://example.com/avatar.png"}',
-      '一句介绍',
+      ':::friend{name="Site name" url="https://example.com" avatar="https://example.com/avatar.png"}',
+      'A short introduction',
       ':::'
     ].join('\n'),
     placement: 'block'
@@ -87,11 +87,11 @@ export const MARKDOWN_ABOUT_DIRECTIVE_INSERT_TOOLS: readonly MarkdownAboutDirect
   {
     type: 'aboutDirective',
     id: 'faq',
-    label: '插入问答',
+    label: 'Insert Q&A',
     icon: 'badge-question-mark',
     text: [
-      ':::faq{question="问题标题"}',
-      '回答内容',
+      ':::faq{question="Question title"}',
+      'Answer content',
       ':::'
     ].join('\n'),
     placement: 'block'
@@ -99,15 +99,15 @@ export const MARKDOWN_ABOUT_DIRECTIVE_INSERT_TOOLS: readonly MarkdownAboutDirect
   {
     type: 'aboutDirective',
     id: 'siteInfo',
-    label: '插入本站资料',
+    label: 'Insert site info',
     icon: 'info',
-    text: '::site-info{name="站点名称" url="https://example.com" description="一句介绍" avatar="https://example.com/avatar.png"}',
+    text: '::site-info{name="Site name" url="https://example.com" description="A short introduction" avatar="https://example.com/avatar.png"}',
     placement: 'block'
   },
   {
     type: 'aboutDirective',
     id: 'contactLinks',
-    label: '插入联系方式',
+    label: 'Insert contact links',
     icon: 'link-2',
     text: '::contact-links',
     placement: 'block'

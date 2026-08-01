@@ -2,8 +2,9 @@ import { HighlightStyle, syntaxHighlighting } from '@codemirror/language';
 import type { Extension } from '@codemirror/state';
 import { tags } from '@lezer/highlight';
 
-// 只在 CodeMirror token 层定义语义映射；具体 preset palette 由 pane-content.css 的
-// data-markdown-highlight-theme 变量控制，避免 fixed color 在暗色模式下失效。
+// Only defines the semantic mapping at the CodeMirror token layer; the actual preset
+// palette is controlled by the data-markdown-highlight-theme variables in pane-content.css,
+// avoiding fixed colors breaking in dark mode.
 const adminMarkdownHighlightStyle = HighlightStyle.define([
   {
     tag: [

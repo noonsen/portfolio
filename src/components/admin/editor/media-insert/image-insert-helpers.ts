@@ -12,7 +12,7 @@ import {
   normalizeInlineText
 } from './editor-html-escape';
 
-export const REMOTE_IMAGE_URL_ERROR = '请输入 https:// 开头的图片链接';
+export const REMOTE_IMAGE_URL_ERROR = 'Enter an image link starting with https://';
 
 export type ImageInsertPresentation = EssayImageInsertPresentation;
 export type ImageDisplaySize = EssayImageDisplaySize;
@@ -72,7 +72,8 @@ export const createImageInsertText = (draft: ImageBlockDraft): ImageInsertText =
     return { text: createMarkdownImage(draft.alt, draft.src) };
   }
 
-  // Figure 是写入 Markdown 源文本的受控 HTML；必须在生成点完成 HTML 转义并按 block 插入。
+  // Figure is controlled HTML written into the Markdown source; HTML escaping
+  // must be done at the point of generation, and it must be inserted as a block.
   return {
     text: createFigureImageBlock(draft),
     placement: 'block'

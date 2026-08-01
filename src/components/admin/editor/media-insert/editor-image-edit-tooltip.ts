@@ -188,7 +188,7 @@ const createMediaEditTooltip = (
       ? 'admin-editor-image-edit-tooltip admin-editor-image-edit-tooltip--gallery'
       : 'admin-editor-image-edit-tooltip';
     button.type = 'button';
-    button.textContent = mediaBlock.type === 'gallery' ? '编辑画廊' : '编辑图片';
+    button.textContent = mediaBlock.type === 'gallery' ? 'Edit gallery' : 'Edit image';
     button.addEventListener('mousedown', (event) => {
       event.preventDefault();
     });

@@ -11,7 +11,7 @@ import {
   normalizeInlineText
 } from './editor-html-escape';
 
-export const GALLERY_IMAGE_SOURCE_ERROR = '请输入 https:// 图片链接或本地图片路径';
+export const GALLERY_IMAGE_SOURCE_ERROR = 'Enter an https:// image link or a local image path';
 
 export type GalleryColumnMode = EssayGalleryColumnMode;
 

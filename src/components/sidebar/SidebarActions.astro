@@ -33,7 +33,7 @@ const {
   showAdminEntry?: boolean;
 };
 
-const mainSiteHomeLabel = '主站首页';
+const mainSiteHomeLabel = 'Main site home';
 const showAdminUiPrefs = isAdminContext && isDev;
 const getPublicNavPathBadge = (href: string): string => {
   try {
@@ -63,7 +63,7 @@ const publicNavItems = navItems.map((item) => ({
 
   {isAdminContext && navItems.length > 0 ? (
     <details class="public-nav-group sidebar-action--rail-only">
-      <summary class="icon-button public-nav-group__summary" aria-label="前台页面">
+      <summary class="icon-button public-nav-group__summary" aria-label="Public pages">
         <AdminIcon name="layout-list" class="icon" />
       </summary>
       <div class="public-nav-group__popover">
@@ -86,9 +86,9 @@ const publicNavItems = navItems.map((item) => ({
       id="reader-toggle"
       class="icon-button reader-toggle sidebar-action--rail-hidden"
       type="button"
-      aria-label="阅读模式"
+      aria-label="Reading mode"
       aria-pressed="false"
-      data-tooltip="阅读模式"
+      data-tooltip="Reading mode"
     >
       <UiIcon name="book-open" class="icon icon-book-open" />
       <UiIcon name="book-closed" class="icon icon-book-closed" />
@@ -99,8 +99,8 @@ const publicNavItems = navItems.map((item) => ({
     <a
       class="icon-button rss-link sidebar-action--rail-hidden"
       href={rssHref}
-      aria-label="RSS 订阅"
-      data-tooltip="RSS 订阅"
+      aria-label="RSS feed"
+      data-tooltip="RSS feed"
     >
       <UiIcon name="rss" class="icon" />
     </a>
@@ -111,9 +111,9 @@ const publicNavItems = navItems.map((item) => ({
       id="theme-toggle"
       class="icon-button theme-toggle"
       type="button"
-      aria-label="夜间模式"
+      aria-label="Dark mode"
       aria-pressed="false"
-      data-tooltip="夜间模式"
+      data-tooltip="Dark mode"
     >
       <UiIcon name="sun-moon" class="icon icon-system" />
       <UiIcon name="moon" class="icon icon-moon" />
@@ -125,8 +125,8 @@ const publicNavItems = navItems.map((item) => ({
     <a
       class="icon-button admin-entry-link sidebar-action--rail-hidden"
       href={adminOverviewHref}
-      aria-label="站点概览"
-      data-tooltip="站点概览"
+      aria-label="Site overview"
+      data-tooltip="Site overview"
     >
       <UiIcon name="monitor-dot" class="icon" />
     </a>

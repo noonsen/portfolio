@@ -157,7 +157,7 @@ describe('admin content delete api', () => {
     expect(response.status).toBe(400);
     const payload = JSON.parse(await response.text());
     expect(payload.ok).toBe(false);
-    expect(payload.errors[0]).toContain('memo 是固定单页内容');
+    expect(payload.errors[0]).toContain('memo is fixed single-page content');
     await expect(readFile(path.join(tempRoot, 'src', 'content', 'memo', 'index.md'), 'utf8')).resolves.toContain('memo body');
   });
 
@@ -178,7 +178,7 @@ describe('admin content delete api', () => {
     expect(response.status).toBe(400);
     const payload = JSON.parse(await response.text());
     expect(payload.ok).toBe(false);
-    expect(payload.errors[0]).toContain('about 是固定单页内容');
+    expect(payload.errors[0]).toContain('about is fixed single-page content');
     await expect(readFile(path.join(tempRoot, 'src', 'content', 'about', 'index.md'), 'utf8')).resolves.toContain('about body');
   });
 
@@ -201,7 +201,7 @@ describe('admin content delete api', () => {
     expect(response.status).toBe(409);
     const payload = JSON.parse(await response.text());
     expect(payload.ok).toBe(false);
-    expect(payload.errors[0]).toContain('已拒绝删除');
+    expect(payload.errors[0]).toContain('so the delete was rejected');
     await expect(readFile(path.join(tempRoot, 'src', 'content', 'bits', 'demo.md'), 'utf8')).resolves.toContain('Visible bit');
   });
 
@@ -224,7 +224,7 @@ describe('admin content delete api', () => {
     expect(response.status).toBe(409);
     const payload = JSON.parse(await response.text());
     expect(payload.ok).toBe(false);
-    expect(payload.errors[0]).toContain('路径与确认时不一致');
+    expect(payload.errors[0]).toContain('no longer matches what was confirmed');
     await expect(readFile(path.join(tempRoot, 'src', 'content', 'essay', 'demo.md'), 'utf8')).resolves.toContain('# Demo');
   });
 });

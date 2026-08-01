@@ -59,13 +59,13 @@ let {
   slugPlaceholder = '',
   relativePath = '',
   bitsDefaultAuthor = {},
-  dialogTitle = '文章信息',
-  fieldsAriaLabel = '随笔字段',
+  dialogTitle = 'Article Info',
+  fieldsAriaLabel = 'Essay fields',
   fieldScope = 'all',
   showPublishToggles = true,
   draftLocked = false,
   draftLockHelp = '',
-  saveLabel = '保存',
+  saveLabel = 'Save',
   onEntryIdInput = () => {},
   onDirty = () => {},
   onClose,
@@ -75,8 +75,8 @@ let {
 
 let panelEl = $state<HTMLElement | null>(null);
 let closeButtonEl = $state<HTMLButtonElement | null>(null);
-const closeLabel = $derived(`关闭${dialogTitle}`);
-const loadingText = $derived(`正在加载${dialogTitle}`);
+const closeLabel = $derived(`Close ${dialogTitle}`);
+const loadingText = $derived(`Loading ${dialogTitle}`);
 const issueFocusKey = $derived(issues.map((issue) => `${issue.path}:${issue.message}`).join('\n'));
 let focusedIssueKey = '';
 
@@ -208,9 +208,9 @@ $effect(() => {
           <div class="admin-editor-frontmatter-popover__publish-state">
             <div class="admin-editor-frontmatter-popover__toggles">
               {#if draftLocked}
-                <span class="admin-badge admin-editor-frontmatter-popover__state-badge">草稿</span>
+                <span class="admin-badge admin-editor-frontmatter-popover__state-badge">Draft</span>
                 {#if collection === 'essay' && isEssayEditorValues(value)}
-                  <span class="admin-badge admin-editor-frontmatter-popover__state-badge">归档</span>
+                  <span class="admin-badge admin-editor-frontmatter-popover__state-badge">Archived</span>
                 {/if}
                 {#if draftLockHelp}
                   <p class="admin-editor-frontmatter-popover__hint">{draftLockHelp}</p>
@@ -218,12 +218,12 @@ $effect(() => {
               {:else}
                 <label class="admin-toggle-row">
                   <input name="draft" type="checkbox" bind:checked={value.draft} disabled={disabled || loading} onchange={onDirty} />
-                  <span>草稿</span>
+                  <span>Draft</span>
                 </label>
                 {#if collection === 'essay' && isEssayEditorValues(value)}
                   <label class="admin-toggle-row">
                     <input name="archive" type="checkbox" bind:checked={value.archive} disabled={disabled || loading} onchange={onDirty} />
-                    <span>归档</span>
+                    <span>Archived</span>
                   </label>
                 {/if}
               {/if}
@@ -232,7 +232,7 @@ $effect(() => {
         {/if}
         <div class="admin-editor-frontmatter-popover__buttons">
           <button class="admin-btn admin-btn--ghost admin-btn--compact" type="button" onclick={onReset} disabled={disabled || loading || !dirty}>
-            还原
+            Reset
           </button>
           <button class="admin-btn admin-btn--primary admin-btn--compact" type="button" onclick={onSave} disabled={loading || !canSave}>
             {saveLabel}

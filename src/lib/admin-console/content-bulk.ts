@@ -77,16 +77,16 @@ export const readAdminContentBulkEntriesInput = (
   if (!isRecord(body)) {
     return {
       ok: false,
-      errors: ['请求体必须是 JSON 对象'],
-      issues: [{ path: 'body', message: '请求体必须是 JSON 对象' }]
+      errors: ['Request body must be a JSON object'],
+      issues: [{ path: 'body', message: 'Request body must be a JSON object' }]
     };
   }
 
   if (!Array.isArray(body.entries)) {
     return {
       ok: false,
-      errors: ['请求体缺少 entries 数组'],
-      issues: [{ path: 'entries', message: '请求体缺少 entries 数组' }]
+      errors: ['Request body is missing the entries array'],
+      issues: [{ path: 'entries', message: 'Request body is missing the entries array' }]
     };
   }
 
@@ -98,7 +98,7 @@ export const readAdminContentBulkEntriesInput = (
   body.entries.forEach((entry, index) => {
     const pathPrefix = `entries.${index}`;
     if (!isRecord(entry)) {
-      const message = 'entries 条目必须是 JSON 对象';
+      const message = 'entries item must be a JSON object';
       errors.push(message);
       issues.push({ path: pathPrefix, message });
       return;
@@ -110,25 +110,25 @@ export const readAdminContentBulkEntriesInput = (
     const revision = getStringField(entry, 'revision');
 
     if (!collection) {
-      const message = 'entries 条目缺少 collection';
+      const message = 'entries item is missing collection';
       errors.push(message);
       issues.push({ path: `${pathPrefix}.collection`, message });
     }
 
     if (!entryId) {
-      const message = 'entries 条目缺少 entryId';
+      const message = 'entries item is missing entryId';
       errors.push(message);
       issues.push({ path: `${pathPrefix}.entryId`, message });
     }
 
     if (!expectedRelativePath) {
-      const message = 'entries 条目缺少 expectedRelativePath';
+      const message = 'entries item is missing expectedRelativePath';
       errors.push(message);
       issues.push({ path: `${pathPrefix}.expectedRelativePath`, message });
     }
 
     if (options.requireRevision && !revision) {
-      const message = 'entries 条目缺少 revision';
+      const message = 'entries item is missing revision';
       errors.push(message);
       issues.push({ path: `${pathPrefix}.revision`, message });
     }
@@ -151,7 +151,7 @@ export const readAdminContentBulkEntriesInput = (
   }
 
   if (entries.length > ADMIN_CONTENT_BULK_ENTRY_LIMIT) {
-    const message = `批量条目不能超过 ${ADMIN_CONTENT_BULK_ENTRY_LIMIT} 条`;
+    const message = `Bulk entries cannot exceed ${ADMIN_CONTENT_BULK_ENTRY_LIMIT} items`;
     return {
       ok: false,
       errors: [message],

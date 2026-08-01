@@ -37,8 +37,8 @@ export class AdminContentDeleteConfirmationError extends Error {
     payload: AdminContentEditorPayload
   ) {
     super(code === 'revision-conflict'
-      ? '检测到内容文件已在外部更新，已拒绝删除，请刷新列表后再操作'
-      : '检测到内容文件路径与确认时不一致，已拒绝删除，请刷新列表后再操作');
+      ? 'The content file has been updated externally, so the delete was rejected. Please refresh the list and try again.'
+      : 'The content file path no longer matches what was confirmed, so the delete was rejected. Please refresh the list and try again.');
     this.name = 'AdminContentDeleteConfirmationError';
     this.code = code;
     this.payload = payload;
@@ -87,7 +87,7 @@ const getTrashDestinationPath = async (
   const pathSegments = sourceRelativePath.split('/').filter(Boolean);
   const timestamp = formatTrashTimestamp(date);
 
-  // 保留原始相对路径，恢复时可以直接把文件移回 src/content 下。
+  // Preserve the original relative path so the file can be moved straight back under src/content when restoring.
   for (let index = 1; index <= 999; index += 1) {
     const bucket = index === 1 ? timestamp : `${timestamp}-${index}`;
     const bucketPath = path.join(projectRoot, '.trash', 'content', bucket);
@@ -95,7 +95,7 @@ const getTrashDestinationPath = async (
     if (!(await fileExists(bucketPath))) return destination;
   }
 
-  throw new Error('无法生成可用的内容回收站路径');
+  throw new Error('Unable to generate an available content trash path');
 };
 
 export const moveAdminContentEntryToTrash = async (
@@ -106,7 +106,7 @@ export const moveAdminContentEntryToTrash = async (
   const relativePath = toRelativeProjectPath(sourcePath);
   const expectedPrefix = `src/content/${collection}/`;
   if (!relativePath.startsWith(expectedPrefix)) {
-    throw new Error(`拒绝移动 content 根目录外的文件：${relativePath}`);
+    throw new Error(`Refused to move a file outside the content root directory: ${relativePath}`);
   }
 
   const destinationPath = await getTrashDestinationPath(relativePath);

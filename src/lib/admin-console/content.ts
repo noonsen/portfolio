@@ -110,14 +110,14 @@ export type {
 } from './content-routes';
 
 export const ADMIN_CONTENT_SORT_OPTIONS = [
-  { value: 'recent', label: '最近更新' },
-  { value: 'title', label: '标题 A-Z' }
+  { value: 'recent', label: 'Recently updated' },
+  { value: 'title', label: 'Title A-Z' }
 ] as const satisfies readonly { value: AdminContentSortKey; label: string }[];
 
 export const ADMIN_CONTENT_DRAFT_OPTIONS = [
-  { value: 'all', label: '全部状态' },
-  { value: 'published', label: '已发布' },
-  { value: 'draft', label: '仅草稿' }
+  { value: 'all', label: 'All statuses' },
+  { value: 'published', label: 'Published' },
+  { value: 'draft', label: 'Drafts only' }
 ] as const satisfies readonly { value: AdminContentDraftFilter; label: string }[];
 
 const COLLECTION_ORDER = new Map<AdminContentCollectionKey, number>(
@@ -225,7 +225,7 @@ const loadContentIndexItems = async (
 };
 
 const getAdminContentScopeLabel = (collection: AdminContentScopeKey): string =>
-  collection === 'all' ? '全部内容' : getCollectionLabel(collection);
+  collection === 'all' ? 'All content' : getCollectionLabel(collection);
 
 const getAdminContentVisibleCollections = (collection: AdminContentScopeKey): readonly AdminContentCollectionKey[] =>
   collection === 'all' ? ADMIN_CONTENT_COLLECTIONS : [collection];
@@ -248,7 +248,7 @@ export const getAdminContentFilterState = (searchParams: URLSearchParams): Admin
   const page = normalizePageNumber(searchParams.get('page'));
 
   if (collection === 'all') {
-    // 全部内容只支持 q 元信息搜索；状态、标签、年份、排序和分页属于具体 collection scope。
+    // "All content" only supports metadata search via q; status, tag, year, sort, and pagination belong to a specific collection scope.
     return {
       collection,
       query,
@@ -263,7 +263,7 @@ export const getAdminContentFilterState = (searchParams: URLSearchParams): Admin
   }
 
   if (entryId) {
-    // entryId 是源文件精确定位模式，优先于筛选和搜索，避免公开 slug 与源文件身份混用。
+    // entryId is exact source-file lookup mode; it takes priority over filtering and search to avoid mixing up the public slug with the source file identity.
     return {
       collection,
       query: '',
@@ -432,7 +432,7 @@ export const getAdminContentConsolePageData = async (
   const filterState = getAdminContentFilterState(searchParams);
   const mode = getAdminContentConsoleMode(filterState);
   const visibleCollections = getAdminContentVisibleCollections(filterState.collection);
-  // 正文派生文本成本较高，只在单 collection 搜索时加载；全部内容搜索仅匹配元信息。
+  // Deriving body text is expensive, so it's only loaded when searching within a single collection; "all content" search only matches metadata.
   const includeSearchText = mode === 'collection'
     && filterState.queryTokens.length > 0
     && filterState.collection !== 'all'
@@ -441,7 +441,7 @@ export const getAdminContentConsolePageData = async (
   const collectionCounts = getAdminContentSourceCounts(manifest);
   const items = await loadContentIndexItems(manifest, visibleCollections, { includeSearchText });
   const filteredItems = filterAdminContentItems(items, filterState);
-  // 分页在数据层完成，页面模板只渲染已经截断后的 sections，避免再出现视图层 slice。
+  // Pagination happens at the data layer; the page template only renders already-truncated sections, avoiding another slice in the view layer.
   const shouldPaginate = filterState.collection !== 'all'
     && getAdminContentCollectionCapability(filterState.collection).pagination;
   const pageWindow = mode === 'collection' && shouldPaginate
@@ -482,21 +482,21 @@ export const getAdminContentConsolePageData = async (
 
 export const getAdminContentPublicFallbackLabel = (item: AdminContentIndexItem): string => {
   if (item.isDraft) {
-    return 'draft 条目默认不暴露公开页';
+    return 'Draft entries are not exposed on a public page by default';
   }
 
   if (item.collection === 'memo') {
-    return 'memo 当前使用固定公开路由 /memo/';
+    return 'memo currently uses the fixed public route /memo/';
   }
 
   if (item.collection === 'about') {
-    return 'about 当前使用固定公开路由 /about/';
+    return 'about currently uses the fixed public route /about/';
   }
 
   if (item.collection === 'bits') {
     const anchorId = getBitAnchorId(item.slug ?? item.id);
-    return `公开定位依赖 /bits/ 分页与锚点（${anchorId}）`;
+    return `Public location depends on /bits/ pagination and anchor (${anchorId})`;
   }
 
-  return '当前条目未生成公开页链接';
+  return 'No public page link has been generated for this entry';
 };
