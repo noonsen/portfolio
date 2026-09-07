@@ -1,0 +1,27 @@
+/* Cross-document view transitions — native MPA API (Chrome/Edge 126+, progressive).
+   Every navigation is still a full document load, so all page scripts keep their
+   normal lifecycle; unsupported browsers just navigate instantly as before.
+
+   Public pages share the same sidebar + chrome, so we let the whole viewport
+   cross-fade: identical pixels (the sidebar) show no visible change, while the
+   main column fades between old and new. */
+@view-transition {
+  navigation: auto;
+}
+
+/* Keep the persistent sidebar visually anchored instead of cross-fading it. */
+.sidebar {
+  view-transition-name: site-sidebar;
+}
+
+::view-transition-group(site-sidebar) {
+  animation-duration: 0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
