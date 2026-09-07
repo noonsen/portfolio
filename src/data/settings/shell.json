@@ -3,11 +3,11 @@
   "quote": "Technical Writer\nand IT Support.\nDocs-as-code, M365,\nand building things.",
   "nav": [
     {
-      "id": "essay",
-      "label": "Essays",
+      "id": "portfolio",
+      "label": "Portfolio",
       "ornament": "·",
-      "order": 5,
-      "visible": false
+      "order": 1,
+      "visible": true
     },
     {
       "id": "bits",
@@ -31,18 +31,18 @@
       "visible": false
     },
     {
+      "id": "essay",
+      "label": "Essays",
+      "ornament": "·",
+      "order": 5,
+      "visible": false
+    },
+    {
       "id": "about",
       "label": "About",
       "ornament": "·",
       "order": 6,
       "visible": false
-    },
-    {
-      "id": "portfolio",
-      "label": "Portfolio",
-      "ornament": "·",
-      "order": 1,
-      "visible": true
     }
   ]
 }

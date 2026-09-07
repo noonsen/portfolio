@@ -9,6 +9,7 @@
 @import "./components/layout.css";
 @import "./components/lists.css";
 @import "./components/entry-tags.css";
+@import "./components/view-transitions.css";
 
 @font-face {
   font-family: "LXGW WenKai Lite";

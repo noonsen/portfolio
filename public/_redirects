@@ -1,0 +1,5 @@
+# Cloudflare Workers static-asset redirects.
+# `/` has no page of its own — the portfolio is the site root.
+# Dev uses the 302 from src/pages/index.astro; this gives production a clean 301
+# instead of the 2s meta-refresh fallback in the static build output.
+/    /portfolio/    301
