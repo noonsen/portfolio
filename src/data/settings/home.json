@@ -1,13 +1,12 @@
 {
-  "introLead": "This is an open-source writing theme and sample content library: includes essay, memo, archive, and bits. See the README for usage and configuration.",
-  "introMore": "More articles",
+  "introLead": "Delivery & Support Manager at A2K Group Corporation, leading a technical department across concurrent products. Background in technical leadership, IT operations, and hands-on development with Astro, TypeScript, and Supabase.",
+  "introMore": "See the",
   "introMoreLinks": [
-    "archive",
-    "tag"
+    "bits"
   ],
   "showIntroLead": true,
   "showIntroMore": true,
   "heroPresetId": "default",
   "heroImageSrc": null,
-  "heroImageAlt": "Whono theme preview"
+  "heroImageAlt": "Regend"
 }

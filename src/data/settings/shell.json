@@ -1,13 +1,13 @@
 {
-  "brandTitle": "Regend",
-  "quote": "A minimal Astro theme\nfor essays, notes, and docs.\nDesigned for reading,\nopen-source.",
+  "brandTitle": "Alonzo Luis",
+  "quote": "Technical Writer\nand IT Support.\nDocs-as-code, M365,\nand building things.",
   "nav": [
     {
       "id": "essay",
       "label": "Essays",
       "ornament": "·",
-      "order": 1,
-      "visible": true
+      "order": 5,
+      "visible": false
     },
     {
       "id": "bits",
@@ -34,14 +34,14 @@
       "id": "about",
       "label": "About",
       "ornament": "·",
-      "order": 5,
-      "visible": true
+      "order": 6,
+      "visible": false
     },
     {
       "id": "portfolio",
       "label": "Portfolio",
       "ornament": "·",
-      "order": 6,
+      "order": 1,
       "visible": true
     }
   ]
